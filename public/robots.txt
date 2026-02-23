@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /assinatura-sucesso
+
+# Crawlers específicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Sitemap
+Sitemap: https://valuationit.com.br/sitemap.xml

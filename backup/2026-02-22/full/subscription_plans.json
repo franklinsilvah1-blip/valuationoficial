@@ -1,0 +1,102 @@
+[
+  {
+    "id": "2cbb8718-f6e6-4317-a120-a97e47d3b737",
+    "plan_code": "FREE",
+    "display_name": "Plano Gratuito",
+    "description": "Experimente grátis",
+    "price_quarterly": 0,
+    "price_note": null,
+    "stripe_price_id": null,
+    "features": [
+      "Visualização de até 3 ativos por dia",
+      "Acesso básico ao Mercado",
+      "Análises resumidas de ativos",
+      "Análise de perfil investidor"
+    ],
+    "is_active": true,
+    "sort_order": 0,
+    "created_at": "2025-12-19T13:25:11.739068+00:00",
+    "updated_at": "2025-12-19T13:25:11.739068+00:00"
+  },
+  {
+    "id": "4a368365-d41f-4fcc-bc3c-466dca21543f",
+    "plan_code": "WEALTH",
+    "display_name": "Fale com Especialista",
+    "description": "Para investidores e empresários",
+    "price_quarterly": 0,
+    "price_note": "Consulte para valores personalizados",
+    "stripe_price_id": null,
+    "features": [
+      "Todos os benefícios do SPECIALIST",
+      "Estratégia personalizada",
+      "Ampliação inteligente de patrimônio",
+      "Blindagem estratégica da riqueza",
+      "Mentoria exclusiva para investidores e empresas"
+    ],
+    "is_active": true,
+    "sort_order": 4,
+    "created_at": "2025-12-19T13:25:11.739068+00:00",
+    "updated_at": "2025-12-19T13:25:11.739068+00:00"
+  },
+  {
+    "id": "21532296-735c-4349-9ea6-833b34088a59",
+    "plan_code": "START",
+    "display_name": "Carteira Start",
+    "description": "Para investidores iniciantes",
+    "price_quarterly": 147,
+    "price_note": "Cobrado trimestralmente (R$ 147,00 a cada 3 meses)",
+    "stripe_price_id": "price_1SPnQvRyKGDht1PjOco1Y4vh",
+    "features": [
+      "Acesso completo a plataforma",
+      "Análises detalhadas de ativos",
+      "Carteiras recomendadas START",
+      "Acesso à Conteúdos exclusivos",
+      "Suporte por email"
+    ],
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2025-12-19T13:07:24.990413+00:00",
+    "updated_at": "2025-12-19T20:09:37.282721+00:00"
+  },
+  {
+    "id": "22cc35d6-9d91-4e3b-ab8c-b2d273bc1dcb",
+    "plan_code": "PRO",
+    "display_name": "Carteira Pro",
+    "description": "Para investidores experientes",
+    "price_quarterly": 297,
+    "price_note": "Cobrado trimestralmente (R$ 297,00 a cada 3 meses)",
+    "stripe_price_id": "price_1SPnT8RyKGDht1PjyyTAXXaQ",
+    "features": [
+      "Todos os benefícios do START",
+      "Análises avançadas de ativos",
+      "Carteiras recomendadas PRO",
+      "Suporte por chat",
+      "Consultoria com Especialista"
+    ],
+    "is_active": true,
+    "sort_order": 2,
+    "created_at": "2025-12-19T13:07:24.990413+00:00",
+    "updated_at": "2025-12-19T20:09:37.282721+00:00"
+  },
+  {
+    "id": "98c9557b-ca03-4f8f-9844-10e5cfdc0a01",
+    "plan_code": "SPECIALIST",
+    "display_name": "Carteira Specialist",
+    "description": "Para investidores Profissionais",
+    "price_quarterly": 597,
+    "price_note": "Cobrado trimestralmente (R$ 597,00 a cada 3 meses)",
+    "stripe_price_id": "price_1Sg2VXRyKGDht1Pj2cow0LgQ",
+    "features": [
+      "Todos os benefícios do PRO",
+      "Análises personalizadas de ativos",
+      "Carteiras recomendadas SPECIALIST",
+      "Suporte prioritário",
+      "Método X Valuation",
+      "Mentoria THE SPECIALISTS"
+    ],
+    "is_active": true,
+    "sort_order": 3,
+    "created_at": "2025-12-19T13:07:24.990413+00:00",
+    "updated_at": "2025-12-19T20:09:37.282721+00:00"
+  }
+]

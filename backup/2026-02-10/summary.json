@@ -1,0 +1,154 @@
+{
+  "date": "2026-02-10",
+  "started_at": "2026-02-10T02:55:07.954Z",
+  "critical": {
+    "profiles": {
+      "count": 16
+    },
+    "wallet_simulator": {
+      "count": 10
+    },
+    "wallet_items": {
+      "count": 15
+    },
+    "wallet_movements": {
+      "count": 27
+    },
+    "asset_favorites": {
+      "count": 15
+    },
+    "affiliates": {
+      "count": 5
+    },
+    "referrals": {
+      "count": 0
+    },
+    "commissions": {
+      "count": 0
+    },
+    "subscription_plans": {
+      "count": 5
+    },
+    "blog_posts": {
+      "count": 3
+    },
+    "categories": {
+      "count": 5
+    },
+    "blog_authors": {
+      "count": 4
+    }
+  },
+  "full": {
+    "admin_audit_log": {
+      "count": 33
+    },
+    "affiliate_clicks": {
+      "count": 0
+    },
+    "affiliates": {
+      "count": 5
+    },
+    "app_config": {
+      "count": 8
+    },
+    "asset_analyses": {
+      "count": 596
+    },
+    "asset_favorites": {
+      "count": 15
+    },
+    "asset_views": {
+      "count": 0
+    },
+    "assets": {
+      "count": 596
+    },
+    "blog_authors": {
+      "count": 4
+    },
+    "blog_posts": {
+      "count": 3
+    },
+    "cancellation_feedback": {
+      "count": 2
+    },
+    "categories": {
+      "count": 5
+    },
+    "commissions": {
+      "count": 0
+    },
+    "exclusive_videos": {
+      "count": 2
+    },
+    "import_jobs": {
+      "count": 133
+    },
+    "notification_group_members": {
+      "count": 2
+    },
+    "notification_groups": {
+      "count": 1
+    },
+    "post_categories": {
+      "count": 0
+    },
+    "profile_answers": {
+      "count": 54
+    },
+    "profile_options": {
+      "count": 12
+    },
+    "profile_questions": {
+      "count": 3
+    },
+    "profiles": {
+      "count": 16
+    },
+    "push_notifications": {
+      "count": 1
+    },
+    "push_subscriptions": {
+      "count": 13
+    },
+    "rate_limit_log": {
+      "count": 1000
+    },
+    "referrals": {
+      "count": 0
+    },
+    "smtp_config": {
+      "count": 1
+    },
+    "subscription_plans": {
+      "count": 5
+    },
+    "sync_logs": {
+      "count": 127
+    },
+    "sync_queue": {
+      "count": 0
+    },
+    "tracking_events": {
+      "count": 0
+    },
+    "tracking_scripts": {
+      "count": 3
+    },
+    "user_roles": {
+      "count": 2
+    },
+    "wallet_items": {
+      "count": 15
+    },
+    "wallet_movements": {
+      "count": 27
+    },
+    "wallet_simulator": {
+      "count": 10
+    }
+  },
+  "first_backup_at": "2026-02-10T02:23:11.857Z",
+  "completed_at": "2026-02-10T02:55:21.174Z"
+}

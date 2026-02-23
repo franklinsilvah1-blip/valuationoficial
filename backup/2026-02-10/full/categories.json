@@ -1,0 +1,32 @@
+[
+  {
+    "id": "2c033e5e-e4d7-4d37-88d0-2eeebb92712f",
+    "name": "Estratégia",
+    "slug": "estrategia",
+    "created_at": "2025-11-19T15:56:39.023791+00:00"
+  },
+  {
+    "id": "76a6c833-c894-4efb-9d40-7d514d0bf6f5",
+    "name": "Análise de Mercado",
+    "slug": "analise-de-mercado",
+    "created_at": "2025-11-19T15:56:39.023791+00:00"
+  },
+  {
+    "id": "433251f2-faf9-425b-ac14-aad0e895ee5a",
+    "name": "Educação",
+    "slug": "educacao",
+    "created_at": "2025-11-19T15:56:39.023791+00:00"
+  },
+  {
+    "id": "05430a54-176c-4131-a945-11f5e8c4b28e",
+    "name": "Comparativo",
+    "slug": "comparativo",
+    "created_at": "2025-11-19T15:56:39.023791+00:00"
+  },
+  {
+    "id": "9a121b82-d074-47a3-8cd4-169a5e5aa029",
+    "name": "Notícias",
+    "slug": "noticias",
+    "created_at": "2025-11-19T15:56:39.023791+00:00"
+  }
+]

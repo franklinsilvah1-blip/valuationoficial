@@ -1,0 +1,5982 @@
+[
+  {
+    "id": "29f08595-d670-426d-8263-cc1eafb9bcf5",
+    "codigo_b3": "CURY3",
+    "nome": "CURY S/A ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:50:31.405717+00:00",
+    "updated_at": "2026-02-20T13:08:19.072941+00:00",
+    "is_active": true
+  },
+  {
+    "id": "535a3816-55f5-4c4e-91e7-fcca16bcffd3",
+    "codigo_b3": "SBSP3",
+    "nome": "SABESP ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:07.2903+00:00",
+    "updated_at": "2026-02-20T13:08:51.985263+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8019ee75-5577-49ca-b558-15dc8278a416",
+    "codigo_b3": "CLSC4",
+    "nome": "CELESC",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:50:41.995659+00:00",
+    "updated_at": "2026-02-20T13:08:21.923266+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dceca810-70b7-4e18-9be5-cab0d773eb1b",
+    "codigo_b3": "IDIV",
+    "nome": "INDICE DIVIDENDOS B3",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:07.6321+00:00",
+    "updated_at": "2026-02-20T13:10:09.831871+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b16719c2-8543-4ecd-93c2-a68317a70533",
+    "codigo_b3": "MOVI3",
+    "nome": "MOVIDA ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:50:59.85227+00:00",
+    "updated_at": "2026-02-20T13:09:04.050632+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6a1748ab-c94b-469f-946e-01651510e313",
+    "codigo_b3": "PNVL3",
+    "nome": "DIMED ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:51:00.799413+00:00",
+    "updated_at": "2026-02-20T13:08:23.853956+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0b0dd6a8-20ae-4773-86b1-0523e3b95773",
+    "codigo_b3": "HGRU11",
+    "nome": "PÁTRIA RENDA URBANA",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:24.106971+00:00",
+    "updated_at": "2026-02-20T13:12:20.926874+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d824dd72-3bd5-406a-bde0-30f3b14063fd",
+    "codigo_b3": "TUPY3",
+    "nome": "TUPY ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:03.86419+00:00",
+    "updated_at": "2026-02-20T13:12:24.915443+00:00",
+    "is_active": true
+  },
+  {
+    "id": "49ad8d04-45ce-46c4-8345-411d471d825e",
+    "codigo_b3": "ITUB4",
+    "nome": "ITAU UNIBANCO PN N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:42.94644+00:00",
+    "updated_at": "2026-02-20T13:08:26.675307+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a823489c-5fc0-4435-9fb8-0d0c7ab29e75",
+    "codigo_b3": "ASML34",
+    "nome": "ASML HOLDING",
+    "tipo": "ACAO",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:50:30.434374+00:00",
+    "updated_at": "2026-02-20T13:08:20.035466+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bd7d4156-f83c-4682-b65a-429c1289ea94",
+    "codigo_b3": "BRSR6",
+    "nome": "BANRISUL PNB N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:55.106172+00:00",
+    "updated_at": "2026-02-20T13:08:27.630748+00:00",
+    "is_active": true
+  },
+  {
+    "id": "52a35dc0-1ac4-4434-afad-89d9b2a61038",
+    "codigo_b3": "PRIO3",
+    "nome": "PETRO RIO ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:50:57.971158+00:00",
+    "updated_at": "2026-02-20T13:08:38.85014+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2fbc179b-072b-4b4d-a7c1-7875bcbe8df8",
+    "codigo_b3": "PSSA3",
+    "nome": "PORTO SEGURO ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:08.689696+00:00",
+    "updated_at": "2026-02-20T13:10:15.831997+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ccb565c9-140c-4a4d-8568-0c3add365759",
+    "codigo_b3": "DIRR3",
+    "nome": "DIRECIONAL ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:50:36.476028+00:00",
+    "updated_at": "2026-02-20T13:08:29.507414+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7da59bf7-ab1f-4e50-99fb-d99bd2dd957a",
+    "codigo_b3": "SAPR3",
+    "nome": "SANEPAR ON N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:50:32.341056+00:00",
+    "updated_at": "2026-02-20T13:08:25.736442+00:00",
+    "is_active": true
+  },
+  {
+    "id": "79c227d5-76d9-4c89-a15a-9dd1336e2240",
+    "codigo_b3": "EXXO34",
+    "nome": "EXXON MOBIL CORP. | EUA",
+    "tipo": "BDR",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:50:54.17922+00:00",
+    "updated_at": "2026-02-20T13:08:40.747618+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8773572f-a4fc-4083-b23c-d909481549ec",
+    "codigo_b3": "OURO",
+    "nome": "XAU/USD  SPOT GOLD | GOLD",
+    "tipo": "INDICE",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:50:53.257249+00:00",
+    "updated_at": "2026-02-20T13:09:01.244908+00:00",
+    "is_active": true
+  },
+  {
+    "id": "409efde0-98c4-4bf5-9e4c-0f6cfa547cf2",
+    "codigo_b3": "TECN3",
+    "nome": "TECHNOS ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:05.790407+00:00",
+    "updated_at": "2026-02-20T13:08:28.564543+00:00",
+    "is_active": true
+  },
+  {
+    "id": "411011e3-d55b-44f6-85aa-67579fd9cbe1",
+    "codigo_b3": "ITUB3",
+    "nome": "ITAU UNIBANCO ON N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:34.247921+00:00",
+    "updated_at": "2026-02-20T13:08:22.900875+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3d779d77-7757-4aa8-b914-a9df3f475e98",
+    "codigo_b3": "B3SA3",
+    "nome": "B3 S.A.",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:51:08.733642+00:00",
+    "updated_at": "2026-02-20T13:08:41.694696+00:00",
+    "is_active": true
+  },
+  {
+    "id": "154eccd2-2cb5-45a1-963c-48835b9ee645",
+    "codigo_b3": "WEGE3",
+    "nome": "WEG ON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:09.713528+00:00",
+    "updated_at": "2026-02-20T13:10:19.2383+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9eb22e67-a3b0-446c-9590-466951f5dc83",
+    "codigo_b3": "ITSA4",
+    "nome": "ITAUSA PN N1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:50:44.809685+00:00",
+    "updated_at": "2026-02-20T13:08:34.124052+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1726f8f3-3ccd-4bfa-b263-bf1bf50cf98d",
+    "codigo_b3": "BPAC11",
+    "nome": "BANCO BTG UNITS",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:50:48.635105+00:00",
+    "updated_at": "2026-02-20T13:08:30.441539+00:00",
+    "is_active": true
+  },
+  {
+    "id": "64fc0de2-4fb8-46ba-9be3-407b008bb55c",
+    "codigo_b3": "CTKA4",
+    "nome": "KARSTEN PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:50:37.400399+00:00",
+    "updated_at": "2026-02-20T13:08:39.781517+00:00",
+    "is_active": true
+  },
+  {
+    "id": "01376fe7-6945-4275-9e65-4dd9c6f7ca6f",
+    "codigo_b3": "TSMC34",
+    "nome": "TAIWAN SEMICONDUCTOR",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:50:45.7476+00:00",
+    "updated_at": "2026-02-20T13:08:31.386658+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6767b9de-f2c8-41fe-980a-a66f4fc7c232",
+    "codigo_b3": "BRAP4",
+    "nome": "BRADESPAR PN N1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:08.51288+00:00",
+    "updated_at": "2026-02-20T13:10:21.138676+00:00",
+    "is_active": true
+  },
+  {
+    "id": "43d3b6f3-3882-4cae-8a48-78e96fea20c8",
+    "codigo_b3": "AHEB3",
+    "nome": "SÃO PAULO TUR. S.A.",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:10.260706+00:00",
+    "updated_at": "2026-02-20T13:10:13.598496+00:00",
+    "is_active": true
+  },
+  {
+    "id": "91eacb4f-bc8c-404f-a879-cdf39a53f1fa",
+    "codigo_b3": "VBBR3",
+    "nome": "VIBRA ON NM (ex BR DIST.)",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:50:40.220448+00:00",
+    "updated_at": "2026-02-20T13:08:36.960188+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7980e992-66ee-4ef4-98d5-5da5b441aa9c",
+    "codigo_b3": "ITSA3",
+    "nome": "ITAUSA ON N1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:50:56.043922+00:00",
+    "updated_at": "2026-02-20T13:08:46.401559+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d8b7ef22-891d-4d4b-96cc-af9c78cb4d9d",
+    "codigo_b3": "TIMS3",
+    "nome": "TIM ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:50:57.05294+00:00",
+    "updated_at": "2026-02-20T13:08:57.935375+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0dbd2b59-a8c5-473f-bfd4-9f3de302e37b",
+    "codigo_b3": "LAVV3",
+    "nome": "LAVVI ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:50:50.498031+00:00",
+    "updated_at": "2026-02-20T13:08:24.783583+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7bfe43a2-eacb-4bc7-8cfe-975a3ee7cb62",
+    "codigo_b3": "BALM3",
+    "nome": "BAUMER ON",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:09.534946+00:00",
+    "updated_at": "2026-02-20T13:10:15.063689+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2746fdc0-bc4b-4899-be07-c6a66869d5f0",
+    "codigo_b3": "SAPR11",
+    "nome": "SANEPAR UNITS",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:51:07.024076+00:00",
+    "updated_at": "2026-02-20T13:08:48.274345+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7c9b60d9-ef30-4f87-920d-456293462811",
+    "codigo_b3": "BPAC3",
+    "nome": "BTG PACTUAL ON N2",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:46.787255+00:00",
+    "updated_at": "2026-02-20T13:08:35.991004+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ed666281-166b-45eb-82c2-22fa73ffdf3b",
+    "codigo_b3": "CEBR5",
+    "nome": "CIA ENERG BRASILIA PN",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:09.889961+00:00",
+    "updated_at": "2026-02-20T13:10:10.029625+00:00",
+    "is_active": true
+  },
+  {
+    "id": "26afcebc-0009-4b35-8eef-09cef173b1f6",
+    "codigo_b3": "ANIM3",
+    "nome": "ANIMA ON NM",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:52:07.973353+00:00",
+    "updated_at": "2026-02-20T13:10:10.209215+00:00",
+    "is_active": true
+  },
+  {
+    "id": "794feceb-a1ca-4aa1-be91-42821c2051c0",
+    "codigo_b3": "WALM34",
+    "nome": "WALMART INC. | EUA",
+    "tipo": "BDR",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:08.855756+00:00",
+    "updated_at": "2026-02-20T13:10:33.419555+00:00",
+    "is_active": true
+  },
+  {
+    "id": "247c5bfc-ec6f-4e66-b8d8-18e5f0a02e96",
+    "codigo_b3": "PINE3",
+    "nome": "PINE ON N2",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:35.219315+00:00",
+    "updated_at": "2026-02-20T13:09:03.137446+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ec9b7b32-5554-4e1e-92cf-9ed2b9e7eaae",
+    "codigo_b3": "E1CO34",
+    "nome": "ECOPETROL S.A. | COL",
+    "tipo": "BDR",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:52:09.011071+00:00",
+    "updated_at": "2026-02-20T13:10:10.695804+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f19029b2-86ef-4f0b-8fe6-2deb356a0f7f",
+    "codigo_b3": "ALPA4",
+    "nome": "ALPARGATAS PN N1",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:50:49.552035+00:00",
+    "updated_at": "2026-02-20T13:10:04.852251+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a309a7ef-8f40-4fdd-9ba0-b9fb5f421228",
+    "codigo_b3": "BPAN4",
+    "nome": "BANCO PAN PN N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:07.792793+00:00",
+    "updated_at": "2026-02-20T13:10:12.233207+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c546530e-653d-4145-b913-88f7615daba0",
+    "codigo_b3": "IBOV",
+    "nome": "IBOVESPA INDICE B3",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:51:05.486142+00:00",
+    "updated_at": "2026-02-20T13:08:47.345123+00:00",
+    "is_active": true
+  },
+  {
+    "id": "75e24684-64b5-4b03-873e-d1f496051af7",
+    "codigo_b3": "PINE4",
+    "nome": "PINE PN N2",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:29.493519+00:00",
+    "updated_at": "2026-02-20T13:08:50.12464+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6a43b370-419d-41ee-9eb8-de303b1b1097",
+    "codigo_b3": "BMEB4",
+    "nome": "BANCO MERCANTIL BRASIL",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:51.422588+00:00",
+    "updated_at": "2026-02-20T13:10:13.237608+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f91aecc7-300b-4209-af5b-c3467de3afc0",
+    "codigo_b3": "G1FI34",
+    "nome": "GOLD FIELDS LTD | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:50:39.28621+00:00",
+    "updated_at": "2026-02-20T13:08:37.910217+00:00",
+    "is_active": true
+  },
+  {
+    "id": "608e2ac6-654c-45b2-986e-6e1350f2be7d",
+    "codigo_b3": "CXSE3",
+    "nome": "CAIXA SEGURION NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:51:13.420654+00:00",
+    "updated_at": "2026-02-20T13:10:14.366908+00:00",
+    "is_active": true
+  },
+  {
+    "id": "589ec541-6703-415c-a207-66bd896e5e3b",
+    "codigo_b3": "WIZC3",
+    "nome": "WIZ CO ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:06.721884+00:00",
+    "updated_at": "2026-02-20T13:11:01.080477+00:00",
+    "is_active": true
+  },
+  {
+    "id": "936339e6-412b-4831-aafe-078dfdc43004",
+    "codigo_b3": "VAMO3",
+    "nome": "VAMOS ON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:09.349719+00:00",
+    "updated_at": "2026-02-20T13:10:15.255927+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3cb78c70-d3b4-4b29-bfd8-3a0b4596a423",
+    "codigo_b3": "A1ZN34",
+    "nome": "ASTRAZENECA PLC | EURO",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:50:38.333541+00:00",
+    "updated_at": "2026-02-20T13:10:18.090263+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ca2cac9b-a1d2-4fcd-a9b8-99f4ece18221",
+    "codigo_b3": "RCSL4",
+    "nome": "RECRUSUL PN",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:50:33.30058+00:00",
+    "updated_at": "2026-02-20T13:10:15.639432+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8f136116-c579-4cba-8b8b-65f0ad1a75f4",
+    "codigo_b3": "BNBR3",
+    "nome": "BANCO NORDESTE BRASIL",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:08.152546+00:00",
+    "updated_at": "2026-02-20T13:10:17.282022+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1b0f87f3-3b7f-417b-9ae9-f1a86180bf58",
+    "codigo_b3": "COCE3",
+    "nome": "COELCE",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:09.18361+00:00",
+    "updated_at": "2026-02-20T13:10:17.644656+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4d50791c-23d7-41ef-a2b4-36a82347302c",
+    "codigo_b3": "BMIN4",
+    "nome": "BANCO MERCANTIL INV.",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:05.180348+00:00",
+    "updated_at": "2026-02-20T13:10:35.761542+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2c29504b-5e3e-4b91-a11f-64a35f942a12",
+    "codigo_b3": "CBEE3",
+    "nome": "AMPLA ENERGIA/SERVICOS",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:55:06.50536+00:00",
+    "updated_at": "2026-02-20T13:13:05.220355+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3e808212-b342-42fe-adae-b4ba2b8af16c",
+    "codigo_b3": "BGIP3",
+    "nome": "BANESE ON",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:26.613735+00:00",
+    "updated_at": "2026-02-20T13:08:17.175214+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5ff02548-aaa2-496e-ab4c-b27ad2f0f36b",
+    "codigo_b3": "CSMG3",
+    "nome": "COPASA ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:50:28.537626+00:00",
+    "updated_at": "2026-02-20T13:08:18.116662+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0d6137b8-4c32-4b02-a87c-a20552c44926",
+    "codigo_b3": "CBAV3",
+    "nome": "CBA ON NM | ALUMÍNIO",
+    "tipo": "ACAO",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:50:47.712888+00:00",
+    "updated_at": "2026-02-20T13:08:43.565738+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c11ba2aa-3244-45de-af2b-abc09f34bd59",
+    "codigo_b3": "IFNC",
+    "nome": "ÍNDICE FINANCEIRO B3",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:51:12.476284+00:00",
+    "updated_at": "2026-02-20T13:08:52.916082+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ed138b90-a8cb-4459-880c-f8283384b7b2",
+    "codigo_b3": "CLSC3",
+    "nome": "CELESC",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:50:52.338047+00:00",
+    "updated_at": "2026-02-20T13:09:02.19182+00:00",
+    "is_active": true
+  },
+  {
+    "id": "90ddd519-6ff6-4898-a987-8a79539f73b7",
+    "codigo_b3": "GDXB39",
+    "nome": "GOLD MINERS ETF | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:06.434154+00:00",
+    "updated_at": "2026-02-20T13:10:05.354566+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8fa6cc4f-7afc-46fd-b5af-e4bc9a8fc155",
+    "codigo_b3": "JNJB34",
+    "nome": "JOHNSON & JOHNSON | EUA",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-20T13:10:05.59288+00:00",
+    "updated_at": "2026-02-20T13:10:05.555+00:00",
+    "is_active": true
+  },
+  {
+    "id": "78d55ae3-72bb-47d7-9318-d2809c6fc6fb",
+    "codigo_b3": "IMOB",
+    "nome": "ÍNDICE IMOBILIÁRIO B3",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:06.913403+00:00",
+    "updated_at": "2026-02-20T13:10:05.817675+00:00",
+    "is_active": true
+  },
+  {
+    "id": "03007e4c-3a10-421e-8474-d7a668ab0c62",
+    "codigo_b3": "VALE3",
+    "nome": "VALE ON NM",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:50:58.897339+00:00",
+    "updated_at": "2026-02-20T13:10:06.041549+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c0525a75-fdfe-4c17-8caf-6cc53296b471",
+    "codigo_b3": "CEBR3",
+    "nome": "CIA ENERG BRASILIA ON",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:51:11.525389+00:00",
+    "updated_at": "2026-02-20T13:10:06.438521+00:00",
+    "is_active": true
+  },
+  {
+    "id": "522b8f6a-d9ef-4ee6-9c99-ec856f552b12",
+    "codigo_b3": "AXIA6",
+    "nome": "AXIA EX-ELETROBRAS",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:04.79571+00:00",
+    "updated_at": "2026-02-20T13:10:07.179744+00:00",
+    "is_active": true
+  },
+  {
+    "id": "63433fcd-805a-40a5-868c-8de6948c315f",
+    "codigo_b3": "MOAR3",
+    "nome": "MONTEIRO ARANHA S.A.",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:01.718613+00:00",
+    "updated_at": "2026-02-20T13:13:02.136909+00:00",
+    "is_active": true
+  },
+  {
+    "id": "00a2a3c9-f97c-43cc-9bc1-985ee543df38",
+    "codigo_b3": "SOJA3",
+    "nome": "BOA SAFRA ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:02.554442+00:00",
+    "updated_at": "2026-02-20T13:13:03.402036+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d1216e96-0963-4282-a89f-ffbcf6732cf3",
+    "codigo_b3": "FIQE3",
+    "nome": "UNIFIQUE ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:52:11.500237+00:00",
+    "updated_at": "2026-02-20T13:10:06.905949+00:00",
+    "is_active": true
+  },
+  {
+    "id": "96527003-8911-40fb-b1dd-23727f762716",
+    "codigo_b3": "ALOS3",
+    "nome": "ALLOS ON NM",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:52:04.387878+00:00",
+    "updated_at": "2026-02-20T13:10:07.69974+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f6318422-18b8-41b1-9acd-a026aef38fdd",
+    "codigo_b3": "RIOT34",
+    "nome": "RIO TINTO PLC | EURO",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:10.774347+00:00",
+    "updated_at": "2026-02-20T13:10:09.052165+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6a85068b-3757-45f9-8149-66be5c08ae00",
+    "codigo_b3": "PETR4",
+    "nome": "PETROBRAS PN N2",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:52:14.507608+00:00",
+    "updated_at": "2026-02-20T13:10:09.630958+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bbf05f35-8731-4739-acf2-99ce43425598",
+    "codigo_b3": "POMO3",
+    "nome": "MARCOPOLO ON N2",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:27.862558+00:00",
+    "updated_at": "2026-02-20T13:10:13.991203+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6472f348-a851-4d88-a9b9-854de5ba33a2",
+    "codigo_b3": "BTRA11",
+    "nome": "BTG TERRAS AGRÍCOLAS",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:52:10.079216+00:00",
+    "updated_at": "2026-02-20T13:10:16.697694+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e9fcc6c4-894a-4674-8d26-3632a0a30eae",
+    "codigo_b3": "ASAI3",
+    "nome": "ASSAI ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:52:22.599483+00:00",
+    "updated_at": "2026-02-20T13:10:21.554943+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dd9fc078-701b-48e7-8342-8f8d2da45739",
+    "codigo_b3": "ALUP3",
+    "nome": "ALUPAR INVEST. S/A",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:33.037247+00:00",
+    "updated_at": "2026-02-20T13:10:27.198737+00:00",
+    "is_active": true
+  },
+  {
+    "id": "acc629a7-9eee-4b70-b93c-f591a65043d4",
+    "codigo_b3": "WLMM3",
+    "nome": "WLM IND. COMÉRCIO",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:17.495758+00:00",
+    "updated_at": "2026-02-20T13:10:27.472108+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a97d6350-98b2-43dd-9cf1-8f36a29b9e7d",
+    "codigo_b3": "CTGP34",
+    "nome": "CITIGROUP INC. | EUA",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:20.340279+00:00",
+    "updated_at": "2026-02-20T13:10:28.789975+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4bbe2571-e024-4b8f-954e-496c25deaa6e",
+    "codigo_b3": "OPCT3",
+    "nome": "OCEANPACT ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:26.837378+00:00",
+    "updated_at": "2026-02-20T13:10:33.219512+00:00",
+    "is_active": true
+  },
+  {
+    "id": "45c8bea1-1fba-44f9-a20a-bc1d5be16378",
+    "codigo_b3": "GSGI34",
+    "nome": "GOLDMAN SACHS | EUA",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:23.346282+00:00",
+    "updated_at": "2026-02-20T13:10:35.966824+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f78793e5-04bd-4414-a882-4dceb5beb314",
+    "codigo_b3": "ALPA3",
+    "nome": "ALPARGATAS ON N1",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:19.650739+00:00",
+    "updated_at": "2026-02-20T13:11:01.386508+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3125c919-7ed9-4a58-95bf-ee39eedfba72",
+    "codigo_b3": "EALT3",
+    "nome": "ACO ALTONA ON",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:32.364863+00:00",
+    "updated_at": "2026-02-20T13:11:05.442778+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e6bb92bc-9260-4d2c-b6dd-3d3ae58b5de0",
+    "codigo_b3": "USIM6",
+    "nome": "USIMINAS",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:55:03.008615+00:00",
+    "updated_at": "2026-02-20T13:13:02.868737+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e7fc0b5c-6ea9-405d-bbee-89db99cb4b6b",
+    "codigo_b3": "AMOB3",
+    "nome": "AUTOMOB ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:04.521429+00:00",
+    "updated_at": "2026-02-20T13:13:09.884793+00:00",
+    "is_active": true
+  },
+  {
+    "id": "40f6bf31-42f6-4e1c-9229-6d5072fda1b8",
+    "codigo_b3": "SIMH3",
+    "nome": "SIMPAR ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:23.940833+00:00",
+    "updated_at": "2026-02-20T13:08:51.060499+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0fe2120b-1ee3-4c7d-88e9-ece8c0301ddf",
+    "codigo_b3": "BOVA11",
+    "nome": "ISHARES IBOVESPA",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:05.549796+00:00",
+    "updated_at": "2026-02-20T13:10:08.448443+00:00",
+    "is_active": true
+  },
+  {
+    "id": "798b4c5d-3ba3-4719-8f7d-11bfd7d8cf23",
+    "codigo_b3": "BRSR5",
+    "nome": "BANRISUL PNA N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:12.390815+00:00",
+    "updated_at": "2026-02-20T13:10:09.450801+00:00",
+    "is_active": true
+  },
+  {
+    "id": "81225ce6-357d-4d0e-853a-6ff049720dac",
+    "codigo_b3": "VIVT3",
+    "nome": "TELEFONICA BR ON",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:52:13.323578+00:00",
+    "updated_at": "2026-02-20T13:10:10.481673+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dac0efc8-daa8-45f8-8cbe-42cad123eee3",
+    "codigo_b3": "BMOB3",
+    "nome": "BEMOBI TECH ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:52:27.701216+00:00",
+    "updated_at": "2026-02-20T13:10:12.697685+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a2c89f98-e102-4362-a25b-269f4312548e",
+    "codigo_b3": "CEBR6",
+    "nome": "CIA ENERG BRASILIA PN",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:16.861742+00:00",
+    "updated_at": "2026-02-20T13:10:13.051725+00:00",
+    "is_active": true
+  },
+  {
+    "id": "98f81338-229b-4147-85f0-0f48b04afcef",
+    "codigo_b3": "IBRX",
+    "nome": "ÍNDICE BRASIL 100",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-20T13:10:17.867512+00:00",
+    "updated_at": "2026-02-20T13:10:17.837+00:00",
+    "is_active": true
+  },
+  {
+    "id": "63151f6e-3c03-4545-96ac-d0c223b66f1d",
+    "codigo_b3": "ENEV3",
+    "nome": "ENEVA ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:10.430581+00:00",
+    "updated_at": "2026-02-20T13:10:20.280957+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9bd89639-78d9-4501-bf3f-e0883341a48b",
+    "codigo_b3": "UNIP6",
+    "nome": "UNIPAR PNB",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:30.20993+00:00",
+    "updated_at": "2026-02-20T13:10:21.744927+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1f85b830-c486-4061-b725-2c1121ffc350",
+    "codigo_b3": "NDIV11",
+    "nome": "NU RENDA IBSD DIVIDENDOS",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:22.287903+00:00",
+    "updated_at": "2026-02-20T13:10:22.572937+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a13b77f0-0376-4234-b408-d1ea80c3e3b9",
+    "codigo_b3": "IGTI3",
+    "nome": "IGUATEMI S.A. ON1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:28.362922+00:00",
+    "updated_at": "2026-02-20T13:10:24.623104+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1df13f83-0ae1-4504-b8a1-d09368382d82",
+    "codigo_b3": "BRAP3",
+    "nome": "BRADESPAR ON N1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:17.866023+00:00",
+    "updated_at": "2026-02-20T13:10:31.665546+00:00",
+    "is_active": true
+  },
+  {
+    "id": "da131c59-688f-421a-b863-bbd174b2d77f",
+    "codigo_b3": "MERV",
+    "nome": "MERVAL IND ARGENTINA",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:52:26.080464+00:00",
+    "updated_at": "2026-02-20T13:10:33.851385+00:00",
+    "is_active": true
+  },
+  {
+    "id": "784dc0af-a8e6-40cb-ba29-1084809f7b9d",
+    "codigo_b3": "BSLI3",
+    "nome": "BANCO DE BRASILIA S.A.",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:55:02.175394+00:00",
+    "updated_at": "2026-02-20T13:12:28.202588+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1b8c6435-3ba7-45cf-a222-5555d7a4954e",
+    "codigo_b3": "ETHE11",
+    "nome": "HASHDEX NASDAQ ETHEREUM",
+    "tipo": "ETF",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:55:03.314934+00:00",
+    "updated_at": "2026-02-20T13:13:04.854079+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dd09b593-5b09-432c-8dab-2fa6aee87d8a",
+    "codigo_b3": "TGMA3",
+    "nome": "TEGMA ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:12.756535+00:00",
+    "updated_at": "2026-02-20T13:10:11.823124+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7983709a-d69d-45c5-bd64-a352387cbb15",
+    "codigo_b3": "BBDC3",
+    "nome": "BRADESCO ON N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:14.349083+00:00",
+    "updated_at": "2026-02-20T13:10:12.017595+00:00",
+    "is_active": true
+  },
+  {
+    "id": "96242237-bae2-4d7c-b622-86ee0baad36f",
+    "codigo_b3": "EEM",
+    "nome": "MSCI EMERGING MARKETS",
+    "tipo": "ETF",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:52:10.59187+00:00",
+    "updated_at": "2026-02-20T13:10:13.41505+00:00",
+    "is_active": true
+  },
+  {
+    "id": "af46c2cc-8e3a-4178-87fe-a6e649af017d",
+    "codigo_b3": "EMBJ3",
+    "nome": "EMBRAER ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:17.07493+00:00",
+    "updated_at": "2026-02-20T13:10:14.657393+00:00",
+    "is_active": true
+  },
+  {
+    "id": "af9e59d6-7ffd-47b3-8808-107aadd6661f",
+    "codigo_b3": "TRIS3",
+    "nome": "TRISUL ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:52:15.525826+00:00",
+    "updated_at": "2026-02-20T13:10:16.267264+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a024390f-4efa-4124-8c44-bddd8468b0d5",
+    "codigo_b3": "ENGI4",
+    "nome": "ENERGISA PN N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:19.99038+00:00",
+    "updated_at": "2026-02-20T13:10:22.191789+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1759bc31-7969-479f-a929-54c6097acdb4",
+    "codigo_b3": "BGIP4",
+    "nome": "BANESE PN",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:11.310033+00:00",
+    "updated_at": "2026-02-20T13:10:23.704113+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fb84b82c-e9c6-42dd-b87b-42af8d212048",
+    "codigo_b3": "BAZA3",
+    "nome": "AMAZONIA ON",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:28.537326+00:00",
+    "updated_at": "2026-02-20T13:10:24.423068+00:00",
+    "is_active": true
+  },
+  {
+    "id": "606c6a05-1ba5-4fc9-9205-fbbd6ac3a4e0",
+    "codigo_b3": "NVDC34",
+    "nome": "NVIDIA CORP |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:18.588353+00:00",
+    "updated_at": "2026-02-20T13:10:28.586986+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a32b0aeb-6885-48e4-a874-b8e977e62aaf",
+    "codigo_b3": "HOOT4",
+    "nome": "HOTÉIS OTHON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:21.723636+00:00",
+    "updated_at": "2026-02-20T13:10:29.834857+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7c2e161e-a9b5-472d-bb03-008d058459d3",
+    "codigo_b3": "SMLL",
+    "nome": "INDICE SMALL CAPS B3",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:32.019875+00:00",
+    "updated_at": "2026-02-20T13:10:30.49245+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a19c25ec-c064-4713-b139-fd03011f6b36",
+    "codigo_b3": "P2LT34",
+    "nome": "PALANTIR TECHNOLOGIES",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:22.936265+00:00",
+    "updated_at": "2026-02-20T13:10:36.220118+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2e0c261d-83e8-4ea1-9aa0-503c48544267",
+    "codigo_b3": "GGBR4",
+    "nome": "GERDAU PN N1",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:52:26.268444+00:00",
+    "updated_at": "2026-02-20T13:11:04.996053+00:00",
+    "is_active": true
+  },
+  {
+    "id": "80393bdc-0f7b-4436-8d83-809a34a9c21f",
+    "codigo_b3": "MCRE11",
+    "nome": "MAUÁ CAPITAL HIGH YIELD",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:52:31.315824+00:00",
+    "updated_at": "2026-02-20T13:11:09.994507+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5637d694-95b6-47f4-a727-8be966812e35",
+    "codigo_b3": "ITLC34",
+    "nome": "INTEL CORPORATION | EUA",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:27.043991+00:00",
+    "updated_at": "2026-02-20T13:11:13.996905+00:00",
+    "is_active": true
+  },
+  {
+    "id": "50c901a0-e7f2-4b7f-a021-334ba7d49005",
+    "codigo_b3": "RBRX11",
+    "nome": "RBR PLUS REAL STATE",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:52:29.887764+00:00",
+    "updated_at": "2026-02-20T13:11:17.934779+00:00",
+    "is_active": true
+  },
+  {
+    "id": "39d8d357-9f67-4218-84a2-c64e9d5b93e4",
+    "codigo_b3": "SOL",
+    "nome": "SOLANA",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:55:02.36377+00:00",
+    "updated_at": "2026-02-20T13:13:01.37426+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1f87b657-1a07-49ef-818a-acc1447e8245",
+    "codigo_b3": "BIOM3",
+    "nome": "BIOMM ON MA",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:03.71155+00:00",
+    "updated_at": "2026-02-20T13:13:04.295716+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1e78b48f-0cb1-452b-8131-59436842dd16",
+    "codigo_b3": "DIVO11",
+    "nome": "IT NOW IDIV FUNDO",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:10.948821+00:00",
+    "updated_at": "2026-02-20T13:10:11.471364+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d852c862-7500-4b30-ac37-d16bafe98cc4",
+    "codigo_b3": "FCXO34",
+    "nome": "FREEPORT-MCMORAN |EUA",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:19.828543+00:00",
+    "updated_at": "2026-02-20T13:10:18.303201+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0b5c75de-9e20-4143-a90f-b244ff2c9f50",
+    "codigo_b3": "CBOP11",
+    "nome": "CASTELLO BRANCO OFFICE",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:52:14.688595+00:00",
+    "updated_at": "2026-02-20T13:10:18.873686+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5e3904f3-990b-44a8-afab-243c6f28cd25",
+    "codigo_b3": "FLRY3",
+    "nome": "FLEURY ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:23.729353+00:00",
+    "updated_at": "2026-02-20T13:10:19.064195+00:00",
+    "is_active": true
+  },
+  {
+    "id": "acc48935-81b7-4e16-b92e-2f83060db480",
+    "codigo_b3": "XPBR31",
+    "nome": "XP INC.",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:26.642581+00:00",
+    "updated_at": "2026-02-20T13:10:19.620406+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bc7f6979-caba-4789-af50-ab3352693bc2",
+    "codigo_b3": "JSLG3",
+    "nome": "JSL ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:16.659031+00:00",
+    "updated_at": "2026-02-20T13:10:24.054926+00:00",
+    "is_active": true
+  },
+  {
+    "id": "322feb28-e248-4113-a9c1-785841f0c416",
+    "codigo_b3": "MILS3",
+    "nome": "MILLS ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:20.558613+00:00",
+    "updated_at": "2026-02-20T13:10:27.917464+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2367e0d8-2b91-4308-a315-964560cd393b",
+    "codigo_b3": "GOGL34",
+    "nome": "ALPHABET INC |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:18.387099+00:00",
+    "updated_at": "2026-02-20T13:10:29.467041+00:00",
+    "is_active": true
+  },
+  {
+    "id": "51a9a8e4-3b33-4e79-82b3-8b0a6fc6e6f1",
+    "codigo_b3": "MOTV3",
+    "nome": "MOTIVA - EX CCR",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:13.109611+00:00",
+    "updated_at": "2026-02-20T13:10:31.069853+00:00",
+    "is_active": true
+  },
+  {
+    "id": "549d783f-0171-4d24-8f87-e2ecdb2de94f",
+    "codigo_b3": "CEAB3",
+    "nome": "CEA MODAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:29.574036+00:00",
+    "updated_at": "2026-02-20T13:10:35.346658+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d9671c46-61cd-437b-bfb0-5725f71cca98",
+    "codigo_b3": "LREN3",
+    "nome": "LOJAS RENNER ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:28.864576+00:00",
+    "updated_at": "2026-02-20T13:10:36.431468+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bc46a69b-c815-4b19-8f93-00cda4bd014a",
+    "codigo_b3": "CEEB3",
+    "nome": "COELBA",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:30.907163+00:00",
+    "updated_at": "2026-02-20T13:11:06.025184+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c07feb40-9806-43ed-98f6-0fa4777deb68",
+    "codigo_b3": "COGN3",
+    "nome": "COGNA ON NM",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:52:22.770412+00:00",
+    "updated_at": "2026-02-20T13:11:07.066469+00:00",
+    "is_active": true
+  },
+  {
+    "id": "af22a547-c615-4e6c-a107-ecef8f549237",
+    "codigo_b3": "BEGD39",
+    "nome": "TRT MSCI SPAIN | EURO",
+    "tipo": "BDR",
+    "setor": "Europa",
+    "created_at": "2026-02-09T18:52:25.337376+00:00",
+    "updated_at": "2026-02-20T13:11:13.5937+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9d5eee7c-3565-47ef-9aeb-c258b6e99d90",
+    "codigo_b3": "MWET4",
+    "nome": "WETZEL S/A PN",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:11.144972+00:00",
+    "updated_at": "2026-02-20T13:10:08.870179+00:00",
+    "is_active": true
+  },
+  {
+    "id": "89b0e311-a503-4282-beae-81b124ba0fea",
+    "codigo_b3": "ETH",
+    "nome": "ETHEREUM",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:55:03.542508+00:00",
+    "updated_at": "2026-02-20T13:13:04.686002+00:00",
+    "is_active": true
+  },
+  {
+    "id": "65ffdad2-76b5-46cd-bb41-121d6e694805",
+    "codigo_b3": "BBDC4",
+    "nome": "BRADESCO PN N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:15.336474+00:00",
+    "updated_at": "2026-02-20T13:10:11.093419+00:00",
+    "is_active": true
+  },
+  {
+    "id": "925384c7-684b-4aea-883c-c49c48a4a5fa",
+    "codigo_b3": "MULT3",
+    "nome": "MULTIPLAN ON N2",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:52:13.665146+00:00",
+    "updated_at": "2026-02-20T13:10:15.445711+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8a31f185-d6a6-4404-b403-afcfb4f681c9",
+    "codigo_b3": "GGPS3",
+    "nome": "GPS ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:22.452041+00:00",
+    "updated_at": "2026-02-20T13:10:21.972707+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9b57e61c-8a1d-45fe-b8bb-b6a277964186",
+    "codigo_b3": "PTNT4",
+    "nome": "PETTENATI IND. TÊXTIL PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:20.147563+00:00",
+    "updated_at": "2026-02-20T13:10:23.873384+00:00",
+    "is_active": true
+  },
+  {
+    "id": "02ec2718-9c33-43a6-9168-8d2b7fd78626",
+    "codigo_b3": "BEST11",
+    "nome": "INVESTO BRAZIL BESST",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:26.458648+00:00",
+    "updated_at": "2026-02-20T13:10:25.946625+00:00",
+    "is_active": true
+  },
+  {
+    "id": "65f92db6-75a7-4be8-8138-d19ed1b7dd88",
+    "codigo_b3": "TRIG11",
+    "nome": "ETF TRÍGONO SMALL CAPS",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:31.851463+00:00",
+    "updated_at": "2026-02-20T13:10:30.695385+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b85b568a-cf17-40af-8fd9-c53fd881860f",
+    "codigo_b3": "RADL3",
+    "nome": "RAIA DROGASILON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:30.383394+00:00",
+    "updated_at": "2026-02-20T13:11:01.511266+00:00",
+    "is_active": true
+  },
+  {
+    "id": "23685f93-802f-45ae-ae0e-3cd2741eed32",
+    "codigo_b3": "M1TA34",
+    "nome": "META PLATFORMS |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:29.028164+00:00",
+    "updated_at": "2026-02-20T13:11:02.380622+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5ad7820f-57ad-414e-a2d8-127ba2a60db9",
+    "codigo_b3": "EZTC3",
+    "nome": "EZTEC ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:52:29.729416+00:00",
+    "updated_at": "2026-02-20T13:11:06.458713+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8f8f6921-fb45-48ff-b84a-80ef53bda8b6",
+    "codigo_b3": "PDTC3",
+    "nome": "PADTEC ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:12.569991+00:00",
+    "updated_at": "2026-02-20T13:11:07.732541+00:00",
+    "is_active": true
+  },
+  {
+    "id": "05ec5b6d-5e61-4c13-bdce-a8806abe9f68",
+    "codigo_b3": "PRNR3",
+    "nome": "PRINER ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:13.503714+00:00",
+    "updated_at": "2026-02-20T13:10:04.631324+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ba7fe1f9-e53b-417f-92dd-9b51a7863ff5",
+    "codigo_b3": "AXIA3",
+    "nome": "AXIA EX-ELETROBRAS",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:11.670661+00:00",
+    "updated_at": "2026-02-20T13:10:08.211633+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ba993e33-f1fb-404b-a76f-b051dc03182b",
+    "codigo_b3": "WLMM4",
+    "nome": "WLM IND COM PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:19.487933+00:00",
+    "updated_at": "2026-02-20T13:10:20.692001+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4c76fdcb-9aa5-4764-bfa5-c80bb7e0e8f3",
+    "codigo_b3": "GLDX11",
+    "nome": "GOLD SPOT INDEX ETF | GOLD",
+    "tipo": "ETF",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:16.338594+00:00",
+    "updated_at": "2026-02-20T13:10:24.245739+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b951cebc-f514-41d8-bc1d-49050093ddbd",
+    "codigo_b3": "AHEB5",
+    "nome": "SÃO PAULO TURISMO S.A.",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:18.767745+00:00",
+    "updated_at": "2026-02-20T13:10:25.046539+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e3d16888-8c8a-417a-a611-711afa42018e",
+    "codigo_b3": "VTRU3",
+    "nome": "VITRU EDUCA ON NM",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:52:21.002642+00:00",
+    "updated_at": "2026-02-20T13:10:32.267008+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0552b865-51df-41c0-a896-3a444746a141",
+    "codigo_b3": "ROXO34",
+    "nome": "NU HOLDINGS NUBANK",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:27.230792+00:00",
+    "updated_at": "2026-02-20T13:10:32.849992+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c1e39a9f-0a59-4bb3-b5ec-4e218e4401c4",
+    "codigo_b3": "FESA4",
+    "nome": "FERBASA PN N1",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:52:30.559186+00:00",
+    "updated_at": "2026-02-20T13:11:05.307415+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d95ee053-4c32-44ad-b2b7-1b948963653b",
+    "codigo_b3": "BABA34",
+    "nome": "ALIBABA GROUP CHINA",
+    "tipo": "BDR",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:28.021573+00:00",
+    "updated_at": "2026-02-20T13:11:13.726662+00:00",
+    "is_active": true
+  },
+  {
+    "id": "aa8cc201-2432-4a75-a759-b9a5d8723824",
+    "codigo_b3": "CSED3",
+    "nome": "CRUZEIRO EDU ON",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:52:16.156153+00:00",
+    "updated_at": "2026-02-20T13:10:11.653181+00:00",
+    "is_active": true
+  },
+  {
+    "id": "18cf6e7f-32e9-462b-bb21-2e9d9d1c022e",
+    "codigo_b3": "NORD3",
+    "nome": "NORDON MET ON",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:14.85354+00:00",
+    "updated_at": "2026-02-20T13:12:12.521079+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6f779ee5-1041-4c63-b15d-90fe05d414fc",
+    "codigo_b3": "CHVX34",
+    "nome": "CHEVRON CORPORATION | EUA",
+    "tipo": "BDR",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:52:14.187994+00:00",
+    "updated_at": "2026-02-20T13:10:13.783306+00:00",
+    "is_active": true
+  },
+  {
+    "id": "701844a9-4909-497f-926d-49005b66da83",
+    "codigo_b3": "LOGG3",
+    "nome": "LOG COM PROPON NM",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:52:11.822597+00:00",
+    "updated_at": "2026-02-20T13:10:16.474453+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2228da84-d49c-4379-aa37-763fc8a35cc4",
+    "codigo_b3": "N1VS34",
+    "nome": "NOVARTIS AG | EURO",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:25.522445+00:00",
+    "updated_at": "2026-02-20T13:10:16.915595+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4efe79a1-7abc-497e-8eae-5fe9bbb734d9",
+    "codigo_b3": "CMIG4",
+    "nome": "CEMIG PN N1",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:32.713877+00:00",
+    "updated_at": "2026-02-20T13:10:21.346547+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e347e073-3579-4f53-a0c6-d7f613811b7b",
+    "codigo_b3": "RENT3",
+    "nome": "LOCALIZA ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:21.55268+00:00",
+    "updated_at": "2026-02-20T13:10:22.943658+00:00",
+    "is_active": true
+  },
+  {
+    "id": "648e58d8-fc6c-4ce4-aeba-30d934bdc9e8",
+    "codigo_b3": "GEPA3",
+    "nome": "RIO PARANAPANEMA ON",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:17.709319+00:00",
+    "updated_at": "2026-02-20T13:10:32.062027+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f5e7b6b1-fe96-44c9-9f53-5a61f09169f9",
+    "codigo_b3": "CGAS3",
+    "nome": "COMGAS ON",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:19.336742+00:00",
+    "updated_at": "2026-02-20T13:10:35.579804+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dd58830f-4718-4458-8203-9df0c7748b01",
+    "codigo_b3": "BEWJ39",
+    "nome": "MSCI JAPAN DRE | ASIA",
+    "tipo": "BDR",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:52:31.07179+00:00",
+    "updated_at": "2026-02-20T13:11:00.80627+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a94ed7fa-953e-4a1d-b7a9-3fdcece093ec",
+    "codigo_b3": "DBAG34",
+    "nome": "DEUTSCHE BANK | EURO",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:23.153955+00:00",
+    "updated_at": "2026-02-20T13:11:04.844312+00:00",
+    "is_active": true
+  },
+  {
+    "id": "50a5eea9-b4ae-42f9-8207-91bb4947b06b",
+    "codigo_b3": "PLPL3",
+    "nome": "PLANOEPLANO ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:52:18.997326+00:00",
+    "updated_at": "2026-02-20T13:09:00.233247+00:00",
+    "is_active": true
+  },
+  {
+    "id": "98411ff9-ca5e-425b-ad84-b559016156aa",
+    "codigo_b3": "PETR3",
+    "nome": "PETROBRAS ON N2",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:52:12.000792+00:00",
+    "updated_at": "2026-02-20T13:10:06.67935+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2771491e-6b12-4644-8a10-8581ac561cf1",
+    "codigo_b3": "PATI3",
+    "nome": "PANATLANTICA ON",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:52:28.698526+00:00",
+    "updated_at": "2026-02-20T13:10:19.425245+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0d2e3ff4-943f-436f-8aa4-5007c3b91844",
+    "codigo_b3": "EALT4",
+    "nome": "ACO ALTONA PN",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:15.023583+00:00",
+    "updated_at": "2026-02-20T13:10:20.498703+00:00",
+    "is_active": true
+  },
+  {
+    "id": "914e62de-ff8e-45e8-aaea-6e54edf7cfd7",
+    "codigo_b3": "BTAL11",
+    "nome": "BTG AGRO LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:52:15.701619+00:00",
+    "updated_at": "2026-02-20T13:10:22.749729+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e4843b64-1d49-402e-8dcd-0aca1fca186c",
+    "codigo_b3": "BALM4",
+    "nome": "BAUMER ON",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:52:13.858764+00:00",
+    "updated_at": "2026-02-20T13:10:23.530315+00:00",
+    "is_active": true
+  },
+  {
+    "id": "145534c2-39a8-40c5-ba9f-7535012ad25c",
+    "codigo_b3": "SYNE3",
+    "nome": "SYN PROP TECON",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:52:18.190144+00:00",
+    "updated_at": "2026-02-20T13:10:26.145159+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3af8314e-b328-46ab-9a14-c1ffd046915b",
+    "codigo_b3": "BEWZ39",
+    "nome": "ISHARE MSCI BRAZIL ETF",
+    "tipo": "BDR",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:25.703274+00:00",
+    "updated_at": "2026-02-20T13:10:26.77729+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fdfa4333-5728-4568-b05f-f6386b0222f5",
+    "codigo_b3": "E1TN34",
+    "nome": "EATON CORPORATION | EUA",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:21.201581+00:00",
+    "updated_at": "2026-02-20T13:10:26.978259+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5814d3e8-a214-4bb9-b8d1-e90dbfb03681",
+    "codigo_b3": "BIEM39",
+    "nome": "CORE MSCI EMK DRE",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:52:32.876763+00:00",
+    "updated_at": "2026-02-20T13:10:30.240204+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0f377e50-7ec5-401b-8193-110298fb987a",
+    "codigo_b3": "POMO4",
+    "nome": "MARCOPOLO PN N2",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:31.48843+00:00",
+    "updated_at": "2026-02-20T13:10:30.880114+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ca8ee7b1-7271-4e18-8733-6928d018bce5",
+    "codigo_b3": "UK100",
+    "nome": "FTSE 100 INDICE EUROPA",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:52:30.058295+00:00",
+    "updated_at": "2026-02-20T13:10:31.276431+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9b340578-ab59-4446-9ddb-b3a22dfb353b",
+    "codigo_b3": "ORVR3",
+    "nome": "ORIZON ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:24.396775+00:00",
+    "updated_at": "2026-02-20T13:10:32.644921+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5398fab5-1f2c-4778-a24d-557e1afec118",
+    "codigo_b3": "BSLV39",
+    "nome": "ISHARES SILVER TRUST | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:21.901162+00:00",
+    "updated_at": "2026-02-20T13:10:33.641779+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1dc2eab1-c3d3-423e-aa3a-d65ad5741f5a",
+    "codigo_b3": "BMGB4",
+    "nome": "BANCO BMG PN N1",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:52:30.74801+00:00",
+    "updated_at": "2026-02-20T13:11:05.17956+00:00",
+    "is_active": true
+  },
+  {
+    "id": "25438587-ac1b-4d80-959b-573d91e408d1",
+    "codigo_b3": "RCSL3",
+    "nome": "RECRUSUL ON",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:52:32.19715+00:00",
+    "updated_at": "2026-02-20T13:11:07.993243+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4fdcf5af-6d84-4574-ae4e-a25f7c5a5bbe",
+    "codigo_b3": "ECOR3",
+    "nome": "ECORODOVIAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:29.385467+00:00",
+    "updated_at": "2026-02-20T13:11:10.487087+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f098ca5a-942e-4b52-a122-c47cc2f214ae",
+    "codigo_b3": "PGMN3",
+    "nome": "PAGUE MENOS ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:23.538707+00:00",
+    "updated_at": "2026-02-20T13:08:45.444063+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c3313420-c61f-4c29-990b-a9300a0e6575",
+    "codigo_b3": "SEER3",
+    "nome": "SER EDUCA ON NM",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:52:12.181392+00:00",
+    "updated_at": "2026-02-20T13:10:07.989196+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d0e52411-d1c1-4619-9f76-1ad82b4332d6",
+    "codigo_b3": "BPML11",
+    "nome": "BTG PACTUAL SHOPPINGS",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:52:15.888895+00:00",
+    "updated_at": "2026-02-20T13:10:09.230013+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9c5e015c-c99a-469d-a458-726e8ba1f638",
+    "codigo_b3": "N1EM34",
+    "nome": "NEWMONT CORP |GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:22.066548+00:00",
+    "updated_at": "2026-02-20T13:10:10.903647+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a5783778-31eb-4948-8724-01ad6daa6f3e",
+    "codigo_b3": "ABEV3",
+    "nome": "AMBEV S/A ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:15.180012+00:00",
+    "updated_at": "2026-02-20T13:10:11.281378+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8ddeb031-8660-4950-baa7-41145f08ad6f",
+    "codigo_b3": "SOND6",
+    "nome": "SONDOTECNICA SOLOS S.A.",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:52:14.023603+00:00",
+    "updated_at": "2026-02-20T13:10:14.859049+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7186b846-c80a-4d97-80d8-7c4c2d24c30f",
+    "codigo_b3": "NOKI34",
+    "nome": "NOKIA CORPORATION | EURO",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:52:32.550757+00:00",
+    "updated_at": "2026-02-20T13:10:17.464881+00:00",
+    "is_active": true
+  },
+  {
+    "id": "594a7849-f33b-4d0e-926b-66c72cc9f7b5",
+    "codigo_b3": "ABGD39",
+    "nome": "GOLD ETF TRUST | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:12.91858+00:00",
+    "updated_at": "2026-02-20T13:10:18.502997+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e4effd7d-314f-4c38-8135-87f46c4b0bcd",
+    "codigo_b3": "CSUD3",
+    "nome": "CSU DIGITAL ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:52:21.354858+00:00",
+    "updated_at": "2026-02-20T13:10:23.132202+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e45279f9-49da-4540-9d7a-4a2b5ddba245",
+    "codigo_b3": "CYRE3",
+    "nome": "CYRELLA",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:52:19.175164+00:00",
+    "updated_at": "2026-02-20T13:10:24.820661+00:00",
+    "is_active": true
+  },
+  {
+    "id": "be4426ad-1679-4f41-bb3c-7c618851e759",
+    "codigo_b3": "VGIA11",
+    "nome": "CRA FDO INV PROD AGRO",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:52:27.422699+00:00",
+    "updated_at": "2026-02-20T13:11:02.194104+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6b53ba53-05fa-4d2a-a791-8ae8530665bf",
+    "codigo_b3": "M2PM34",
+    "nome": "MP MATERIALS | EUA",
+    "tipo": "BDR",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:52:25.891914+00:00",
+    "updated_at": "2026-02-20T13:11:03.872472+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3ea76c87-b01d-4f29-b3e1-b73aadd5ef74",
+    "codigo_b3": "S1BS34",
+    "nome": "SIBANYE STILLWATER | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:28.200832+00:00",
+    "updated_at": "2026-02-20T13:11:09.123765+00:00",
+    "is_active": true
+  },
+  {
+    "id": "093ecc3e-79e3-4c40-a58b-abe9219bc950",
+    "codigo_b3": "HAAA11",
+    "nome": "HEDGE AAA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:52:31.664143+00:00",
+    "updated_at": "2026-02-20T13:11:12.038612+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2c94eed1-425e-44ed-8b59-55a09d7048ac",
+    "codigo_b3": "RDOR3",
+    "nome": "REDE DOR ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:07.337262+00:00",
+    "updated_at": "2026-02-20T13:10:23.305471+00:00",
+    "is_active": true
+  },
+  {
+    "id": "30cc9980-ce2c-4372-9e38-2d20ed12d821",
+    "codigo_b3": "BRBI11",
+    "nome": "BR PARTNERS",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:53:11.151571+00:00",
+    "updated_at": "2026-02-20T13:12:07.187151+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c63bf80e-902b-4bc7-8c77-b9989d2d42a6",
+    "codigo_b3": "COCA34",
+    "nome": "COCA-COLA COMPANY | EUA",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:04.064477+00:00",
+    "updated_at": "2026-02-20T13:11:05.759426+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5bcc97db-8593-4762-8cb9-73db614ffe41",
+    "codigo_b3": "ODPV3",
+    "nome": "ODONTOPREV ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:06.576092+00:00",
+    "updated_at": "2026-02-20T13:10:29.1916+00:00",
+    "is_active": true
+  },
+  {
+    "id": "80316623-9fd0-470c-98eb-094b41ce5f9f",
+    "codigo_b3": "SSEC",
+    "nome": "SHANGHAI IND CHINA",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:53:07.195363+00:00",
+    "updated_at": "2026-02-20T13:11:06.609655+00:00",
+    "is_active": true
+  },
+  {
+    "id": "050bce3c-6a33-4247-a118-ef90414e2e01",
+    "codigo_b3": "GEPA4",
+    "nome": "RIO PARANAPANEMA PN",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:20.750503+00:00",
+    "updated_at": "2026-02-20T13:10:27.70677+00:00",
+    "is_active": true
+  },
+  {
+    "id": "eae16c92-f8cf-4b65-b6d2-962d2df4db64",
+    "codigo_b3": "BPAC5",
+    "nome": "BTG PACTUAL PN N2",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:53:04.629274+00:00",
+    "updated_at": "2026-02-20T13:10:28.356493+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e13e07cb-8b36-43dd-9b66-66d9bfd8842e",
+    "codigo_b3": "EQTL3",
+    "nome": "EQUATORIAL ON EJS NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:02.536158+00:00",
+    "updated_at": "2026-02-20T13:11:03.390407+00:00",
+    "is_active": true
+  },
+  {
+    "id": "04d4b5e5-734d-4d87-adfb-a4bf0ef98b9e",
+    "codigo_b3": "UNIP3",
+    "nome": "UNIPAR ON",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:05.074097+00:00",
+    "updated_at": "2026-02-20T13:10:34.909293+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5699621d-79ff-48d0-8f32-80acde4e8b42",
+    "codigo_b3": "ENGI11",
+    "nome": "ENERGISA UNITS",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:02.828395+00:00",
+    "updated_at": "2026-02-20T13:10:28.989866+00:00",
+    "is_active": true
+  },
+  {
+    "id": "54033abc-753d-4900-9d51-462e3552ce10",
+    "codigo_b3": "BIDU34",
+    "nome": "BAIDU INC CHINA | ASIA",
+    "tipo": "BDR",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:53:02.372061+00:00",
+    "updated_at": "2026-02-20T13:12:04.973661+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5c02882a-317d-4763-b242-09399173ad02",
+    "codigo_b3": "EWZ",
+    "nome": "ISHARES MSCI BRAZIL ETF",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:16.504528+00:00",
+    "updated_at": "2026-02-20T13:10:19.848739+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ede7a6bc-608a-4eb6-a610-e473a853ba03",
+    "codigo_b3": "RBRL11",
+    "nome": "RBR LOG",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:06.277876+00:00",
+    "updated_at": "2026-02-20T13:11:18.346403+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5ca310d4-239a-4629-942d-a1cc56df8895",
+    "codigo_b3": "TPIS3",
+    "nome": "TRIUNFO PARTON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:01.443251+00:00",
+    "updated_at": "2026-02-20T13:10:20.92584+00:00",
+    "is_active": true
+  },
+  {
+    "id": "52336af2-4207-423b-9d66-735f13e8ddb0",
+    "codigo_b3": "RIAA3",
+    "nome": "GUARARAPES ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:52:24.176252+00:00",
+    "updated_at": "2026-02-20T13:10:25.67848+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ac0e908b-97a0-415c-aac6-e4d1d773e8e7",
+    "codigo_b3": "ABUD34",
+    "nome": "ANHEUSER-BUSCH | EURO",
+    "tipo": "BDR",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:04.349729+00:00",
+    "updated_at": "2026-02-20T13:10:33.030276+00:00",
+    "is_active": true
+  },
+  {
+    "id": "58aaa309-5662-42b6-ab7f-dd3a5c7127c3",
+    "codigo_b3": "CMIN3",
+    "nome": "CSN MINERACAO ON N2",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:08.65895+00:00",
+    "updated_at": "2026-02-20T13:12:12.032735+00:00",
+    "is_active": true
+  },
+  {
+    "id": "147de1a9-5f08-461a-8f7c-4efc7eedaff7",
+    "codigo_b3": "HBTS5",
+    "nome": "HABITASUL",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:53:05.508394+00:00",
+    "updated_at": "2026-02-20T13:11:07.611392+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8a3442fb-43dd-4cdb-9d23-b679d81852b6",
+    "codigo_b3": "TFCO4",
+    "nome": "TRACK FIELD PN N2",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:09.157469+00:00",
+    "updated_at": "2026-02-20T13:11:08.99407+00:00",
+    "is_active": true
+  },
+  {
+    "id": "18b6bf62-9a14-4574-9b51-7f102cfb5ac8",
+    "codigo_b3": "KNSC11",
+    "nome": "KINEA SECURITIES FII",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:10.562021+00:00",
+    "updated_at": "2026-02-20T13:11:12.288644+00:00",
+    "is_active": true
+  },
+  {
+    "id": "356dd620-ae63-4de0-9fe3-8fd44b6d51d8",
+    "codigo_b3": "BAER39",
+    "nome": "US AERO SPACE DRE | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:10.38609+00:00",
+    "updated_at": "2026-02-20T13:10:36.62409+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1632c2c2-a4be-4a99-8a65-d01ed696e32b",
+    "codigo_b3": "LPSB3",
+    "nome": "LOPES BRASIL ON NM",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:53:08.818421+00:00",
+    "updated_at": "2026-02-20T13:11:15.782154+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0381538c-dcec-4b20-94ca-0cf4e29a01db",
+    "codigo_b3": "PFRM3",
+    "nome": "PROFARMA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:06.896876+00:00",
+    "updated_at": "2026-02-20T13:11:09.247417+00:00",
+    "is_active": true
+  },
+  {
+    "id": "06aaba26-0c6e-4335-bd3e-8da846430b91",
+    "codigo_b3": "BEEM39",
+    "nome": "MSCI EMERGING MARKETS",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:03.90218+00:00",
+    "updated_at": "2026-02-20T13:10:31.472447+00:00",
+    "is_active": true
+  },
+  {
+    "id": "71cea220-01c8-4459-9c8f-252e0754e11d",
+    "codigo_b3": "VIVA3",
+    "nome": "VIVARA S.A. ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:08.077415+00:00",
+    "updated_at": "2026-02-20T13:11:14.81436+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c90bae55-8685-4c92-aded-a659e3c46d05",
+    "codigo_b3": "SMAL11",
+    "nome": "ETF SMALL CAPS BLACK ROCK",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:53:01.264796+00:00",
+    "updated_at": "2026-02-20T13:10:34.460861+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d4fc390a-f319-4a1f-8d23-c9c6383a4182",
+    "codigo_b3": "BOAC34",
+    "nome": "BANK OF AMERICA CORP | EUA",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:53:11.290854+00:00",
+    "updated_at": "2026-02-20T13:11:10.900597+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dbccb114-86f5-494b-8b90-edd21febac9d",
+    "codigo_b3": "GGBR3",
+    "nome": "GERDAU ON N1",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:02.682744+00:00",
+    "updated_at": "2026-02-20T13:11:05.901463+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f2b6a433-d521-4236-99e0-05e66c6dee12",
+    "codigo_b3": "MWET3",
+    "nome": "WETZEL S/A ON",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:03.75082+00:00",
+    "updated_at": "2026-02-20T13:11:08.570528+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d5ddb5a3-e01d-4e3f-81c0-35574cc5e448",
+    "codigo_b3": "CPTR11",
+    "nome": "CAPITANIA AGRO STRAT.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:07.613931+00:00",
+    "updated_at": "2026-02-20T13:11:13.2221+00:00",
+    "is_active": true
+  },
+  {
+    "id": "24d3c40d-24f4-4866-a1d5-d58b03416030",
+    "codigo_b3": "BMEB3",
+    "nome": "BANCO MERCANTIL BRASIL",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:18.019651+00:00",
+    "updated_at": "2026-02-20T13:10:16.05188+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f1110ef5-b854-4fa5-b004-ffdec3565c59",
+    "codigo_b3": "BBSE3",
+    "nome": "BB SEGURIDADEON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:53:06.432265+00:00",
+    "updated_at": "2026-02-20T13:12:05.542571+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1e6b6892-0f82-48af-a151-676688c9cc8b",
+    "codigo_b3": "CGAS5",
+    "nome": "COMGAS PN A",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:10.068535+00:00",
+    "updated_at": "2026-02-20T13:11:12.445478+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d4d30e0f-78cd-4aa9-8353-e8414d103366",
+    "codigo_b3": "RPMG3",
+    "nome": "PET MANGUINHON",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:53:01.845129+00:00",
+    "updated_at": "2026-02-20T13:12:17.853422+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a89bcb55-9edd-4bc9-aac1-ba0c3a86be65",
+    "codigo_b3": "TAEE3",
+    "nome": "TAESA ON N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:11.420724+00:00",
+    "updated_at": "2026-02-20T13:10:28.146107+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c290d874-603d-47dd-ab69-feeeb98253a0",
+    "codigo_b3": "MBRF3",
+    "nome": "MARFRIG BRF ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:53:07.041668+00:00",
+    "updated_at": "2026-02-20T13:11:09.397269+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ad181ccc-23ba-4934-b72a-7288783ba25d",
+    "codigo_b3": "KNRI11",
+    "nome": "KINEA RENDA IMOBILIÁRIA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:04.21597+00:00",
+    "updated_at": "2026-02-20T13:11:07.316221+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0abf4220-2e4f-417b-bd00-d1c3cb69cf06",
+    "codigo_b3": "SVAL11",
+    "nome": "ETF S&P SMALLCAPS | EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:04.929522+00:00",
+    "updated_at": "2026-02-20T13:11:13.341401+00:00",
+    "is_active": true
+  },
+  {
+    "id": "735c7bfe-e000-4b8e-ba2e-a77f6217c832",
+    "codigo_b3": "PDGR3",
+    "nome": "PDG REALT ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:06.731285+00:00",
+    "updated_at": "2026-02-20T13:11:11.207465+00:00",
+    "is_active": true
+  },
+  {
+    "id": "52e5974f-4ca7-43f3-b423-aadf9f8321de",
+    "codigo_b3": "TTEN3",
+    "nome": "3TENTOS ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:53:05.982177+00:00",
+    "updated_at": "2026-02-20T13:11:08.412506+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ba682f8b-90b6-443f-9093-eb936e5306d2",
+    "codigo_b3": "EKTR4",
+    "nome": "ELEKTRO",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:10.224194+00:00",
+    "updated_at": "2026-02-20T13:11:16.062521+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1b394803-9895-4fb4-80da-69df628b8149",
+    "codigo_b3": "US500",
+    "nome": "S&P 500 INDICE USA",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:53:09.012004+00:00",
+    "updated_at": "2026-02-20T13:11:15.52453+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6b9b5189-e224-42bf-9c1c-1b1131ff97bc",
+    "codigo_b3": "BIYW39",
+    "nome": "US TECHNOLOG DRE| EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:09.895848+00:00",
+    "updated_at": "2026-02-20T13:11:12.56348+00:00",
+    "is_active": true
+  },
+  {
+    "id": "599c6905-b3da-46cd-89b3-6b692e63f50f",
+    "codigo_b3": "BTHF11",
+    "nome": "BTG REAL EST HEDGE FU",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:53:10.708582+00:00",
+    "updated_at": "2026-02-20T13:11:17.695028+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d03240bb-e29c-4a23-b0a9-e033ef04a9bb",
+    "codigo_b3": "MATD3",
+    "nome": "MATER DEI ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:10.846173+00:00",
+    "updated_at": "2026-02-20T13:11:15.661351+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e55dd42b-2119-4db1-b530-c51acaf53823",
+    "codigo_b3": "CAML3",
+    "nome": "CAMIL ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:53:07.925838+00:00",
+    "updated_at": "2026-02-20T13:11:08.713906+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bd1c7542-0bcc-4b93-b79d-fb87b42fb951",
+    "codigo_b3": "GPAR3",
+    "nome": "CIA CELG PARTICIPAÇÕES",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:05.648972+00:00",
+    "updated_at": "2026-02-20T13:11:21.984854+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9bbb866a-001f-4129-a387-e3b8b5343c6c",
+    "codigo_b3": "FRAS3",
+    "nome": "FRAS-LE ON N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:06.143423+00:00",
+    "updated_at": "2026-02-20T13:11:03.558368+00:00",
+    "is_active": true
+  },
+  {
+    "id": "67d3dd11-52aa-4b59-aef0-3c8baa27608b",
+    "codigo_b3": "CVCB3",
+    "nome": "CVC BRASIL ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:09.743453+00:00",
+    "updated_at": "2026-02-20T13:11:22.282167+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9ae98c34-cc8b-4a28-82cf-19d6c8631886",
+    "codigo_b3": "YDUQ3",
+    "nome": "YDUQS PART ON NM",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:53:07.764896+00:00",
+    "updated_at": "2026-02-20T13:11:12.844+00:00",
+    "is_active": true
+  },
+  {
+    "id": "090300d6-61cf-46dd-b75f-ebfd5090cc46",
+    "codigo_b3": "SCAR3",
+    "nome": "SAO CARLOS ON NM",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:53:09.447535+00:00",
+    "updated_at": "2026-02-20T13:11:12.976394+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cdc5060f-ee53-4c81-bcf0-892178d57ac3",
+    "codigo_b3": "CLIN11",
+    "nome": "CLAVE ÍNDICES DE PREÇOS",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:08.509081+00:00",
+    "updated_at": "2026-02-20T13:11:20.796365+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b266b4d2-5029-4d13-9e72-58ddfcb1929c",
+    "codigo_b3": "ARML3",
+    "nome": "ARMAC ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:03.598414+00:00",
+    "updated_at": "2026-02-20T13:10:18.679808+00:00",
+    "is_active": true
+  },
+  {
+    "id": "788cc191-535e-421e-a5fc-b492d6f58f8b",
+    "codigo_b3": "MTSA4",
+    "nome": "METISA PN",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:53:02.2093+00:00",
+    "updated_at": "2026-02-20T13:10:20.065448+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ad79b56c-f55f-4e9f-b375-01fabb06c0f5",
+    "codigo_b3": "CPLE3",
+    "nome": "COPEL ON N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:08.23011+00:00",
+    "updated_at": "2026-02-20T13:10:22.386104+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4f32ce42-d37e-4f21-a615-42620a7c1590",
+    "codigo_b3": "GMAT3",
+    "nome": "GRUPO MATEUS ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:04.491434+00:00",
+    "updated_at": "2026-02-20T13:10:25.495525+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d79531f0-6683-437e-86e2-e5198e126adb",
+    "codigo_b3": "EUCA4",
+    "nome": "EUCATEX PN N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:03.454441+00:00",
+    "updated_at": "2026-02-20T13:10:26.561813+00:00",
+    "is_active": true
+  },
+  {
+    "id": "69a5152e-8912-4b76-8108-26c72c1f1a8a",
+    "codigo_b3": "EUCA3",
+    "nome": "EUCATEX",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:04.774261+00:00",
+    "updated_at": "2026-02-20T13:11:04.404857+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0df4498c-344b-4ee2-ad9c-fc9a3fada3c5",
+    "codigo_b3": "MELK3",
+    "nome": "MELNICK ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:03.326912+00:00",
+    "updated_at": "2026-02-20T13:11:04.547246+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d9391b6e-3a3d-469c-a2fc-db0a62ac367e",
+    "codigo_b3": "JPMC34",
+    "nome": "JPMORGAN CHASE & CO | EUA",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:29.17052+00:00",
+    "updated_at": "2026-02-20T13:11:04.717775+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2e57741a-cf1b-402f-a7d2-304802b07965",
+    "codigo_b3": "BIXN39",
+    "nome": "GLOBAL TECH DRE",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:05.812906+00:00",
+    "updated_at": "2026-02-20T13:11:10.127086+00:00",
+    "is_active": true
+  },
+  {
+    "id": "82a31c4f-b568-40fc-a79e-90b3aad5ef31",
+    "codigo_b3": "VULC3",
+    "nome": "VULCABRAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:11.012619+00:00",
+    "updated_at": "2026-02-20T13:11:10.61601+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a4983d8d-85dd-42a1-a8d9-126051d2873e",
+    "codigo_b3": "PATL11",
+    "nome": "AZ QUEST LOGISTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:18.18822+00:00",
+    "updated_at": "2026-02-20T13:12:04.781573+00:00",
+    "is_active": true
+  },
+  {
+    "id": "66bc6afd-0094-420e-b3b1-fe8910b58eec",
+    "codigo_b3": "OFSA3",
+    "nome": "OUROFINO S/A ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:24.278676+00:00",
+    "updated_at": "2026-02-20T13:12:10.175398+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d1ab14b7-2595-4af0-abbd-b751bee2e244",
+    "codigo_b3": "CSNA3",
+    "nome": "SID NACIONAL ON",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:12.761522+00:00",
+    "updated_at": "2026-02-20T13:12:24.007365+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0490b508-4690-40d3-98cb-beb6296fdb9d",
+    "codigo_b3": "XPML11",
+    "nome": "XP MALLS",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:20.673695+00:00",
+    "updated_at": "2026-02-20T13:11:13.463761+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0a0da1b3-3362-46a5-a1f2-5b244377f1fb",
+    "codigo_b3": "AFHI11",
+    "nome": "AF INVEST CRI",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:11.56665+00:00",
+    "updated_at": "2026-02-20T13:11:13.855527+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5d56b37e-5e73-4d95-a81c-b5f8aa0bd47b",
+    "codigo_b3": "BIXU39",
+    "nome": "ISHARES MSCI STOCK ETF",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:21.683845+00:00",
+    "updated_at": "2026-02-20T13:11:14.514196+00:00",
+    "is_active": true
+  },
+  {
+    "id": "82855ffd-cedf-4928-bd0b-6a22290da042",
+    "codigo_b3": "EGIE3",
+    "nome": "ENGIE BRASILON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:15.143631+00:00",
+    "updated_at": "2026-02-20T13:11:15.228859+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0d274860-26ac-4903-a8b0-64f03e945073",
+    "codigo_b3": "TCSA3",
+    "nome": "TECNISA ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:19.174787+00:00",
+    "updated_at": "2026-02-20T13:12:03.615586+00:00",
+    "is_active": true
+  },
+  {
+    "id": "83111bff-b3b3-43d9-b293-b07a99c3d398",
+    "codigo_b3": "LJQQ3",
+    "nome": "QUERO-QUERO ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:23.316727+00:00",
+    "updated_at": "2026-02-20T13:12:24.337432+00:00",
+    "is_active": true
+  },
+  {
+    "id": "26346fdb-ffe5-4bfe-998f-4b2576bea9ce",
+    "codigo_b3": "LEVE3",
+    "nome": "METAL LEVE ON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:53:11.757496+00:00",
+    "updated_at": "2026-02-20T13:11:02.064504+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bce0d99d-a11b-490d-88f2-d98f8e2c925b",
+    "codigo_b3": "INBR32",
+    "nome": "INTER CO DR2 BDR",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:53:13.541019+00:00",
+    "updated_at": "2026-02-20T13:11:15.939954+00:00",
+    "is_active": true
+  },
+  {
+    "id": "06d9c321-4fff-4f53-87df-1dbe11bbc085",
+    "codigo_b3": "MMAQ3",
+    "nome": "MINASMAQUINAS S.A.",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:15.889893+00:00",
+    "updated_at": "2026-02-20T13:11:16.372601+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4298b9a3-84de-496c-92ce-395e21ecdad2",
+    "codigo_b3": "EXES11",
+    "nome": "FUNDO EXES",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:23.972059+00:00",
+    "updated_at": "2026-02-20T13:11:17.199742+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6588c36b-78fe-4ea4-b65b-32f2be5e7339",
+    "codigo_b3": "A1MD34",
+    "nome": "ADVANCED MICRO DEVICES | EUA",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:53:14.115976+00:00",
+    "updated_at": "2026-02-20T13:11:17.570213+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e067fc07-5f0b-44d4-b67f-365d310afdf2",
+    "codigo_b3": "BIWM39",
+    "nome": "RUSSELL 2000 SMALLCAPS | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:20.229273+00:00",
+    "updated_at": "2026-02-20T13:11:18.914056+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2beca448-ca33-477d-b6f6-b2685a30f972",
+    "codigo_b3": "SNCI11",
+    "nome": "SUNO RECEB. IMOB.",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:53:20.873273+00:00",
+    "updated_at": "2026-02-20T13:11:22.431945+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d2b955bc-95fa-4359-8a69-65af47a34aaf",
+    "codigo_b3": "ALLD3",
+    "nome": "ALLIED ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:53:19.792967+00:00",
+    "updated_at": "2026-02-20T13:12:07.686004+00:00",
+    "is_active": true
+  },
+  {
+    "id": "99534b19-205e-4169-b0be-3e577d6b24cf",
+    "codigo_b3": "MRVE3",
+    "nome": "MRV ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:15.433691+00:00",
+    "updated_at": "2026-02-20T13:11:03.735287+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5aeb9740-9233-4b86-8dc0-7bb896ce7cb3",
+    "codigo_b3": "AGRI11",
+    "nome": "BB ETF IAGROFFS B3",
+    "tipo": "ETF",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:53:18.737378+00:00",
+    "updated_at": "2026-02-20T13:11:08.142588+00:00",
+    "is_active": true
+  },
+  {
+    "id": "54fb44b3-4d15-49c4-b71d-ccb83a404a53",
+    "codigo_b3": "BNB",
+    "nome": "BNB",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:53:13.047342+00:00",
+    "updated_at": "2026-02-20T13:11:14.935717+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4465c722-34b9-4fc4-89e7-4d8a13a1db61",
+    "codigo_b3": "MMAQ4",
+    "nome": "MINASMAQUINAS S.A.",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:16.072089+00:00",
+    "updated_at": "2026-02-20T13:11:16.517626+00:00",
+    "is_active": true
+  },
+  {
+    "id": "17ea0ca8-7c6d-4a00-9470-1b9b210519f6",
+    "codigo_b3": "GEOO34",
+    "nome": "GE AEROSPACE | EUA",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:23.680321+00:00",
+    "updated_at": "2026-02-20T13:11:17.071801+00:00",
+    "is_active": true
+  },
+  {
+    "id": "390eacec-0901-492b-ab58-ace73a780fa7",
+    "codigo_b3": "MAXR11",
+    "nome": "FII MAX RETAIL |BTG",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:11.93165+00:00",
+    "updated_at": "2026-02-20T13:11:17.3206+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d18ba593-4810-42ab-8ae4-c0dedc112317",
+    "codigo_b3": "BIBB39",
+    "nome": "ICE BIOTECH DRE  | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:14.297268+00:00",
+    "updated_at": "2026-02-20T13:11:19.362421+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8dce592b-0fe4-4173-94d2-40181ef27ed7",
+    "codigo_b3": "BIEU39",
+    "nome": "ISHARES MSCI EURO",
+    "tipo": "BDR",
+    "setor": "Europa",
+    "created_at": "2026-02-09T18:53:22.250722+00:00",
+    "updated_at": "2026-02-20T13:11:21.373347+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e48f4e7d-94ed-4f17-9dd2-32bcbfa7510c",
+    "codigo_b3": "LFTB11",
+    "nome": "INVESTO ETF M B",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:53:24.934613+00:00",
+    "updated_at": "2026-02-20T13:12:04.475147+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4a96eace-a73e-47e6-bc98-80174ec26801",
+    "codigo_b3": "BIVB39",
+    "nome": "CORE SP500 DRE | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:21.367218+00:00",
+    "updated_at": "2026-02-20T13:12:05.371538+00:00",
+    "is_active": true
+  },
+  {
+    "id": "42be3aef-fce0-4f99-8b94-a78365762455",
+    "codigo_b3": "BIED3",
+    "nome": "BAHEMA EDUC - BAHI3",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:53:17.42107+00:00",
+    "updated_at": "2026-02-20T13:11:01.233695+00:00",
+    "is_active": true
+  },
+  {
+    "id": "eec39bf8-58c4-49fb-a779-4f3197564a4f",
+    "codigo_b3": "ULEV34",
+    "nome": "UNILEVER PLC | EURO",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:18.482097+00:00",
+    "updated_at": "2026-02-20T13:11:08.264315+00:00",
+    "is_active": true
+  },
+  {
+    "id": "163fb93f-8260-4809-ab9d-19c91f933f5d",
+    "codigo_b3": "AAPL34",
+    "nome": "APPLE |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:53:16.854732+00:00",
+    "updated_at": "2026-02-20T13:11:10.767597+00:00",
+    "is_active": true
+  },
+  {
+    "id": "eb70eb3a-0a1e-4618-a2eb-267b60f0f385",
+    "codigo_b3": "MGLU3",
+    "nome": "MAGAZINE LUIZA ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:13.828454+00:00",
+    "updated_at": "2026-02-20T13:11:11.376721+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e3d5c4ce-d7d2-4f64-8f1b-e89200316f47",
+    "codigo_b3": "CPSH11",
+    "nome": "SHOPPINGS AAA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:13.218527+00:00",
+    "updated_at": "2026-02-20T13:11:14.686724+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b035f2bb-e55b-4b8e-942f-a071d0296c4b",
+    "codigo_b3": "SBFG3",
+    "nome": "GRUPO SBF ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:12.070043+00:00",
+    "updated_at": "2026-02-20T13:11:19.645478+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9d578ff4-1acb-4f2b-a21f-0b18e8bb05f0",
+    "codigo_b3": "TJKB11",
+    "nome": "TJK RENDA IMOBILIÁRIA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:12.211353+00:00",
+    "updated_at": "2026-02-20T13:11:22.585633+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8435871f-4b7b-4ff5-b091-37d401bffe4e",
+    "codigo_b3": "HSML11",
+    "nome": "HSI MALLS |HSI",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:17.924699+00:00",
+    "updated_at": "2026-02-20T13:12:05.181261+00:00",
+    "is_active": true
+  },
+  {
+    "id": "eb6c7173-38ba-46f5-97c0-01a447c10187",
+    "codigo_b3": "KIVO11",
+    "nome": "KILIMA VOLK REC. IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:21.026938+00:00",
+    "updated_at": "2026-02-20T13:12:25.395517+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d3d9a9b0-7ffb-4f40-acd0-3ddf7aef19e8",
+    "codigo_b3": "BDVY39",
+    "nome": "ISHARE SELECT DIVIDEND | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:22.10369+00:00",
+    "updated_at": "2026-02-20T13:11:07.44774+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fb62eed1-54b9-45c6-83cc-5621774e2112",
+    "codigo_b3": "FESA3",
+    "nome": "FERBASA",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:18.886526+00:00",
+    "updated_at": "2026-02-20T13:11:11.763958+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d99cb012-eb89-44f0-8bf2-522e3b3067ee",
+    "codigo_b3": "BCHI39",
+    "nome": "MSCI CHINA DRE BDR | ASIA",
+    "tipo": "BDR",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:53:19.933346+00:00",
+    "updated_at": "2026-02-20T13:11:19.815663+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b678e7ff-5b75-40e1-8748-01802e9c37b0",
+    "codigo_b3": "NASD11",
+    "nome": "TREND ETF NASDAQ 100 | EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:16.673942+00:00",
+    "updated_at": "2026-02-20T13:11:20.08106+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d4eb8aab-748d-4e2b-a335-eab16c85735b",
+    "codigo_b3": "WRLD11",
+    "nome": "FTSE GLOBAL ETF FDI",
+    "tipo": "ETF",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:15.566144+00:00",
+    "updated_at": "2026-02-20T13:11:21.681804+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ababe0f1-19ec-4cf8-ae35-50eb5353aeba",
+    "codigo_b3": "GCRA11",
+    "nome": "GALÁPAG RECEB. AGRO",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:53:18.613746+00:00",
+    "updated_at": "2026-02-20T13:12:19.090474+00:00",
+    "is_active": true
+  },
+  {
+    "id": "15aed648-4000-4866-8885-b8e80939b7a5",
+    "codigo_b3": "HAGA4",
+    "nome": "HAGA S/A PN",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:21.18899+00:00",
+    "updated_at": "2026-02-20T13:10:34.055162+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6622252f-9e72-4463-8181-209ae7b1637d",
+    "codigo_b3": "EQPA3",
+    "nome": "EQUATORIAL PARA DIST.",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:14.73633+00:00",
+    "updated_at": "2026-02-20T13:10:35.145491+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cce82111-2dd9-4eb6-a88e-d88e1f93d490",
+    "codigo_b3": "REAL",
+    "nome": "REAL | BRL/USD",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:12.414681+00:00",
+    "updated_at": "2026-02-20T13:11:13.093093+00:00",
+    "is_active": true
+  },
+  {
+    "id": "38b997fa-ca52-4b2b-9e5d-c4c9a6e538dc",
+    "codigo_b3": "GZIT11",
+    "nome": "GAZIT MALLS",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:53:16.51704+00:00",
+    "updated_at": "2026-02-20T13:11:14.124423+00:00",
+    "is_active": true
+  },
+  {
+    "id": "329ce300-5338-403f-bf83-b86e004384da",
+    "codigo_b3": "KNCR11",
+    "nome": "KINEA R. IMOB. |INTRAG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:17.783407+00:00",
+    "updated_at": "2026-02-20T13:11:18.193168+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a6f60bab-7fe2-40b4-9b17-9f54fdf9a5a6",
+    "codigo_b3": "TECX11",
+    "nome": "CHINEXT FUNDO DE ÍNDICE | ASIA",
+    "tipo": "ETF",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:53:19.659585+00:00",
+    "updated_at": "2026-02-20T13:11:19.939588+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5bc0bc35-9398-4b5c-9c76-aff0bb138a3e",
+    "codigo_b3": "VILG11",
+    "nome": "VINCI LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:24.781913+00:00",
+    "updated_at": "2026-02-20T13:11:21.047063+00:00",
+    "is_active": true
+  },
+  {
+    "id": "11741869-771e-4bca-a76e-6b6a969fec90",
+    "codigo_b3": "HGBS11",
+    "nome": "BR SHOPPING |HEDGE",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:24.1215+00:00",
+    "updated_at": "2026-02-20T13:11:22.875755+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cd4e552d-8997-4527-a9cd-a3f34a3785ac",
+    "codigo_b3": "BEGU39",
+    "nome": "TRUST MSCI USA DRE | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:53:23.505403+00:00",
+    "updated_at": "2026-02-20T13:12:07.535591+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f005165d-3847-48d9-a945-66bd18fb356e",
+    "codigo_b3": "CPTS11",
+    "nome": "CAPITANIA SEC |BTG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:13.685515+00:00",
+    "updated_at": "2026-02-20T13:12:08.478037+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3bf2738d-fe24-4ac4-adc5-1a1e709b378d",
+    "codigo_b3": "LILY34",
+    "nome": "ELI LILLY AND COMPANY | EUA",
+    "tipo": "BDR",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:19.334998+00:00",
+    "updated_at": "2026-02-20T13:12:13.260577+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a1f6360c-2f2c-496c-9ccb-3bc51f2066c4",
+    "codigo_b3": "ALUP4",
+    "nome": "ALUPAR INVEST. S/A",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:12.610253+00:00",
+    "updated_at": "2026-02-20T13:11:01.7004+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f3e6a245-92b2-46d0-8866-87468db851a1",
+    "codigo_b3": "BBAS3",
+    "nome": "BANCO BRASIL ON NM",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:53:17.277441+00:00",
+    "updated_at": "2026-02-20T13:11:06.314092+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6228cb2e-4c3e-4f66-9e34-b91900b9f09e",
+    "codigo_b3": "BROF11",
+    "nome": "BRPR CORPORATE OFFICES",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:14.997353+00:00",
+    "updated_at": "2026-02-20T13:11:08.852368+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7cdc8606-66e8-48d6-9ee0-ac8e665de488",
+    "codigo_b3": "GGRC11",
+    "nome": "GGR COVEPI RENDA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:18.330596+00:00",
+    "updated_at": "2026-02-20T13:11:18.058054+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4284304c-a108-477a-92ba-48c7c5f434c9",
+    "codigo_b3": "RECR11",
+    "nome": "FII RECEBÍVEIS IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:21.90155+00:00",
+    "updated_at": "2026-02-20T13:12:14.324973+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5fd839a5-6df3-4b38-889e-24fc35280e41",
+    "codigo_b3": "HBOR3",
+    "nome": "HELBOR ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:15.274255+00:00",
+    "updated_at": "2026-02-20T13:10:29.649452+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8a3dd1c3-8a18-46fb-b9ec-23784f6df11a",
+    "codigo_b3": "IAGR11",
+    "nome": "SFI INV AGRONEGÓCIO",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:53:17.138024+00:00",
+    "updated_at": "2026-02-20T13:12:06.42722+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2442ac9e-a107-4f45-bbe0-60b9c9d5e23d",
+    "codigo_b3": "MCCI11",
+    "nome": "MAUÁ CAPITAL REC. IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:16.357587+00:00",
+    "updated_at": "2026-02-20T13:12:16.946053+00:00",
+    "is_active": true
+  },
+  {
+    "id": "da8f6d42-d700-4324-8003-691cfb4063b8",
+    "codigo_b3": "SANB3",
+    "nome": "SANTANDER BRON",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:53:20.382642+00:00",
+    "updated_at": "2026-02-20T13:11:01.862043+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2120c951-0e34-4c5b-9d6d-33d8985832d1",
+    "codigo_b3": "RAPT4",
+    "nome": "RANDON PART PN N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:23.030013+00:00",
+    "updated_at": "2026-02-20T13:11:11.498271+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f0c0ae21-0e94-4214-9578-38ebf4996a10",
+    "codigo_b3": "NATU3",
+    "nome": "GRUPO NATURA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:12.896434+00:00",
+    "updated_at": "2026-02-20T13:11:12.703125+00:00",
+    "is_active": true
+  },
+  {
+    "id": "506e9122-2ea1-4dba-81aa-567993d1ef5e",
+    "codigo_b3": "AZPL11",
+    "nome": "AZ QUEST LOGISTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:21.531279+00:00",
+    "updated_at": "2026-02-20T13:11:21.509706+00:00",
+    "is_active": true
+  },
+  {
+    "id": "91c3c398-198c-41c9-a93e-c49b3934fcec",
+    "codigo_b3": "LOGN3",
+    "nome": "LOG-IN ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:19.51369+00:00",
+    "updated_at": "2026-02-20T13:12:03.036486+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6100c554-875c-4e72-b7d6-d28c5d1d8dde",
+    "codigo_b3": "GRND3",
+    "nome": "GRENDENE ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:22.843465+00:00",
+    "updated_at": "2026-02-20T13:12:03.888405+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bd0f373f-d9df-4f37-8c89-18ab5ab878ce",
+    "codigo_b3": "BRCR11",
+    "nome": "BTG CORPORATE OFFICE",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:53:22.568805+00:00",
+    "updated_at": "2026-02-20T13:12:08.167906+00:00",
+    "is_active": true
+  },
+  {
+    "id": "63088e89-061c-4297-93b2-16cc20b915d7",
+    "codigo_b3": "BIGF39",
+    "nome": "GLOBAL INFRADRE BDR",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:13.38355+00:00",
+    "updated_at": "2026-02-20T13:11:00.95017+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d58a4cb0-3b80-4106-8474-3ac0b7f9b56f",
+    "codigo_b3": "VLID3",
+    "nome": "VALID ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:53:16.217719+00:00",
+    "updated_at": "2026-02-20T13:11:12.162945+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ee12dae6-a5b2-4902-a820-8408e013fd45",
+    "codigo_b3": "EQIR11",
+    "nome": "EQI RECEBÍVEIS IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:24.443437+00:00",
+    "updated_at": "2026-02-20T13:11:16.944684+00:00",
+    "is_active": true
+  },
+  {
+    "id": "62ff193a-9b39-406e-8b22-71474d585cb8",
+    "codigo_b3": "IXIC",
+    "nome": "NASDAQ INDICE USA",
+    "tipo": "INDICE",
+    "setor": "Bolsas",
+    "created_at": "2026-02-09T18:53:14.453038+00:00",
+    "updated_at": "2026-02-20T13:11:17.44027+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c2c3cbd0-3023-41c8-96ad-05ba296f8099",
+    "codigo_b3": "IFIX",
+    "nome": "INDICE FUNDOS IMOB. B3",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:53:20.521451+00:00",
+    "updated_at": "2026-02-20T13:11:18.775611+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d57f1580-6095-417b-81b9-4c02b932265d",
+    "codigo_b3": "BACW39",
+    "nome": "MSCI ACWI DRE",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:23.817514+00:00",
+    "updated_at": "2026-02-20T13:11:19.494207+00:00",
+    "is_active": true
+  },
+  {
+    "id": "78cfbe4e-daef-49bb-8f7c-097b53de8c0a",
+    "codigo_b3": "WHRL3",
+    "nome": "WHIRLPOOL",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:18.051961+00:00",
+    "updated_at": "2026-02-20T13:11:21.180653+00:00",
+    "is_active": true
+  },
+  {
+    "id": "db99c135-dfc8-4c45-9b38-305f9a8bcb9b",
+    "codigo_b3": "KLBN3",
+    "nome": "KLABIN S/A ON N2",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:14.781486+00:00",
+    "updated_at": "2026-02-20T13:11:14.265082+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fb4b9954-3f59-4ec5-8eed-66d5c998c668",
+    "codigo_b3": "ACWI11",
+    "nome": "TREND ETF MSCI ACWI",
+    "tipo": "ETF",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:17.601783+00:00",
+    "updated_at": "2026-02-20T13:11:21.846408+00:00",
+    "is_active": true
+  },
+  {
+    "id": "600a9e62-02eb-43d8-a1c8-d70da12a5a21",
+    "codigo_b3": "B5P211",
+    "nome": "ETF ITAU IMA-B5",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:07.837444+00:00",
+    "updated_at": "2026-02-20T13:11:22.723725+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7e23e83d-5b30-4b8b-9e11-70498607c914",
+    "codigo_b3": "BEWG39",
+    "nome": "MSCI GERMANY ETF | EURO",
+    "tipo": "BDR",
+    "setor": "Europa",
+    "created_at": "2026-02-09T18:54:07.05387+00:00",
+    "updated_at": "2026-02-20T13:12:02.699217+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5545f8b6-4d51-4b7e-8403-9ec220863cfc",
+    "codigo_b3": "SNEL11",
+    "nome": "SUNO ENERGIAS LIMPAS",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:04.518397+00:00",
+    "updated_at": "2026-02-20T13:12:07.013044+00:00",
+    "is_active": true
+  },
+  {
+    "id": "99afd031-96ae-44c3-ad74-00cdb9b635fb",
+    "codigo_b3": "EMAE4",
+    "nome": "EMAE PN",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:19.017561+00:00",
+    "updated_at": "2026-02-20T13:12:04.079987+00:00",
+    "is_active": true
+  },
+  {
+    "id": "72d10dd5-2e09-4c31-9697-304d7a9e55e6",
+    "codigo_b3": "AURO11",
+    "nome": "GOLD ETF BUENA VISTA | GOLD",
+    "tipo": "ETF",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:54:02.519926+00:00",
+    "updated_at": "2026-02-20T13:12:08.32468+00:00",
+    "is_active": true
+  },
+  {
+    "id": "31c7d6fe-28c9-4957-bad1-958dcb3b6a83",
+    "codigo_b3": "BIEF39",
+    "nome": "ORE MSC IEAFE DRE",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:53:14.598643+00:00",
+    "updated_at": "2026-02-20T13:11:15.38216+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5691674b-3e4e-4038-be4f-33d362c788f8",
+    "codigo_b3": "BEES3",
+    "nome": "BANESTES ON",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:54:09.027506+00:00",
+    "updated_at": "2026-02-20T13:12:08.621661+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7e5f0008-ea33-4f89-8f14-fbd081e13db2",
+    "codigo_b3": "IVVB11",
+    "nome": "S&P 500 FUNDO INDICE | EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:06.829712+00:00",
+    "updated_at": "2026-02-20T13:12:11.00968+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bf8b09cf-bb2e-46bc-8760-a3494dc7f4df",
+    "codigo_b3": "ENMT4",
+    "nome": "ENERGISA MT PN",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:06.648846+00:00",
+    "updated_at": "2026-02-20T13:12:11.15614+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9c96326b-3142-43ad-bbf4-25853166ac5b",
+    "codigo_b3": "LUPA3",
+    "nome": "LUPATECH ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:54:11.371683+00:00",
+    "updated_at": "2026-02-20T13:12:09.860158+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bd952c92-168d-44a0-9884-e1a3198b380a",
+    "codigo_b3": "XPLG11",
+    "nome": "XP LOG",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:15.989028+00:00",
+    "updated_at": "2026-02-20T13:12:21.235165+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0af96119-acf6-44c7-b9f2-6b82e28d4240",
+    "codigo_b3": "IMAB11",
+    "nome": "ETF ITAU ID ETF IMA-B",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:14.629939+00:00",
+    "updated_at": "2026-02-20T13:12:13.859357+00:00",
+    "is_active": true
+  },
+  {
+    "id": "59defbd9-4c14-4101-ab65-1cb13b96d4f8",
+    "codigo_b3": "DYDY01",
+    "nome": "DIVIDENDOS (+ GANHOS)",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:11.903426+00:00",
+    "updated_at": "2026-02-20T13:12:14.170378+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4ee55933-4f2b-4a36-9354-508dde675ee9",
+    "codigo_b3": "MXRF11",
+    "nome": "FII MAXI RENDA |BTG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:12.376891+00:00",
+    "updated_at": "2026-02-20T13:12:11.886144+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b50b1694-00d1-4be1-92b6-a0b15a1c99b7",
+    "codigo_b3": "DESK3",
+    "nome": "DESKTOP ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:54:04.345921+00:00",
+    "updated_at": "2026-02-20T13:12:12.951649+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cf2172d4-60f2-4e38-bbb4-833b70cdd0ac",
+    "codigo_b3": "SNSY3",
+    "nome": "SANSUY S.A. IND PLÁST.",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:07.209437+00:00",
+    "updated_at": "2026-02-20T13:12:15.901115+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1ef8d9bb-9128-4db1-bf10-dcdb3e6d27b8",
+    "codigo_b3": "BRST3",
+    "nome": "BRISANET",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:54:15.486406+00:00",
+    "updated_at": "2026-02-20T13:12:16.046856+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3246b8df-3e0d-49cc-9d61-8b849aa70460",
+    "codigo_b3": "RSUL4",
+    "nome": "RIOSULENSE PN",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:15.300721+00:00",
+    "updated_at": "2026-02-20T13:12:10.381368+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8b996b70-ead8-4a94-aacf-3abba3f8690b",
+    "codigo_b3": "BTLG11",
+    "nome": "BTG PACTUAL LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:16.653651+00:00",
+    "updated_at": "2026-02-20T13:12:23.260518+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f02940be-540a-4564-90d9-eef1aa233125",
+    "codigo_b3": "PATI4",
+    "nome": "PANATLANTICA",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:54:07.680081+00:00",
+    "updated_at": "2026-02-20T13:12:10.542063+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9e40e239-e7a4-4bc1-81c7-0fe964b8b307",
+    "codigo_b3": "SPYI11",
+    "nome": "ETF FDO ÍNDICE S&P500 | EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:08.324276+00:00",
+    "updated_at": "2026-02-20T13:12:14.471831+00:00",
+    "is_active": true
+  },
+  {
+    "id": "875039ac-c270-41d5-a1b3-0732756b6b35",
+    "codigo_b3": "BMIN3",
+    "nome": "BANCO MERCANTIL INV.",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:53:15.711154+00:00",
+    "updated_at": "2026-02-20T13:11:16.188083+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ab6966c7-583e-425c-9c17-3b0e57325298",
+    "codigo_b3": "AFLT3",
+    "nome": "AFLUENTE",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:11.052954+00:00",
+    "updated_at": "2026-02-20T13:12:14.964399+00:00",
+    "is_active": true
+  },
+  {
+    "id": "14e7e0d7-669c-405a-902c-18fb6a706cef",
+    "codigo_b3": "LIGT3",
+    "nome": "LIGHT S/A ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:05.961977+00:00",
+    "updated_at": "2026-02-20T13:12:24.628524+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bc0654d4-fd00-4df6-ba44-38d658571e46",
+    "codigo_b3": "LWSA3",
+    "nome": "LWSA ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:04.706345+00:00",
+    "updated_at": "2026-02-20T13:12:26.558472+00:00",
+    "is_active": true
+  },
+  {
+    "id": "99043cd6-32d7-4d94-bc9d-eeb051d0d85b",
+    "codigo_b3": "XPIN11",
+    "nome": "XP INDUSTRIAL",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:15.816661+00:00",
+    "updated_at": "2026-02-20T13:12:16.19897+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4da96283-2100-42fd-b277-82302659e513",
+    "codigo_b3": "KNCA11",
+    "nome": "KINEA CRÉDITO AGRO",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:54:07.378839+00:00",
+    "updated_at": "2026-02-20T13:12:15.273434+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1ea31d3b-04ad-4fb8-a3ed-c8916148a508",
+    "codigo_b3": "AZEV3",
+    "nome": "AZEVEDO ON",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:11.222929+00:00",
+    "updated_at": "2026-02-20T13:13:06.215674+00:00",
+    "is_active": true
+  },
+  {
+    "id": "aced6449-d1c3-4fd6-a399-07f3b8b812e7",
+    "codigo_b3": "CTSA3",
+    "nome": "SANTANENSE",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:09.73938+00:00",
+    "updated_at": "2026-02-20T13:12:16.494607+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ccee4bb4-9cc4-4178-97a6-3092922616e8",
+    "codigo_b3": "QQQI11",
+    "nome": "BUENA VISTA NASDAQ100| EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:15.65927+00:00",
+    "updated_at": "2026-02-20T13:12:13.105834+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7c699d24-a9b1-4763-8eae-3992c0e2b175",
+    "codigo_b3": "BAUH4",
+    "nome": "EXCELSIOR PN",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:16.302852+00:00",
+    "updated_at": "2026-02-20T13:12:15.426704+00:00",
+    "is_active": true
+  },
+  {
+    "id": "afc5ce29-30af-429e-9881-c71587ebf579",
+    "codigo_b3": "BEEF3",
+    "nome": "MINERVA ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:14.960223+00:00",
+    "updated_at": "2026-02-20T13:13:12.633256+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2fb962b2-7952-4df3-8ef6-9ac0e95e2d6d",
+    "codigo_b3": "UNIP5",
+    "nome": "UNIPAR CARBOCLORO",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:10.58325+00:00",
+    "updated_at": "2026-02-20T13:10:34.661988+00:00",
+    "is_active": true
+  },
+  {
+    "id": "accfb762-70b8-4116-b39f-e02556457c96",
+    "codigo_b3": "LVBI11",
+    "nome": "VBI LOGÍSTICO",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:08.66768+00:00",
+    "updated_at": "2026-02-20T13:12:17.40045+00:00",
+    "is_active": true
+  },
+  {
+    "id": "89df217f-71e6-478e-ad8f-1f401ff6e8b6",
+    "codigo_b3": "DASA3",
+    "nome": "DASA ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:11.54245+00:00",
+    "updated_at": "2026-02-20T13:12:17.546486+00:00",
+    "is_active": true
+  },
+  {
+    "id": "efc3a44a-ea6e-4518-ae5b-a8ffee4ffd1a",
+    "codigo_b3": "BRCO11",
+    "nome": "BRESCO LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:07.526644+00:00",
+    "updated_at": "2026-02-20T13:12:10.70461+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e76bf261-5f17-49fc-87ca-ccdd7a2a814c",
+    "codigo_b3": "HASH11",
+    "nome": "HASHDEX NASDAQ BITCoin",
+    "tipo": "ETF",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:06.120933+00:00",
+    "updated_at": "2026-02-20T13:12:13.40456+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1b396ff9-a613-405b-9cc6-4ba7371b9205",
+    "codigo_b3": "PEAB3",
+    "nome": "CIA PART. ALIANÇA BAHIA",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:54:10.750981+00:00",
+    "updated_at": "2026-02-20T13:11:04.264946+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7e512d74-0c99-43de-9db5-2ef11c354e5b",
+    "codigo_b3": "RBRY11",
+    "nome": "RBR PRIV. CRÉD. IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:08.850981+00:00",
+    "updated_at": "2026-02-20T13:12:19.669463+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e50625bd-2d80-4eb0-8458-50faeb211e1c",
+    "codigo_b3": "INEP4",
+    "nome": "INEPAR PN",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:54:09.584903+00:00",
+    "updated_at": "2026-02-20T13:12:13.552+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8647a113-f2a5-4b80-9184-9565fb944164",
+    "codigo_b3": "RBRR11",
+    "nome": "RBR REND. HIGH GRADE",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:16.146952+00:00",
+    "updated_at": "2026-02-20T13:12:15.586352+00:00",
+    "is_active": true
+  },
+  {
+    "id": "22241bed-947d-4ee7-9a7c-5f5646a4f606",
+    "codigo_b3": "BTCI11",
+    "nome": "FII FUNDO CRI |BTG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:10.421408+00:00",
+    "updated_at": "2026-02-20T13:12:21.086037+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0528b2b0-65d3-4143-9e52-532d2498b7b3",
+    "codigo_b3": "CSAN3",
+    "nome": "COSAN ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:54:02.979797+00:00",
+    "updated_at": "2026-02-20T13:11:05.605078+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d624bef2-b058-4c83-94ba-5e39966b26f9",
+    "codigo_b3": "SANB4",
+    "nome": "SANTANDER BRPN",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:54:10.23273+00:00",
+    "updated_at": "2026-02-20T13:11:16.797686+00:00",
+    "is_active": true
+  },
+  {
+    "id": "925273a1-d4a7-4b77-a8eb-50a541d640f0",
+    "codigo_b3": "INTB3",
+    "nome": "INTELBRAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:54:02.738744+00:00",
+    "updated_at": "2026-02-20T13:11:09.723725+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6cc359e3-0cff-41a3-896e-3e5ea406bc52",
+    "codigo_b3": "KLBN4",
+    "nome": "KLABIN S/A PN N2",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:07.997648+00:00",
+    "updated_at": "2026-02-20T13:11:10.363892+00:00",
+    "is_active": true
+  },
+  {
+    "id": "58fe2e01-4e36-4ef0-ae53-aebe4bfac2a6",
+    "codigo_b3": "VGIR11",
+    "nome": "VALORA CRI CDI |BTG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:53:20.076417+00:00",
+    "updated_at": "2026-02-20T13:11:19.218039+00:00",
+    "is_active": true
+  },
+  {
+    "id": "dba0f52a-382c-46eb-8973-f3e76d19a0c1",
+    "codigo_b3": "AMZO34",
+    "nome": "AMAZON.COM. |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:53:13.97137+00:00",
+    "updated_at": "2026-02-20T13:11:11.035023+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3de92465-5954-4465-ad6e-74eac2db9bb5",
+    "codigo_b3": "KFOF11",
+    "nome": "KINEA FII",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:10.07917+00:00",
+    "updated_at": "2026-02-20T13:12:15.728493+00:00",
+    "is_active": true
+  },
+  {
+    "id": "939b8356-3027-4186-9e64-253fd15d2213",
+    "codigo_b3": "XPCA11",
+    "nome": "XP CRÉDITO AGRÍCOLA",
+    "tipo": "FII",
+    "setor": "FI Agro",
+    "created_at": "2026-02-09T18:54:11.695719+00:00",
+    "updated_at": "2026-02-20T13:12:04.259375+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fd243b28-12e7-431e-aedf-5341bc80bdca",
+    "codigo_b3": "DXCO3",
+    "nome": "DEXCO ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:05.076659+00:00",
+    "updated_at": "2026-02-20T13:12:05.748486+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bfdb0e69-29fe-4409-8c9a-fbde57e2bae4",
+    "codigo_b3": "WHRL4",
+    "nome": "WHIRLPOOL PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:16.473165+00:00",
+    "updated_at": "2026-02-20T13:12:06.67754+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3b2747ab-337b-4d15-a112-e7a921d3896a",
+    "codigo_b3": "RECV3",
+    "nome": "PETRO REC SA ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:54:09.88983+00:00",
+    "updated_at": "2026-02-20T13:12:06.836547+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b3ae6a76-11ea-4c22-8b63-c635ee89bea3",
+    "codigo_b3": "ENGI3",
+    "nome": "ENERGISA ON N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:09.211731+00:00",
+    "updated_at": "2026-02-20T13:12:13.7017+00:00",
+    "is_active": true
+  },
+  {
+    "id": "12439255-a86c-4a97-bef7-51c41c5880e3",
+    "codigo_b3": "MELI34",
+    "nome": "MERCADO LIBRE INC",
+    "tipo": "BDR",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:06.482459+00:00",
+    "updated_at": "2026-02-20T13:12:10.850924+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3c4fddad-803d-40a7-9c90-659bb7a27aea",
+    "codigo_b3": "BRKM5",
+    "nome": "BRASKEM PNA N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:22.160164+00:00",
+    "updated_at": "2026-02-20T13:12:09.706004+00:00",
+    "is_active": true
+  },
+  {
+    "id": "906b8977-e11d-4470-ac8d-4164ea6a5320",
+    "codigo_b3": "CRPG3",
+    "nome": "TRONOX PIG. BRASIL",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:29.658587+00:00",
+    "updated_at": "2026-02-20T13:11:11.637524+00:00",
+    "is_active": true
+  },
+  {
+    "id": "360c10ad-0bd1-4b60-85d4-a44cf3d0f3c7",
+    "codigo_b3": "VISC11",
+    "nome": "VINCI SHOPPING CENTERS",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:19.352908+00:00",
+    "updated_at": "2026-02-20T13:12:14.027251+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6959ea73-5351-4376-ad15-68f2077cf5a2",
+    "codigo_b3": "REDE3",
+    "nome": "REDE ENERGIA ON",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:16.83586+00:00",
+    "updated_at": "2026-02-20T13:12:15.11266+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e4e2a74b-7544-4194-87ad-0063570bbaca",
+    "codigo_b3": "DMVF3",
+    "nome": "D1000VFARMA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:25.385346+00:00",
+    "updated_at": "2026-02-20T13:12:17.257668+00:00",
+    "is_active": true
+  },
+  {
+    "id": "87bd3cef-be10-4807-888d-c3a04f260257",
+    "codigo_b3": "GARE11",
+    "nome": "GUARDIAN REAL STATE",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:22.798808+00:00",
+    "updated_at": "2026-02-20T13:12:19.825367+00:00",
+    "is_active": true
+  },
+  {
+    "id": "14efb6ea-5860-4ad3-8ff2-b3c95414a2be",
+    "codigo_b3": "AAVE",
+    "nome": "AAVE",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:30.34589+00:00",
+    "updated_at": "2026-02-20T13:12:24.152051+00:00",
+    "is_active": true
+  },
+  {
+    "id": "13379192-16a0-4d2f-bdae-dd2d1cbab1c3",
+    "codigo_b3": "FRIO3",
+    "nome": "METALFRIO ON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:54:26.719875+00:00",
+    "updated_at": "2026-02-20T13:12:26.707604+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9878315c-2392-45d4-84e2-2b7e1041d70f",
+    "codigo_b3": "PTBL3",
+    "nome": "PORTOBELLO ON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:24.735185+00:00",
+    "updated_at": "2026-02-20T13:12:27.904218+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3d8ca007-8107-4719-aa67-a2fded43503b",
+    "codigo_b3": "USDB11",
+    "nome": "BLOOMBERG US BOND | EUA",
+    "tipo": "ETF",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:31.868171+00:00",
+    "updated_at": "2026-02-20T13:13:02.360329+00:00",
+    "is_active": true
+  },
+  {
+    "id": "02ad1e0c-69c8-4fbd-8bd6-a18c45e28000",
+    "codigo_b3": "HYPE3",
+    "nome": "HYPERA ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:20.914422+00:00",
+    "updated_at": "2026-02-20T13:12:18.294537+00:00",
+    "is_active": true
+  },
+  {
+    "id": "76459f56-79b5-418e-83da-dfdcfa1e1c4b",
+    "codigo_b3": "MFII11",
+    "nome": "MÉRITO IMOBILIÁRIO",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:17.030707+00:00",
+    "updated_at": "2026-02-20T13:12:18.449657+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e78d4b4a-0305-49f8-9328-31db177dbd15",
+    "codigo_b3": "IB5M11",
+    "nome": "ETF ITAU IMA-B5+",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:25.725255+00:00",
+    "updated_at": "2026-02-20T13:12:19.381067+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ec15b168-558c-4350-b9b1-64d57d21fff5",
+    "codigo_b3": "MSFT34",
+    "nome": "MICROSOFT |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:54:22.328266+00:00",
+    "updated_at": "2026-02-20T13:12:20.055266+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cea93cd6-2241-4e34-943f-ba1a008f207c",
+    "codigo_b3": "SMFT3",
+    "nome": "SMART FIT ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:29.470388+00:00",
+    "updated_at": "2026-02-20T13:12:27.020264+00:00",
+    "is_active": true
+  },
+  {
+    "id": "28a0dee7-7e10-4573-9b39-2bbb7c4b1588",
+    "codigo_b3": "FICT3",
+    "nome": "FICTOR ALIMENTOS S.A.",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:28.864916+00:00",
+    "updated_at": "2026-02-20T13:12:27.7651+00:00",
+    "is_active": true
+  },
+  {
+    "id": "422a0583-a8fd-4aaf-aa70-89d12130b2fa",
+    "codigo_b3": "JALL3",
+    "nome": "JALLES MACHADO N NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:24.887623+00:00",
+    "updated_at": "2026-02-20T13:12:12.354461+00:00",
+    "is_active": true
+  },
+  {
+    "id": "548f59d6-2e7a-438d-8ff7-b13cf24ae055",
+    "codigo_b3": "WEST3",
+    "nome": "WESTWING ON EG NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:21.843336+00:00",
+    "updated_at": "2026-02-20T13:12:14.667594+00:00",
+    "is_active": true
+  },
+  {
+    "id": "273e81ae-2fdf-4c6d-8103-d818390a01b0",
+    "codigo_b3": "ORCL34",
+    "nome": "ORACLE CORPORATION | EUA",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:54:20.256337+00:00",
+    "updated_at": "2026-02-20T13:12:16.340765+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e050f1c5-37eb-49c5-9435-13ae85ef9c39",
+    "codigo_b3": "JBSS32",
+    "nome": "JBS S.A",
+    "tipo": "BDR",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:30.994966+00:00",
+    "updated_at": "2026-02-20T13:12:17.988686+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e40fd3c0-022a-46f0-8364-8254bc577f26",
+    "codigo_b3": "KNHF11",
+    "nome": "KINEA HEDGE FU INV IMOB",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:17.456708+00:00",
+    "updated_at": "2026-02-20T13:12:18.136426+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7ccd4c7d-cfdc-4fa0-b431-5a41f1f58d23",
+    "codigo_b3": "MTSA3",
+    "nome": "METISA",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:54:25.56909+00:00",
+    "updated_at": "2026-02-20T13:12:22.443639+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4c3c8cac-d370-4f98-b163-6878bf56b87f",
+    "codigo_b3": "BNDA39",
+    "nome": "MSCI INDIA ETF | ASIA",
+    "tipo": "BDR",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:54:22.620412+00:00",
+    "updated_at": "2026-02-20T13:12:25.070963+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bedd977c-8811-45c6-8521-5795384bf393",
+    "codigo_b3": "SNME11",
+    "nome": "SUNO MULTIESTRATÉGIA",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:21.076856+00:00",
+    "updated_at": "2026-02-20T13:12:26.052077+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7e26c429-6edc-46ce-a5e1-149d0aaf916e",
+    "codigo_b3": "UCAS3",
+    "nome": "UNICASA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:32.497941+00:00",
+    "updated_at": "2026-02-20T13:13:03.901672+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fba880ff-5942-4521-9c91-26ad68b7f6b7",
+    "codigo_b3": "BRKM3",
+    "nome": "BRASKEM ON N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:31.321706+00:00",
+    "updated_at": "2026-02-20T13:12:23.09435+00:00",
+    "is_active": true
+  },
+  {
+    "id": "954bbdba-3b8c-4c95-9e15-596b2003f445",
+    "codigo_b3": "TAEE4",
+    "nome": "TAESA PN N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:19.014357+00:00",
+    "updated_at": "2026-02-20T13:11:09.856626+00:00",
+    "is_active": true
+  },
+  {
+    "id": "33f04c38-e91b-40e1-b7b3-9fa51d2043d7",
+    "codigo_b3": "ADA",
+    "nome": "CARDANO",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:29.321254+00:00",
+    "updated_at": "2026-02-20T13:12:27.312731+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e911afec-0bd9-4ecd-bd9a-3aed37657cef",
+    "codigo_b3": "FHER3",
+    "nome": "FER HERINGERON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:25.879104+00:00",
+    "updated_at": "2026-02-20T13:13:13.736536+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f10945dc-1ade-4172-a9dc-1052cf7ea442",
+    "codigo_b3": "HSLG11",
+    "nome": "HSI LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:19.168994+00:00",
+    "updated_at": "2026-02-20T13:12:08.775534+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d7a6270f-e214-43a7-b94e-6eeb433c0a6c",
+    "codigo_b3": "KDIF11",
+    "nome": "KINEA INFRA",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:23.781093+00:00",
+    "updated_at": "2026-02-20T13:12:18.606568+00:00",
+    "is_active": true
+  },
+  {
+    "id": "684244a7-fc3b-41cb-a747-9a41e534811c",
+    "codigo_b3": "PORD11",
+    "nome": "POLO CRÉDITO IMOB.",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:22.963731+00:00",
+    "updated_at": "2026-02-20T13:12:19.521648+00:00",
+    "is_active": true
+  },
+  {
+    "id": "22b916fb-5b2c-4086-b654-c8f946b25d18",
+    "codigo_b3": "BMKS3",
+    "nome": "BIC MONARK ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:20.566725+00:00",
+    "updated_at": "2026-02-20T13:12:21.456328+00:00",
+    "is_active": true
+  },
+  {
+    "id": "668e54d4-c0db-4599-8cdd-161b53398103",
+    "codigo_b3": "NETE34",
+    "nome": "NETEASE INC CHINA | ASIA",
+    "tipo": "BDR",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:26.20006+00:00",
+    "updated_at": "2026-02-20T13:12:21.810275+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c9fc362b-4fc5-45fd-974b-9af6f6d5944d",
+    "codigo_b3": "HGLG11",
+    "nome": "PÁTRIA LOG",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:26.882575+00:00",
+    "updated_at": "2026-02-20T13:12:23.475778+00:00",
+    "is_active": true
+  },
+  {
+    "id": "aa55efdf-4bd5-481f-9ece-1366cd686bc1",
+    "codigo_b3": "BRIP11",
+    "nome": "BRIO REAL ESTATE III",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:29.180615+00:00",
+    "updated_at": "2026-02-20T13:12:27.17092+00:00",
+    "is_active": true
+  },
+  {
+    "id": "28dee82c-9376-434e-b670-1d33beadf975",
+    "codigo_b3": "DEXP4",
+    "nome": "DEXXOS PART. S.A.",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:31.485088+00:00",
+    "updated_at": "2026-02-20T13:13:03.564045+00:00",
+    "is_active": true
+  },
+  {
+    "id": "74de2f88-88b6-4fda-b34b-59ba6f74fd07",
+    "codigo_b3": "CNES11",
+    "nome": "CENESP",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:32.82362+00:00",
+    "updated_at": "2026-02-20T13:13:06.884641+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1ffd1ec6-8ba3-42d5-9c79-4a58db51f768",
+    "codigo_b3": "PACG11",
+    "nome": "ETF PACTUAL IMA-B",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:23.116938+00:00",
+    "updated_at": "2026-02-20T13:12:17.102656+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ea75cdb6-adbb-4372-a048-6ce2ac4d7834",
+    "codigo_b3": "TASA4",
+    "nome": "TAURUS ARMASPN N2",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:21.991884+00:00",
+    "updated_at": "2026-02-20T13:12:17.693476+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e982b151-5096-4c23-aac0-a374d66f1d51",
+    "codigo_b3": "BAAX39",
+    "nome": "MSCI ASIA EX JAPAN ETF | ASIA",
+    "tipo": "BDR",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:54:19.747546+00:00",
+    "updated_at": "2026-02-20T13:11:11.907219+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d3b4b9ad-cab9-4df5-ab9e-2f2a5e9243c6",
+    "codigo_b3": "LIFE11",
+    "nome": "LIFE CAPITAL",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:19.509556+00:00",
+    "updated_at": "2026-02-20T13:11:17.8172+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a47bf245-bad9-4fd6-9e8c-13b74a1c4e78",
+    "codigo_b3": "RFIX01",
+    "nome": "RENDA FIXA",
+    "tipo": "RFIXA",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:24.421427+00:00",
+    "updated_at": "2026-02-20T13:12:20.402111+00:00",
+    "is_active": true
+  },
+  {
+    "id": "af73d74e-5f3a-4e87-8238-087098f3169c",
+    "codigo_b3": "TRXF11",
+    "nome": "TRX REAL ESTATE",
+    "tipo": "FII",
+    "setor": "FI Híbrido",
+    "created_at": "2026-02-09T18:54:25.075951+00:00",
+    "updated_at": "2026-02-20T13:12:22.781433+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6aac8d9c-642b-4ed0-bc7b-1be32619cc2c",
+    "codigo_b3": "CASH3",
+    "nome": "MELIUZ ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:27.484652+00:00",
+    "updated_at": "2026-02-20T13:12:25.249652+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ace6688e-3895-444c-9b34-549aa3e0c630",
+    "codigo_b3": "MLAS3",
+    "nome": "MULTILASER ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:32.669039+00:00",
+    "updated_at": "2026-02-20T13:13:05.588483+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5cfe3ebf-3126-4085-8a16-c407fa33d7ff",
+    "codigo_b3": "POSI3",
+    "nome": "POSITIVO TECON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:31.159064+00:00",
+    "updated_at": "2026-02-20T13:13:14.757007+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d82e8e3a-df48-4eeb-984f-173f382d9aa4",
+    "codigo_b3": "USIM3",
+    "nome": "USIMINAS",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:54:21.42432+00:00",
+    "updated_at": "2026-02-20T13:12:12.67361+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fd1b63fe-8735-40d8-b8f1-967388238764",
+    "codigo_b3": "BRAV3",
+    "nome": "BRAVA ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:54:24.575934+00:00",
+    "updated_at": "2026-02-20T13:11:15.074652+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4c50752c-cb6a-4693-9050-d8429c320e01",
+    "codigo_b3": "HBSA3",
+    "nome": "HIDROVIAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:30.039129+00:00",
+    "updated_at": "2026-02-20T13:12:16.794642+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bc1b1dc4-498b-42f5-8868-9cb5d4015682",
+    "codigo_b3": "VISA34",
+    "nome": "VISA INC. | EUA",
+    "tipo": "BDR",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:54:26.347983+00:00",
+    "updated_at": "2026-02-20T13:12:18.750265+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a380addf-2862-4691-8dba-2f40ecbdaeca",
+    "codigo_b3": "BLMG11",
+    "nome": "BLUEMACAW LOGÍSTICA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:23.940419+00:00",
+    "updated_at": "2026-02-20T13:12:20.7442+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cfcb4078-0a10-4dbb-9242-d08345e08a82",
+    "codigo_b3": "LUXM4",
+    "nome": "TREVISA",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:25.239876+00:00",
+    "updated_at": "2026-02-20T13:12:22.608525+00:00",
+    "is_active": true
+  },
+  {
+    "id": "81f37d93-e310-456a-bcae-bd4530a86a6d",
+    "codigo_b3": "CGRA3",
+    "nome": "GRAZZIOTIN ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:28.102424+00:00",
+    "updated_at": "2026-02-20T13:12:23.621738+00:00",
+    "is_active": true
+  },
+  {
+    "id": "16e362c1-be18-4655-b430-c792fe39c5fc",
+    "codigo_b3": "BOBR4",
+    "nome": "BOMBRIL PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:19.897532+00:00",
+    "updated_at": "2026-02-20T13:13:05.401936+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e12c5220-9c0f-40fe-a724-59444e57a6ce",
+    "codigo_b3": "KNIP11",
+    "nome": "KINEA IN PRICE |INTRAG",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:20.742252+00:00",
+    "updated_at": "2026-02-20T13:12:12.813114+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c6bed3c6-a770-431c-b903-18e2587b99a4",
+    "codigo_b3": "IMBB11",
+    "nome": "ETF BRADESCO IMA-B",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:23.29859+00:00",
+    "updated_at": "2026-02-20T13:12:19.237625+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7b0d802e-8150-4965-9449-bf274d2bbcef",
+    "codigo_b3": "SLCE3",
+    "nome": "SLC AGRICOLA ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:32.177279+00:00",
+    "updated_at": "2026-02-20T13:12:22.242459+00:00",
+    "is_active": true
+  },
+  {
+    "id": "53f7e439-65ec-4403-911a-954cdb301828",
+    "codigo_b3": "ALPK3",
+    "nome": "ESTAPAR ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:27.631099+00:00",
+    "updated_at": "2026-02-20T13:11:09.530008+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f002dae8-159b-4c1e-ade7-bd8529737e4b",
+    "codigo_b3": "RAPT3",
+    "nome": "RANDON PART ON N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:21.64442+00:00",
+    "updated_at": "2026-02-20T13:11:18.641657+00:00",
+    "is_active": true
+  },
+  {
+    "id": "caae4687-592b-40d1-99a3-e780906f44fa",
+    "codigo_b3": "CRPG5",
+    "nome": "CRISTAL PNA",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:20.07307+00:00",
+    "updated_at": "2026-02-20T13:11:20.485564+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fffa07ee-ef00-4693-a74a-92816bd2f4bf",
+    "codigo_b3": "DOLAR",
+    "nome": "DOLAR | USD/BRL",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:30.672725+00:00",
+    "updated_at": "2026-02-20T13:12:26.223432+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e5df5757-09b0-4790-b834-a32818faa86d",
+    "codigo_b3": "AURE3",
+    "nome": "AUREN ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:28.257543+00:00",
+    "updated_at": "2026-02-20T13:13:03.034898+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bb9d02d5-59d3-47d1-8f73-61aba3bdf6aa",
+    "codigo_b3": "BLAU3",
+    "nome": "BLAU ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:27.037411+00:00",
+    "updated_at": "2026-02-20T13:13:04.489463+00:00",
+    "is_active": true
+  },
+  {
+    "id": "21685fec-237b-445c-bea5-d2b7308e5175",
+    "codigo_b3": "MAPT4",
+    "nome": "CEMEPE",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:54:23.63119+00:00",
+    "updated_at": "2026-02-20T13:12:18.938888+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7821c787-5e7a-4ca7-bf5d-7acb17b10b05",
+    "codigo_b3": "RNEW3",
+    "nome": "RENOVA ENERGIA ON N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:26.028214+00:00",
+    "updated_at": "2026-02-20T13:11:20.209559+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d15cdf0a-c2a9-498a-af71-fee00e69e9fb",
+    "codigo_b3": "POUP01",
+    "nome": "POUPANÇA",
+    "tipo": "RFIXA",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:24.270105+00:00",
+    "updated_at": "2026-02-20T13:12:20.588953+00:00",
+    "is_active": true
+  },
+  {
+    "id": "51125290-b3c7-499e-ab65-5928353da365",
+    "codigo_b3": "ENMT3",
+    "nome": "ENERGISA MT ON",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:20.409652+00:00",
+    "updated_at": "2026-02-20T13:12:21.615326+00:00",
+    "is_active": true
+  },
+  {
+    "id": "41290c64-af51-4222-a4aa-eacd9ff7b6c4",
+    "codigo_b3": "BSLI4",
+    "nome": "BANCO DE BRASILIA S.A.",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:54:27.953047+00:00",
+    "updated_at": "2026-02-20T13:12:26.863871+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ce5980d7-2d33-4e49-9154-c2f5f8b78734",
+    "codigo_b3": "JDCO34",
+    "nome": "JD.COM INC CHINA | ASIA",
+    "tipo": "BDR",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:27.323489+00:00",
+    "updated_at": "2026-02-20T13:12:27.47047+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3ba7d5f2-e37a-4472-beb0-5c73398e7ddc",
+    "codigo_b3": "DEXP3",
+    "nome": "DEXXOS PAR ON N1",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:54:30.517836+00:00",
+    "updated_at": "2026-02-20T13:12:28.059033+00:00",
+    "is_active": true
+  },
+  {
+    "id": "605dea78-61f7-4572-90e4-8d83536a5fc6",
+    "codigo_b3": "PTNT3",
+    "nome": "PETTENATI IND. TÊXTIL ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:32.025286+00:00",
+    "updated_at": "2026-02-20T13:13:03.745515+00:00",
+    "is_active": true
+  },
+  {
+    "id": "58f32202-c106-428e-ace5-c9ad32b68f7d",
+    "codigo_b3": "PVBI11",
+    "nome": "VBI PRIME PROPERTIES",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:29.823858+00:00",
+    "updated_at": "2026-02-20T13:13:05.89786+00:00",
+    "is_active": true
+  },
+  {
+    "id": "25c568d0-7b0f-40f4-905e-88085856b1ae",
+    "codigo_b3": "AZZA3",
+    "nome": "AZZAS 2154 ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:02.863033+00:00",
+    "updated_at": "2026-02-20T13:12:25.557486+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d73c9ce2-cfc4-45df-91af-5f20fde67c4e",
+    "codigo_b3": "MDIA3",
+    "nome": "M.DIAS BRANCO ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:28.422958+00:00",
+    "updated_at": "2026-02-20T13:12:06.06195+00:00",
+    "is_active": true
+  },
+  {
+    "id": "99939058-467b-4530-9452-f090203f798a",
+    "codigo_b3": "BNFS11",
+    "nome": "BANRISUL NV FRONTEIRAS",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:54:26.508859+00:00",
+    "updated_at": "2026-02-20T13:12:26.387164+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b8d24dcd-67f4-4e68-821e-864e942d4b0e",
+    "codigo_b3": "VWRA11",
+    "nome": "FTSE ALL-WORLD INDEX ETF",
+    "tipo": "BDR",
+    "setor": "Global",
+    "created_at": "2026-02-09T18:55:04.021514+00:00",
+    "updated_at": "2026-02-20T13:13:05.752097+00:00",
+    "is_active": true
+  },
+  {
+    "id": "72038d37-7068-4c4e-8d9c-18263d8f84d1",
+    "codigo_b3": "COCE5",
+    "nome": "COELCE PNA",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:55:05.137575+00:00",
+    "updated_at": "2026-02-20T13:13:06.058561+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f63e4156-c191-46a3-a204-fddf4020b886",
+    "codigo_b3": "PMAM3",
+    "nome": "PARANAPANEMA ON NM",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:55:06.652101+00:00",
+    "updated_at": "2026-02-20T13:13:01.569448+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9497ffae-5954-45e0-b6cc-1b4b147f8320",
+    "codigo_b3": "CGRA4",
+    "nome": "GRAZZIOTIN PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:21.23492+00:00",
+    "updated_at": "2026-02-20T13:12:25.71927+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e5df774b-d6d5-4a14-afcd-d48567a57dce",
+    "codigo_b3": "AUAU3",
+    "nome": "UNIÃO PET PARTICIPAÇÕES S.A.",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:29.018382+00:00",
+    "updated_at": "2026-02-20T13:12:27.611284+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a00afe0e-7e6b-4410-85a1-6023906ffd66",
+    "codigo_b3": "ROMI3",
+    "nome": "ROMI ON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:05.761295+00:00",
+    "updated_at": "2026-02-20T13:13:06.370502+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c501dd40-adb6-48ca-a929-6c5ce8151f15",
+    "codigo_b3": "AMER3",
+    "nome": "AMERICANAS ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:10.86047+00:00",
+    "updated_at": "2026-02-20T13:12:20.203197+00:00",
+    "is_active": true
+  },
+  {
+    "id": "53586da0-2391-4d4b-8985-c1f5758a4a0e",
+    "codigo_b3": "WDCN3",
+    "nome": "WDC NETWORKSON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:05.610465+00:00",
+    "updated_at": "2026-02-20T13:13:06.558621+00:00",
+    "is_active": true
+  },
+  {
+    "id": "71718ae5-f93a-415e-99d1-df5425d0488b",
+    "codigo_b3": "NFLX34",
+    "nome": "NETFLIX INC. | EUA",
+    "tipo": "BDR",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:54:30.189933+00:00",
+    "updated_at": "2026-02-20T13:13:01.179184+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0b45aa9f-304c-4bfb-9244-329688bba55b",
+    "codigo_b3": "TELB4",
+    "nome": "TELEBRAS",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:09.722611+00:00",
+    "updated_at": "2026-02-20T13:13:06.715457+00:00",
+    "is_active": true
+  },
+  {
+    "id": "407ed756-75b1-4658-86ce-46b4732c1b31",
+    "codigo_b3": "PLAS3",
+    "nome": "PLASCAR PARTICIPAÇÕES",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:08.928716+00:00",
+    "updated_at": "2026-02-20T13:13:13.14636+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9ad7f0f5-33a1-4d7d-a9a1-ed1e45dcaf27",
+    "codigo_b3": "EPAR3",
+    "nome": "EMBPAR S/A ON",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:10.293273+00:00",
+    "updated_at": "2026-02-20T13:13:08.947365+00:00",
+    "is_active": true
+  },
+  {
+    "id": "45dd2176-c4fe-4a88-93d2-24a55dff4331",
+    "codigo_b3": "SHOW3",
+    "nome": "TIME FOR FUNON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:10.986491+00:00",
+    "updated_at": "2026-02-20T13:13:07.048738+00:00",
+    "is_active": true
+  },
+  {
+    "id": "50d644b1-06a6-4869-8e42-5b370ffc54d5",
+    "codigo_b3": "GSHP3",
+    "nome": "GENERAL SHOPPING",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:55:06.341905+00:00",
+    "updated_at": "2026-02-20T13:13:07.201808+00:00",
+    "is_active": true
+  },
+  {
+    "id": "39d3a8c9-6746-4c69-a8b2-9c9a6a266970",
+    "codigo_b3": "ETER3",
+    "nome": "ETERNIT ON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:55:10.577517+00:00",
+    "updated_at": "2026-02-20T13:13:07.876+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9fb23984-dcde-42bd-b7f6-80d5c1d7ed7d",
+    "codigo_b3": "PRXB31",
+    "nome": "PROSUS / IFOOD | EURO",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:55:06.19778+00:00",
+    "updated_at": "2026-02-20T13:13:07.379653+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cfe563e2-05f1-4475-8cbd-6ed4c3b31470",
+    "codigo_b3": "AGXY3",
+    "nome": "AGROGALAXY ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:06.048595+00:00",
+    "updated_at": "2026-02-20T13:13:07.550953+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3930f415-1814-4b82-90eb-0735e5c8d08a",
+    "codigo_b3": "ESTR4",
+    "nome": "ESTRELA PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:04.661167+00:00",
+    "updated_at": "2026-02-20T13:13:12.105203+00:00",
+    "is_active": true
+  },
+  {
+    "id": "07d81334-24af-401f-b2d7-41df2bcbde04",
+    "codigo_b3": "TASA3",
+    "nome": "TAURUS ARMAS ON N2",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:04.996976+00:00",
+    "updated_at": "2026-02-20T13:13:07.713562+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2c01e111-cd1b-4833-afb4-130691a405ad",
+    "codigo_b3": "HETA4",
+    "nome": "HERCULES",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:07.175175+00:00",
+    "updated_at": "2026-02-20T13:13:08.067611+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8b760d23-cee0-4358-bf8c-a0ce7888cab2",
+    "codigo_b3": "RPAD3",
+    "nome": "ALFA HOLDINGS",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:08.468909+00:00",
+    "updated_at": "2026-02-20T13:13:08.606983+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d26a8147-b39f-4f26-8db7-f88c803a80ab",
+    "codigo_b3": "EVEN3",
+    "nome": "EVEN ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:04.197019+00:00",
+    "updated_at": "2026-02-20T13:11:20.638606+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e3fef4aa-5bdb-486c-b4be-3fc20324d79c",
+    "codigo_b3": "INEP3",
+    "nome": "INEPAR ON",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:05.461472+00:00",
+    "updated_at": "2026-02-20T13:13:09.670501+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c8288997-f70f-4fda-a7b1-236ded261668",
+    "codigo_b3": "JFEN3",
+    "nome": "JOAO FORTES ON",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:11.263999+00:00",
+    "updated_at": "2026-02-20T13:13:12.296105+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6d7d83e6-9f0c-4691-90d7-363df564144c",
+    "codigo_b3": "MAPT3",
+    "nome": "CEMEPE",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:09.853827+00:00",
+    "updated_at": "2026-02-20T13:13:10.523739+00:00",
+    "is_active": true
+  },
+  {
+    "id": "33691f1f-7a45-4ea4-9453-3475e0917bff",
+    "codigo_b3": "BDLL3",
+    "nome": "BARDELLA",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:08.169845+00:00",
+    "updated_at": "2026-02-20T13:13:09.124265+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3b9935f1-2ba1-4964-91a4-605a713acbbe",
+    "codigo_b3": "UNHH34",
+    "nome": "UNITEDHEALTH GROUP | EUA",
+    "tipo": "BDR",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:08.036477+00:00",
+    "updated_at": "2026-02-20T13:13:09.287664+00:00",
+    "is_active": true
+  },
+  {
+    "id": "08e7e89a-30ed-4b58-b6ef-5e1c40a99f81",
+    "codigo_b3": "AGRO3",
+    "nome": "BRASIL AGRO ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:10.00626+00:00",
+    "updated_at": "2026-02-20T13:13:10.05559+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f7c53a93-1cb9-48a5-bd35-3d9bcaf4674c",
+    "codigo_b3": "OIBR3",
+    "nome": "OI ON N1",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:06.807762+00:00",
+    "updated_at": "2026-02-20T13:13:13.355793+00:00",
+    "is_active": true
+  },
+  {
+    "id": "9f60a31b-8544-42ec-88d0-bafef8625ef1",
+    "codigo_b3": "QUAL3",
+    "nome": "QUALICORP ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:08.322821+00:00",
+    "updated_at": "2026-02-20T13:11:16.674309+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5b763b9a-1d1a-4712-b233-b101508259cd",
+    "codigo_b3": "FIEI3",
+    "nome": "FICA EMPS IMOB. S.A",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:07.294314+00:00",
+    "updated_at": "2026-02-20T13:13:14.430111+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5a8696c7-3077-4893-bf6e-8c35ced7f30a",
+    "codigo_b3": "EDGA11",
+    "nome": "EDIFÍCIO GALERIA",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:55:07.756108+00:00",
+    "updated_at": "2026-02-20T13:13:10.252518+00:00",
+    "is_active": true
+  },
+  {
+    "id": "04010a40-6e42-4903-979b-5c77dc35237a",
+    "codigo_b3": "AMBP3",
+    "nome": "AMBIPAR ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:55:01.93951+00:00",
+    "updated_at": "2026-02-20T13:13:12.814652+00:00",
+    "is_active": true
+  },
+  {
+    "id": "099a052c-813c-463a-93a9-07278d4506ab",
+    "codigo_b3": "APXM11",
+    "nome": "FII APEX MALLS",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:55:10.442384+00:00",
+    "updated_at": "2026-02-20T13:13:08.777588+00:00",
+    "is_active": true
+  },
+  {
+    "id": "45b58b5c-ba5c-48c3-9907-5f45882ea0a7",
+    "codigo_b3": "ENJU3",
+    "nome": "ENJOEI ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:30.840275+00:00",
+    "updated_at": "2026-02-20T13:12:25.872974+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3188d4e8-fb3f-4c85-b377-19f0a8df6768",
+    "codigo_b3": "CTAX3",
+    "nome": "CONTAX PARTICIPAÇÕES S.A.",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:08.791386+00:00",
+    "updated_at": "2026-02-20T13:13:11.413188+00:00",
+    "is_active": true
+  },
+  {
+    "id": "52932237-002e-4fd0-a9f2-98e3962c4c85",
+    "codigo_b3": "AZUL54",
+    "nome": "AZUL PN N2",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:08.616452+00:00",
+    "updated_at": "2026-02-20T13:13:11.578691+00:00",
+    "is_active": true
+  },
+  {
+    "id": "93dd6b3c-6ffe-48fa-8c99-e2ddb3b23f41",
+    "codigo_b3": "AZTE3",
+    "nome": "AZT ENERGIA",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:55:07.892558+00:00",
+    "updated_at": "2026-02-20T13:13:09.454612+00:00",
+    "is_active": true
+  },
+  {
+    "id": "766f7762-d306-47f6-b608-79a87f586494",
+    "codigo_b3": "URPR11",
+    "nome": "URCA PRIME RENDA",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:55:10.728342+00:00",
+    "updated_at": "2026-02-20T13:13:11.767425+00:00",
+    "is_active": true
+  },
+  {
+    "id": "50770671-0d69-4c88-a085-24a8710d19bd",
+    "codigo_b3": "NGRD3",
+    "nome": "NEOGRID ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:55:09.215755+00:00",
+    "updated_at": "2026-02-20T13:13:10.857672+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a4612349-eaff-417d-a307-2a37c6ecc257",
+    "codigo_b3": "PEAB4",
+    "nome": "CIA PART. ALIANÇA BAHIA",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:05.279389+00:00",
+    "updated_at": "2026-02-20T13:12:11.721888+00:00",
+    "is_active": true
+  },
+  {
+    "id": "41b76d1f-b332-4f33-8443-1a5c8cc51b8e",
+    "codigo_b3": "RAIZ4",
+    "nome": "RAIZEN PN N2",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:55:07.457992+00:00",
+    "updated_at": "2026-02-20T13:13:16.374092+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ead4e8c4-43c8-41ae-881e-2684bdde5328",
+    "codigo_b3": "OSXB3",
+    "nome": "OSX BRASIL ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:55:07.609166+00:00",
+    "updated_at": "2026-02-20T13:13:12.982943+00:00",
+    "is_active": true
+  },
+  {
+    "id": "41aa568f-2827-465d-854c-f2790d81102d",
+    "codigo_b3": "DEVA11",
+    "nome": "DEVANT RECEB. IMOB.",
+    "tipo": "FII",
+    "setor": "FI Tijolo",
+    "created_at": "2026-02-09T18:55:09.5352+00:00",
+    "updated_at": "2026-02-20T13:13:11.038278+00:00",
+    "is_active": true
+  },
+  {
+    "id": "03ff2338-c42e-4aba-a9b6-47f6c6bb6a62",
+    "codigo_b3": "NUTR3",
+    "nome": "NUTRIPLANT ON MA",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:09.39119+00:00",
+    "updated_at": "2026-02-20T13:13:11.23082+00:00",
+    "is_active": true
+  },
+  {
+    "id": "67814692-4a4e-4f48-9c0b-5b7d89f45895",
+    "codigo_b3": "SUZB3",
+    "nome": "SUZANO S.A. ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:54:32.348475+00:00",
+    "updated_at": "2026-02-20T13:11:07.184375+00:00",
+    "is_active": true
+  },
+  {
+    "id": "759b7d9c-3069-4f8c-b121-299f0e4582d9",
+    "codigo_b3": "M2ST34",
+    "nome": "MICROSTRATEGY INCO",
+    "tipo": "BDR",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:27.184194+00:00",
+    "updated_at": "2026-02-20T13:12:22.935573+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3b038af0-465a-4fd1-80d4-fb195453c545",
+    "codigo_b3": "SMTO3",
+    "nome": "SAO MARTINHO ON NM",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:55:11.135435+00:00",
+    "updated_at": "2026-02-20T13:13:01.7332+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4f8b0b36-3bcb-44c5-83fc-3d3077112ce1",
+    "codigo_b3": "RAIL3",
+    "nome": "RUMO S.A. ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:03.172904+00:00",
+    "updated_at": "2026-02-20T13:11:18.505841+00:00",
+    "is_active": true
+  },
+  {
+    "id": "87a7a750-773a-4a81-aab8-253ec73a72c3",
+    "codigo_b3": "TELB3",
+    "nome": "TELEBRAS ON",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:10.139533+00:00",
+    "updated_at": "2026-02-20T13:11:20.349638+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8287bfc0-5bf5-4cdd-9faa-8f7cf35403c8",
+    "codigo_b3": "ESPA3",
+    "nome": "ESPACO LASER ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:11.40404+00:00",
+    "updated_at": "2026-02-20T13:12:12.195308+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f4e66721-dcae-4d9d-a015-3dcd5c5a5a07",
+    "codigo_b3": "B5MB11",
+    "nome": "ETF BRADESCO IMA-B5",
+    "tipo": "ETF",
+    "setor": "Renda Fixa",
+    "created_at": "2026-02-09T18:54:27.782956+00:00",
+    "updated_at": "2026-02-20T13:12:24.771677+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b3025615-e894-4e03-8727-70de5d96b18e",
+    "codigo_b3": "MYPK3",
+    "nome": "IOCHP-MAXIONON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:04.365966+00:00",
+    "updated_at": "2026-02-20T13:13:01.950731+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6779bd63-c61a-4729-b4a0-c41dd909a514",
+    "codigo_b3": "JGPX11",
+    "nome": "JGP CRÉDITO",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:54:31.680536+00:00",
+    "updated_at": "2026-02-20T13:13:02.531315+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b9876887-a611-4421-bb18-c57d38ffa64d",
+    "codigo_b3": "HCTR11",
+    "nome": "HECTARE CE",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:55:04.855407+00:00",
+    "updated_at": "2026-02-20T13:13:02.694045+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a1bc298d-4c68-471e-8864-c61f59019557",
+    "codigo_b3": "VGHF11",
+    "nome": "VALORA HEDGE FUND",
+    "tipo": "FII",
+    "setor": "FI Papel",
+    "created_at": "2026-02-09T18:55:02.690241+00:00",
+    "updated_at": "2026-02-20T13:13:03.244481+00:00",
+    "is_active": true
+  },
+  {
+    "id": "aa239109-761e-4e04-a5cf-4462f87af1c8",
+    "codigo_b3": "VITT3",
+    "nome": "VITTIA ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:09.074892+00:00",
+    "updated_at": "2026-02-20T13:13:04.101357+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cb65054d-d6d7-46c8-b12e-614ce7f6a41b",
+    "codigo_b3": "CRPG6",
+    "nome": "CRISTAL PNB",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:06.94722+00:00",
+    "updated_at": "2026-02-20T13:13:05.038568+00:00",
+    "is_active": true
+  },
+  {
+    "id": "40ae0f8e-9557-48f6-810e-b17062260712",
+    "codigo_b3": "VVEO3",
+    "nome": "VIVEO ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:12.986266+00:00",
+    "updated_at": "2026-02-20T13:12:22.028671+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cb4760b7-b8eb-4ed7-9d3e-fd654f3ab0e1",
+    "codigo_b3": "VSTE3",
+    "nome": "VESTE ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:11.544014+00:00",
+    "updated_at": "2026-02-20T13:13:11.914003+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f26be0d0-18b3-4dc0-966e-c0df54b085cb",
+    "codigo_b3": "CEDO4",
+    "nome": "CEDRO PN N1",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:11.972929+00:00",
+    "updated_at": "2026-02-20T13:13:13.917024+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4122faa4-be05-41f3-a9c2-fba1ed9d167e",
+    "codigo_b3": "BRKM6",
+    "nome": "BRASKEM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:13.43761+00:00",
+    "updated_at": "2026-02-20T13:13:15.664773+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6d0a7976-59eb-4ddb-bfb7-1dc57f99b02b",
+    "codigo_b3": "CTSA4",
+    "nome": "SANTANENSE",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:14.010716+00:00",
+    "updated_at": "2026-02-20T13:13:16.188651+00:00",
+    "is_active": true
+  },
+  {
+    "id": "0e3415a7-5a1d-440d-a9af-3f9277504b9f",
+    "codigo_b3": "MEAL3",
+    "nome": "IMC S/A ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:14.618726+00:00",
+    "updated_at": "2026-02-20T13:13:16.837089+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1fca1c3d-ba37-4fcf-aff2-06ffa50dca34",
+    "codigo_b3": "AMAR3",
+    "nome": "LOJAS MARISA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:15.709082+00:00",
+    "updated_at": "2026-02-20T13:13:18.017554+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a40882e0-f51b-4d43-b14f-5f00e75043c2",
+    "codigo_b3": "SEQL3",
+    "nome": "SEQUOIA LOG ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:55:16.905884+00:00",
+    "updated_at": "2026-02-20T13:13:19.148165+00:00",
+    "is_active": true
+  },
+  {
+    "id": "8045a546-1c46-4f55-8c74-c47937010999",
+    "codigo_b3": "RNEW4",
+    "nome": "RENOVA ENERGIA PN N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:55:12.696402+00:00",
+    "updated_at": "2026-02-20T13:12:16.652549+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ec98c73f-81a1-4b6b-b26f-e7f628555b37",
+    "codigo_b3": "VIVR3",
+    "nome": "VIVER ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:11.684914+00:00",
+    "updated_at": "2026-02-20T13:13:08.400693+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6366180a-f544-48e1-84a2-82302470424b",
+    "codigo_b3": "OBTC3",
+    "nome": "ORANJE BTC S.A.",
+    "tipo": "ACAO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:55:13.708903+00:00",
+    "updated_at": "2026-02-20T13:13:16.004899+00:00",
+    "is_active": true
+  },
+  {
+    "id": "471b82d1-acd2-4993-89c9-800638f0d333",
+    "codigo_b3": "AERI3",
+    "nome": "AERIS ON NM",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:15.111093+00:00",
+    "updated_at": "2026-02-20T13:13:17.359641+00:00",
+    "is_active": true
+  },
+  {
+    "id": "40724490-aa8c-4d58-b341-ba5835a4f550",
+    "codigo_b3": "LAND3",
+    "nome": "TERRA SANTA PROP AGRO",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:12.849424+00:00",
+    "updated_at": "2026-02-20T13:13:12.484919+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6d33c876-8012-429d-8feb-d7dce58a20aa",
+    "codigo_b3": "ARND3",
+    "nome": "ARANDU INVEST| ex-REAG",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:55:11.842749+00:00",
+    "updated_at": "2026-02-20T13:13:14.259203+00:00",
+    "is_active": true
+  },
+  {
+    "id": "378dcbc4-90d9-475d-a19b-b6a13f153cb7",
+    "codigo_b3": "TOKY3",
+    "nome": "GRUPO TOKY (EX-MOBLY)",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:13.842381+00:00",
+    "updated_at": "2026-02-20T13:13:15.847393+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6938d2d1-58ed-4cf2-927b-cb2d78c7d77d",
+    "codigo_b3": "IFCM3",
+    "nome": "INFRACOMM ON NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:16.41+00:00",
+    "updated_at": "2026-02-20T13:13:18.820413+00:00",
+    "is_active": true
+  },
+  {
+    "id": "563d75e4-4dcb-4069-9c3b-6e1e68cc8b33",
+    "codigo_b3": "ONCO3",
+    "nome": "ONCOCLINICAS ON",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:12.127857+00:00",
+    "updated_at": "2026-02-20T13:13:13.565022+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2e9747f3-07d0-433e-ace3-ea5acf1aade6",
+    "codigo_b3": "AALR3",
+    "nome": "ALLIAR ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:13.572951+00:00",
+    "updated_at": "2026-02-20T13:13:15.279323+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5ff457d3-05ac-4ec3-94b6-6300564e8492",
+    "codigo_b3": "D2KN34",
+    "nome": "DRAFTKINGS INC. BETs | EUA",
+    "tipo": "BDR",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:55:14.348069+00:00",
+    "updated_at": "2026-02-20T13:13:16.691812+00:00",
+    "is_active": true
+  },
+  {
+    "id": "19548ca0-249c-4fec-a14c-e0ce8eefca8c",
+    "codigo_b3": "SNSY5",
+    "nome": "SANSUY S.A. IND PLÁSTICOS",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:55:15.400718+00:00",
+    "updated_at": "2026-02-20T13:13:17.681267+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b66eff31-398f-4861-9ce3-20a9c014b898",
+    "codigo_b3": "GFSA3",
+    "nome": "GAFISA ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:16.548335+00:00",
+    "updated_at": "2026-02-20T13:13:18.658817+00:00",
+    "is_active": true
+  },
+  {
+    "id": "4af1c7d3-1afb-42cc-bb01-2e60555c59fc",
+    "codigo_b3": "AZEV4",
+    "nome": "AZEVEDO PN",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:55:12.268954+00:00",
+    "updated_at": "2026-02-20T13:13:14.077658+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6d9039fa-8151-48d0-a1b0-19a3f00593dd",
+    "codigo_b3": "HBRE3",
+    "nome": "HBR REALTY ON NM",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:55:13.263891+00:00",
+    "updated_at": "2026-02-20T13:13:14.947246+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a3ab63a7-8a31-4f20-a579-059356885972",
+    "codigo_b3": "HAPV3",
+    "nome": "HAPVIDA ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:55:14.932191+00:00",
+    "updated_at": "2026-02-20T13:13:17.519033+00:00",
+    "is_active": true
+  },
+  {
+    "id": "bbbed197-a988-4d71-9048-c572e52c2259",
+    "codigo_b3": "OIBR4",
+    "nome": "OI PN N1",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:16.702563+00:00",
+    "updated_at": "2026-02-20T13:13:18.969826+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b691701f-059a-4861-9075-a4da18fdafd2",
+    "codigo_b3": "PCAR3",
+    "nome": "P.ACUCAR-CBD ON NM",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:12.4132+00:00",
+    "updated_at": "2026-02-20T13:13:08.22908+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f95dc42a-8128-48ab-9e9e-2825cde31ba2",
+    "codigo_b3": "RSID3",
+    "nome": "ROSSI RESID ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:14.20606+00:00",
+    "updated_at": "2026-02-20T13:13:15.486594+00:00",
+    "is_active": true
+  },
+  {
+    "id": "18ba1f4f-964a-43f4-9108-8e49b749f393",
+    "codigo_b3": "TRAD3",
+    "nome": "TC PN NM",
+    "tipo": "ACAO",
+    "setor": "Telecom",
+    "created_at": "2026-02-09T18:55:14.773796+00:00",
+    "updated_at": "2026-02-20T13:13:17.194761+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b26325a6-ddce-439a-abd7-978dfe612331",
+    "codigo_b3": "NEXP3",
+    "nome": "NEXPE PARTICIPAÇÕES S.A.",
+    "tipo": "ACAO",
+    "setor": "Exp. imóveis",
+    "created_at": "2026-02-09T18:55:15.874378+00:00",
+    "updated_at": "2026-02-20T13:13:18.492329+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cfa79623-87f9-444f-8aed-efcb07903cc6",
+    "codigo_b3": "DTCY3",
+    "nome": "DIRECT TO COMPANY S.A.",
+    "tipo": "ACAO",
+    "setor": "Educação",
+    "created_at": "2026-02-09T18:55:12.561466+00:00",
+    "updated_at": "2026-02-20T13:13:15.120452+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d6e0713b-815d-4642-8c65-79f42eb338b7",
+    "codigo_b3": "BHIA3",
+    "nome": "CASAS BAHIA ON NM",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:14.474964+00:00",
+    "updated_at": "2026-02-20T13:13:16.529946+00:00",
+    "is_active": true
+  },
+  {
+    "id": "942cd22a-d6fe-4c8a-b23b-c5a9eb5ea746",
+    "codigo_b3": "MNPR3",
+    "nome": "MINUPAR ON",
+    "tipo": "ACAO",
+    "setor": "Agro/Alimentos",
+    "created_at": "2026-02-09T18:55:15.553646+00:00",
+    "updated_at": "2026-02-20T13:13:17.849593+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3a32a2c3-501d-4afe-b74f-7f006c55c023",
+    "codigo_b3": "DOHL4",
+    "nome": "DOHLER PN",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:55:13.10902+00:00",
+    "updated_at": "2026-02-20T13:13:14.597093+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ebd00745-1359-4cd7-92b4-84d3955e61ae",
+    "codigo_b3": "DOTZ3",
+    "nome": "DOTZ SA ON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:55:16.052276+00:00",
+    "updated_at": "2026-02-20T13:13:18.185126+00:00",
+    "is_active": true
+  },
+  {
+    "id": "d60816d3-7f7a-4576-bd3b-b85c9ac2c610",
+    "codigo_b3": "AVLL3",
+    "nome": "ALPHAVILLE",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:55:15.247611+00:00",
+    "updated_at": "2026-02-20T13:13:17.016317+00:00",
+    "is_active": true
+  },
+  {
+    "id": "947a977c-93d9-42cf-a413-a1156eabe179",
+    "codigo_b3": "ISAE3",
+    "nome": "ISA ENERGIA ON EJ N1",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:54:05.796511+00:00",
+    "updated_at": "2026-02-20T13:11:14.398498+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ac34b798-df47-4ae7-a4f9-0833859facc9",
+    "codigo_b3": "KEPL3",
+    "nome": "KEPLER WEBER ON NM",
+    "tipo": "ACAO",
+    "setor": "Serviços",
+    "created_at": "2026-02-09T18:53:07.475811+00:00",
+    "updated_at": "2026-02-20T13:11:19.085327+00:00",
+    "is_active": true
+  },
+  {
+    "id": "878d9012-9a89-4da0-94e8-8891d408bf07",
+    "codigo_b3": "BEES4",
+    "nome": "BANESTES PN",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:54:09.385781+00:00",
+    "updated_at": "2026-02-20T13:11:20.925278+00:00",
+    "is_active": true
+  },
+  {
+    "id": "459a93b3-5841-4bcc-9e13-1d98e287a45c",
+    "codigo_b3": "HAGA3",
+    "nome": "HAGA S/A ON",
+    "tipo": "ACAO",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:55:05.909009+00:00",
+    "updated_at": "2026-02-20T13:11:22.143275+00:00",
+    "is_active": true
+  },
+  {
+    "id": "49d2aaf9-effb-483f-b04f-86859bdd6ee2",
+    "codigo_b3": "XRP",
+    "nome": "XRP",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:03.824761+00:00",
+    "updated_at": "2026-02-20T13:12:03.316361+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a8db4b11-18c0-470c-a494-f184d85656ad",
+    "codigo_b3": "TOTS3",
+    "nome": "TOTVS ON NM",
+    "tipo": "ACAO",
+    "setor": "Tecnologia Info",
+    "created_at": "2026-02-09T18:54:06.306682+00:00",
+    "updated_at": "2026-02-20T13:12:07.377149+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1d6b55b0-29b7-4c13-8948-fe35869b1ad8",
+    "codigo_b3": "TSLA34",
+    "nome": "TESLA INC |7M",
+    "tipo": "BDR",
+    "setor": "Tech",
+    "created_at": "2026-02-09T18:54:04.008461+00:00",
+    "updated_at": "2026-02-20T13:12:07.854435+00:00",
+    "is_active": true
+  },
+  {
+    "id": "868df886-7ccc-423e-b94f-4048912b15b4",
+    "codigo_b3": "BITH11",
+    "nome": "BITC IND NASDAQ B GENIAL",
+    "tipo": "ETF",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:03.441259+00:00",
+    "updated_at": "2026-02-20T13:12:08.01643+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ea88176c-95c9-4e01-b136-16ace2ba736a",
+    "codigo_b3": "XFIX11",
+    "nome": "ETF INDICE IFIX",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:54:05.626973+00:00",
+    "updated_at": "2026-02-20T13:12:08.943001+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b586ea9a-299b-4474-b86e-4771a086bf18",
+    "codigo_b3": "AURA33",
+    "nome": "AURA MINERALS | GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:50:25.624416+00:00",
+    "updated_at": "2026-02-20T13:08:16.216168+00:00",
+    "is_active": true
+  },
+  {
+    "id": "ff70e513-670a-4915-bce0-dc8a19e99b94",
+    "codigo_b3": "C2OL34",
+    "nome": "BANCOLOMBIA S.A.",
+    "tipo": "BDR",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:50:27.577898+00:00",
+    "updated_at": "2026-02-20T13:08:20.963089+00:00",
+    "is_active": true
+  },
+  {
+    "id": "75fb7873-605b-401c-92ce-b52a1aba387f",
+    "codigo_b3": "TEND3",
+    "nome": "TENDA ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:51:10.583425+00:00",
+    "updated_at": "2026-02-20T13:08:32.774882+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5646f8ce-40c8-4c5b-bad7-7080a1c1a4d8",
+    "codigo_b3": "MDNE3",
+    "nome": "MOURA DUBEUXON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:51:09.653203+00:00",
+    "updated_at": "2026-02-20T13:08:35.057604+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c159789c-f3b4-41ca-a6b1-a2ecbd66da93",
+    "codigo_b3": "JHSF3",
+    "nome": "JHSF PART ON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:50:43.868295+00:00",
+    "updated_at": "2026-02-20T13:08:42.621888+00:00",
+    "is_active": true
+  },
+  {
+    "id": "395c0ae8-5c77-4b44-970f-a9507a24d359",
+    "codigo_b3": "BEWY39",
+    "nome": "MSCI SOUTH KOR | ASIA",
+    "tipo": "BDR",
+    "setor": "Asia",
+    "created_at": "2026-02-09T18:51:14.347527+00:00",
+    "updated_at": "2026-02-20T13:08:44.502966+00:00",
+    "is_active": true
+  },
+  {
+    "id": "a5590962-8b27-467b-b370-9a11ed9a9fdc",
+    "codigo_b3": "BRSR3",
+    "nome": "BANRISUL ON N1",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:51:02.483484+00:00",
+    "updated_at": "2026-02-20T13:08:49.199812+00:00",
+    "is_active": true
+  },
+  {
+    "id": "f135fc49-08ed-4fdc-ac55-4f9548ab0817",
+    "codigo_b3": "UGPA3",
+    "nome": "ULTRAPAR ON NM",
+    "tipo": "ACAO",
+    "setor": "Petróleo",
+    "created_at": "2026-02-09T18:52:06.167567+00:00",
+    "updated_at": "2026-02-20T13:08:55.342269+00:00",
+    "is_active": true
+  },
+  {
+    "id": "427044db-58de-4f3d-af44-aeb450617bfb",
+    "codigo_b3": "SAPR4",
+    "nome": "SANEPAR PN N2",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:52:03.927785+00:00",
+    "updated_at": "2026-02-20T13:10:07.42755+00:00",
+    "is_active": true
+  },
+  {
+    "id": "e73382bb-c5cd-4d5e-9920-741e44f27e23",
+    "codigo_b3": "ABCB4",
+    "nome": "ABC BRASIL PN N2",
+    "tipo": "ACAO",
+    "setor": "Bancos",
+    "created_at": "2026-02-09T18:52:08.347015+00:00",
+    "updated_at": "2026-02-20T13:10:08.666692+00:00",
+    "is_active": true
+  },
+  {
+    "id": "2ac96058-a113-48f9-8829-c00010af3af1",
+    "codigo_b3": "GOLD11",
+    "nome": "TREND ETF LBMA |GOLD",
+    "tipo": "ETF",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:07.451833+00:00",
+    "updated_at": "2026-02-20T13:10:12.878097+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3ed68b19-3ae5-4e90-80be-a47a85006bec",
+    "codigo_b3": "BIAU39",
+    "nome": "GOLD TRUST BLACK RCK| GOLD",
+    "tipo": "BDR",
+    "setor": "Metais",
+    "created_at": "2026-02-09T18:52:07.101194+00:00",
+    "updated_at": "2026-02-20T13:10:14.177958+00:00",
+    "is_active": true
+  },
+  {
+    "id": "de9531f8-4054-4ab2-b2a6-43e72a529570",
+    "codigo_b3": "DIVD11",
+    "nome": "IN IDIV RENDA DIVIDENDOS",
+    "tipo": "ETF",
+    "setor": "Brasil",
+    "created_at": "2026-02-09T18:52:17.299816+00:00",
+    "updated_at": "2026-02-20T13:10:17.089738+00:00",
+    "is_active": true
+  },
+  {
+    "id": "50695072-c737-47e6-b849-480f545144d3",
+    "codigo_b3": "RANI3",
+    "nome": "IRANI ON NM",
+    "tipo": "ACAO",
+    "setor": "Indústrias",
+    "created_at": "2026-02-09T18:53:09.295762+00:00",
+    "updated_at": "2026-02-20T13:10:30.029832+00:00",
+    "is_active": true
+  },
+  {
+    "id": "def8eb95-31a5-4249-ab18-b53ccdc9f525",
+    "codigo_b3": "IRBR3",
+    "nome": "IRB BRASIL REON NM",
+    "tipo": "ACAO",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:53:05.220573+00:00",
+    "updated_at": "2026-02-20T13:10:31.870382+00:00",
+    "is_active": true
+  },
+  {
+    "id": "10410b36-d64c-4e8e-9552-98d269a1e558",
+    "codigo_b3": "CMIG3",
+    "nome": "CEMIG ON N1",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:03.178679+00:00",
+    "updated_at": "2026-02-20T13:10:32.450061+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b706c88d-8e19-4cc2-8eff-6c26f7ef5af9",
+    "codigo_b3": "MTRE3",
+    "nome": "MITRE REALTYON NM",
+    "tipo": "ACAO",
+    "setor": "Incorporadora",
+    "created_at": "2026-02-09T18:53:16.999936+00:00",
+    "updated_at": "2026-02-20T13:10:34.25695+00:00",
+    "is_active": true
+  },
+  {
+    "id": "cbb57cfe-886b-4553-ad2d-801fe6de969f",
+    "codigo_b3": "ISAE4",
+    "nome": "ISA ENERGIA PN EJ N1",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:08.36706+00:00",
+    "updated_at": "2026-02-20T13:11:03.262248+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fe8ff70f-383f-4f1d-9690-b2ae75dd483c",
+    "codigo_b3": "MNDL3",
+    "nome": "MUNDIAL ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:53:01.665669+00:00",
+    "updated_at": "2026-02-20T13:11:04.105474+00:00",
+    "is_active": true
+  },
+  {
+    "id": "3918d3d1-df43-4b82-a64e-3b15c6e8dd8c",
+    "codigo_b3": "CPFE3",
+    "nome": "CPFL ENERGIA ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:02.000794+00:00",
+    "updated_at": "2026-02-20T13:11:06.173271+00:00",
+    "is_active": true
+  },
+  {
+    "id": "32004c46-4d64-4d17-8936-c403a5cdab3c",
+    "codigo_b3": "NEOE3",
+    "nome": "NEOENERGIA ON NM",
+    "tipo": "ACAO",
+    "setor": "Utilities",
+    "created_at": "2026-02-09T18:53:03.016691+00:00",
+    "updated_at": "2026-02-20T13:11:06.857242+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5b43a1f8-ceb9-44f2-891e-3fed07c8ea8f",
+    "codigo_b3": "SHUL4",
+    "nome": "SCHULZ PN",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:53:05.368679+00:00",
+    "updated_at": "2026-02-20T13:11:07.858696+00:00",
+    "is_active": true
+  },
+  {
+    "id": "c5ea8c14-3a99-4b41-9579-a669c044d1fb",
+    "codigo_b3": "GOAU4",
+    "nome": "GERDAU MET PN N1",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:09.599587+00:00",
+    "updated_at": "2026-02-20T13:11:10.244265+00:00",
+    "is_active": true
+  },
+  {
+    "id": "250b8a8a-ee4c-4651-afc9-b4d34873afaa",
+    "codigo_b3": "CAMB3",
+    "nome": "CAMBUCI ON",
+    "tipo": "ACAO",
+    "setor": "Consumo",
+    "created_at": "2026-02-09T18:54:08.165253+00:00",
+    "updated_at": "2026-02-20T13:12:09.110088+00:00",
+    "is_active": true
+  },
+  {
+    "id": "6b46bb89-c9fe-4a13-86d1-c3cea5937c64",
+    "codigo_b3": "BITO39",
+    "nome": "CORE SP500 TOTAL DRE | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:05.455938+00:00",
+    "updated_at": "2026-02-20T13:12:09.248912+00:00",
+    "is_active": true
+  },
+  {
+    "id": "fce18281-86b5-44bf-af58-12bca7fc651b",
+    "codigo_b3": "BERK34",
+    "nome": "BERKSHIRE HATHWAY | EUA",
+    "tipo": "BDR",
+    "setor": "Financeiro",
+    "created_at": "2026-02-09T18:54:08.477469+00:00",
+    "updated_at": "2026-02-20T13:12:09.39728+00:00",
+    "is_active": true
+  },
+  {
+    "id": "b346deea-9048-479d-b257-024e5f64a11e",
+    "codigo_b3": "IPCA01",
+    "nome": "INFLAÇÃO",
+    "tipo": "INDICE",
+    "setor": "Outros",
+    "created_at": "2026-02-09T18:54:05.289031+00:00",
+    "updated_at": "2026-02-20T13:12:09.539683+00:00",
+    "is_active": true
+  },
+  {
+    "id": "5bf2538e-72cb-4ba9-be28-ef07920ac5e1",
+    "codigo_b3": "USIM5",
+    "nome": "USIMINAS",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:54:04.878888+00:00",
+    "updated_at": "2026-02-20T13:12:10.007447+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7d8a7e19-41ea-4153-9a34-fd634bc3476a",
+    "codigo_b3": "BIYF39",
+    "nome": "US FINANCIAL DRE | EUA",
+    "tipo": "BDR",
+    "setor": "EUA",
+    "created_at": "2026-02-09T18:54:04.174307+00:00",
+    "updated_at": "2026-02-20T13:12:11.317665+00:00",
+    "is_active": true
+  },
+  {
+    "id": "7796052b-2478-47ae-94e3-91c75c996910",
+    "codigo_b3": "BTC",
+    "nome": "BITCOIN",
+    "tipo": "CRIPTO",
+    "setor": "Cripto",
+    "created_at": "2026-02-09T18:54:03.640181+00:00",
+    "updated_at": "2026-02-20T13:12:11.475843+00:00",
+    "is_active": true
+  },
+  {
+    "id": "1370a8dd-f736-463d-b3a5-12bbe3bd319d",
+    "codigo_b3": "GOAU3",
+    "nome": "GERDAU MET ON N1",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:53:24.611205+00:00",
+    "updated_at": "2026-02-20T13:12:14.813943+00:00",
+    "is_active": true
+  },
+  {
+    "id": "603b2fff-7dc2-4127-b172-c4350ed89647",
+    "codigo_b3": "MGEL4",
+    "nome": "MANGELS IND PN",
+    "tipo": "ACAO",
+    "setor": "Mineração/Aço",
+    "created_at": "2026-02-09T18:54:03.241924+00:00",
+    "updated_at": "2026-02-20T13:12:24.484658+00:00",
+    "is_active": true
+  },
+  {
+    "id": "590fa74d-18b1-4702-846f-507d36229d9c",
+    "codigo_b3": "BDLL4",
+    "nome": "BARDELLA",
+    "tipo": "ACAO",
+    "setor": "Máquinas/Peças",
+    "created_at": "2026-02-09T18:55:16.213411+00:00",
+    "updated_at": "2026-02-20T13:13:18.337098+00:00",
+    "is_active": true
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "dd96ca08-df7e-4fb8-8cbe-8950c5e2b75c",
+    "key": "backup_enabled",
+    "value": "[REDACTED]",
+    "created_at": "2026-02-09T21:09:01.27225+00:00",
+    "updated_at": "2026-02-09T21:09:01.27225+00:00"
+  },
+  {
+    "id": "fc340f32-2e95-4680-b128-582f68daa310",
+    "key": "admin_email",
+    "value": "[REDACTED]",
+    "created_at": "2025-11-05T19:44:16.384708+00:00",
+    "updated_at": "2025-12-19T00:28:00.140545+00:00"
+  },
+  {
+    "id": "f5b958d9-86ca-428b-8015-cd9f7983db78",
+    "key": "backup_retention_days",
+    "value": "[REDACTED]",
+    "created_at": "2026-02-09T21:09:01.27225+00:00",
+    "updated_at": "2026-02-09T21:09:01.27225+00:00"
+  },
+  {
+    "id": "4c4afbfc-92ce-43b5-8cee-cca4018bb506",
+    "key": "service_role_key",
+    "value": "[REDACTED]",
+    "created_at": "2025-11-13T02:05:00.441438+00:00",
+    "updated_at": "2025-11-13T02:05:00.441438+00:00"
+  },
+  {
+    "id": "a2a0933e-b228-47b5-a37f-393faeb19212",
+    "key": "cron_secret",
+    "value": "[REDACTED]",
+    "created_at": "2025-11-13T02:05:00.672698+00:00",
+    "updated_at": "2025-11-13T02:05:00.672698+00:00"
+  },
+  {
+    "id": "49d84ed8-6fb6-4c79-b326-bbe996502462",
+    "key": "sync_lock",
+    "value": "[REDACTED]",
+    "created_at": "2025-11-13T01:15:55.43575+00:00",
+    "updated_at": "2026-02-10T02:23:02.311974+00:00"
+  },
+  {
+    "id": "17242a90-c916-4359-bcde-545059c952ac",
+    "key": "community_whatsapp_link",
+    "value": "[REDACTED]",
+    "created_at": "2025-11-04T22:08:43.628144+00:00",
+    "updated_at": "2025-11-26T17:09:21.214359+00:00"
+  },
+  {
+    "id": "0636b48a-ebe0-4fd6-accc-617d577cd08c",
+    "key": "vapid_public_key",
+    "value": "[REDACTED]",
+    "created_at": "2026-01-06T19:12:29.034592+00:00",
+    "updated_at": "2026-01-06T19:12:29.034592+00:00"
+  }
+]

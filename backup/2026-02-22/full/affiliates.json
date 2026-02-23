@@ -1,0 +1,72 @@
+[
+  {
+    "id": "0a7944e4-b2b8-4505-a2c0-ee5dc7511ab0",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "affiliate_code": "87067ED6",
+    "commission_rate": 10,
+    "status": "active",
+    "total_referrals": 0,
+    "total_earnings": 0,
+    "created_at": "2025-12-18T23:39:23.518541+00:00",
+    "updated_at": "2025-12-18T23:39:23.518541+00:00",
+    "last_revenue_at": null,
+    "last_inactivity_notification": null,
+    "rejection_reason": null
+  },
+  {
+    "id": "3c9abcb0-8bfb-4d09-8a17-180d176a2c4e",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "affiliate_code": "7ECD3A58",
+    "commission_rate": 10,
+    "status": "active",
+    "total_referrals": 0,
+    "total_earnings": 0,
+    "created_at": "2026-01-05T16:11:06.723802+00:00",
+    "updated_at": "2026-01-09T14:18:46.99436+00:00",
+    "last_revenue_at": null,
+    "last_inactivity_notification": null,
+    "rejection_reason": null
+  },
+  {
+    "id": "3cc7b214-cda3-4a8f-ac4f-bedf28d69592",
+    "user_id": "32f0e94f-ecdc-4e85-804e-9bd477db6f6f",
+    "affiliate_code": "1A1B2F41",
+    "commission_rate": 10,
+    "status": "active",
+    "total_referrals": 0,
+    "total_earnings": 0,
+    "created_at": "2026-01-19T13:13:44.459061+00:00",
+    "updated_at": "2026-01-19T13:15:13.732986+00:00",
+    "last_revenue_at": null,
+    "last_inactivity_notification": null,
+    "rejection_reason": null
+  },
+  {
+    "id": "1c6ebd2e-7c06-4dac-86f3-e60d021ded1a",
+    "user_id": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "affiliate_code": "060323F0",
+    "commission_rate": 10,
+    "status": "active",
+    "total_referrals": 0,
+    "total_earnings": 0,
+    "created_at": "2026-01-20T19:33:46.865078+00:00",
+    "updated_at": "2026-01-20T19:35:39.685479+00:00",
+    "last_revenue_at": null,
+    "last_inactivity_notification": null,
+    "rejection_reason": null
+  },
+  {
+    "id": "d6a37ed7-5162-4a6c-9226-5e8d9e677d9b",
+    "user_id": "f9ad01ea-bd2b-4a93-af1c-9f4b57aa9b54",
+    "affiliate_code": "3D87132D",
+    "commission_rate": 10,
+    "status": "active",
+    "total_referrals": 0,
+    "total_earnings": 0,
+    "created_at": "2026-01-21T12:18:39.381992+00:00",
+    "updated_at": "2026-01-21T12:19:57.378573+00:00",
+    "last_revenue_at": null,
+    "last_inactivity_notification": null,
+    "rejection_reason": null
+  }
+]

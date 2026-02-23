@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://*.supabase.co https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https: http:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://connect.facebook.net https://www.facebook.com https://ai.gateway.lovable.dev; frame-src 'self' https://www.googletagmanager.com https://www.facebook.com https://challenges.cloudflare.com https://www.youtube-nocookie.com https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self' https://www.facebook.com; upgrade-insecure-requests" />
+    
+    <!-- DNS Prefetch for faster connections -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://yoazkdmzjibogpxkjseh.supabase.co" />
+    
+    <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://yoazkdmzjibogpxkjseh.supabase.co" crossorigin />
+    
+    <!-- Preload LCP Hero Image -->
+    <link rel="preload" as="image" href="/src/assets/hero-background.webp" type="image/webp" />
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Favicon with multiple sizes for better caching -->
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/app-icon.png" />
+    
+    <!-- iOS PWA Configuration -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="VALUATION" />
+    
+    <!-- iOS Splash Screens -->
+    <!-- iPhone SE, 8, 7, 6s, 6 (750x1334) -->
+    <link rel="apple-touch-startup-image" href="/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
+    <!-- iPhone 12, 13, 14 (1170x2532 - scaled from 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- iPhone X, XS, 11 Pro (1125x2436 - using 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- iPhone XR, 11 (828x1792 - using 750x1334) -->
+    <link rel="apple-touch-startup-image" href="/splash-750x1334.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" />
+    <!-- iPhone XS Max, 11 Pro Max (1242x2688 - using 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- iPhone 12/13/14 Pro Max (1284x2778 - using 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- iPhone 14 Pro (1179x2556 - using 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" />
+    <!-- iPhone 15/16 Pro Max (1290x2796 - using 1170x2532) -->
+    <link rel="apple-touch-startup-image" href="/splash-1170x2532.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" />
+    
+    <!-- Critical CSS inline for faster First Contentful Paint -->
+    <style>
+      /* Critical CSS - Above the fold styles */
+      *,*::before,*::after{box-sizing:border-box}
+      html{-webkit-text-size-adjust:100%;line-height:1.5;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+      body{margin:0;background-color:hsl(0 0% 98%);color:hsl(0 0% 5%)}
+      .dark body{background-color:hsl(0 0% 8%);color:hsl(0 0% 95%)}
+      #root{min-height:100vh;display:flex;flex-direction:column}
+      /* Skeleton loading state */
+      .loading-skeleton{background:linear-gradient(90deg,hsl(0 0% 95%) 0%,hsl(0 0% 90%) 50%,hsl(0 0% 95%) 100%);background-size:1000px 100%;animation:shimmer 2s infinite linear}
+      @keyframes shimmer{0%{background-position:-1000px 0}100%{background-position:1000px 0}}
+      /* Prevent layout shift for images */
+      img{max-width:100%;height:auto}
+      /* Hide FOUC */
+      .no-js{visibility:hidden}
+    </style>
+    
+    <!-- Canonical is set dynamically by SEOHead component -->
+  <link rel="alternate" hreflang="pt-BR" href="https://valuationit.com.br/" />
+  <link rel="alternate" hreflang="x-default" href="https://valuationit.com.br/" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <title>VALUATION Invest tech - Consultoria de Investimento</title>
+    <meta name="description" content="Análises profissionais de ações, FIIs e BDRs da B3. Recomendações de especialistas para todos os perfis de investidor." />
+    <meta name="author" content="VALUATION Invest tech" />
+
+    <meta property="og:title" content="VALUATION Invest tech - Consultoria de Investimento" />
+    <meta property="og:description" content="Análises profissionais de ações, FIIs e BDRs da B3. Recomendações de especialistas para todos os perfis de investidor." />
+    <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://valuationit.com.br" />
+  <meta property="og:image" content="https://valuationit.com.br/og-image.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@valuationit" />
+    <meta name="twitter:image" content="https://valuationit.com.br/og-image.png" />
+
+    <!-- Google Tag Manager - Deferred loading -->
+    <script>
+      // Delay GTM loading for better LCP
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-52HNRMJB');
+        }, 100);
+      });
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics 4 - Deferred -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QK7VNZPK38', { 'send_page_view': false });
+      // Load GA script after page load
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QK7VNZPK38';
+        document.head.appendChild(s);
+        s.onload = function() { gtag('event', 'page_view'); };
+      });
+    </script>
+    <!-- End Google Analytics 4 -->
+
+    <!-- Meta Pixel - Deferred -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1129002725673618');
+          fbq('track', 'PageView');
+        }, 200);
+      });
+    </script>
+    <!-- End Meta Pixel -->
+  </head>
+
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52HNRMJB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Meta Pixel (noscript) -->
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1129002725673618&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel (noscript) -->
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

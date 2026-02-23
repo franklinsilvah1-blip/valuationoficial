@@ -1,0 +1,38 @@
+[
+  {
+    "id": "c0f8fe18-649c-4e31-b572-11496f85d039",
+    "name": "Meta",
+    "type": "facebook_pixel",
+    "script_id": "1129002725673618",
+    "script_content": null,
+    "location": "head",
+    "is_active": true,
+    "created_at": "2025-11-14T18:41:27.974334+00:00",
+    "updated_at": "2025-11-14T18:41:27.974334+00:00",
+    "created_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546"
+  },
+  {
+    "id": "323a0ecd-1fca-4e73-bbeb-7485518697ff",
+    "name": "Analytics",
+    "type": "google_analytics",
+    "script_id": "G-QK7VNZPK38",
+    "script_content": null,
+    "location": "head",
+    "is_active": true,
+    "created_at": "2025-11-14T18:57:32.520659+00:00",
+    "updated_at": "2025-12-11T22:15:47.7141+00:00",
+    "created_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546"
+  },
+  {
+    "id": "a6e0613c-fd6b-45ea-a342-285d8174c67f",
+    "name": "Google Tag Manager",
+    "type": "google_tag_manager",
+    "script_id": "GTM-52HNRMJB",
+    "script_content": null,
+    "location": "head",
+    "is_active": true,
+    "created_at": "2025-12-11T21:52:34.613024+00:00",
+    "updated_at": "2025-12-11T22:56:13.111408+00:00",
+    "created_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546"
+  }
+]

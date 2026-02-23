@@ -1,0 +1,12 @@
+# VALUATION Invest Tech - Security Policy
+# 
+# If you find a security vulnerability, please report it to us.
+
+Contact: mailto:seguranca@valuationinvesttech.com
+Contact: mailto:contato@valuationinvesttech.com
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: pt-BR, en
+Canonical: https://valuationinvesttech.com/.well-known/security.txt
+Policy: https://valuationinvesttech.com/politica-privacidade
+
+# We appreciate responsible disclosure and will acknowledge reporters.

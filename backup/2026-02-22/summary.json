@@ -1,0 +1,119 @@
+{
+  "date": "2026-02-22",
+  "started_at": "2026-02-22T03:43:00.906Z",
+  "critical": {},
+  "full": {
+    "admin_audit_log": {
+      "count": 33
+    },
+    "affiliate_clicks": {
+      "count": 0
+    },
+    "affiliates": {
+      "count": 5
+    },
+    "app_config": {
+      "count": 8
+    },
+    "asset_analyses": {
+      "count": 598
+    },
+    "asset_favorites": {
+      "count": 31
+    },
+    "asset_views": {
+      "count": 0
+    },
+    "assets": {
+      "count": 598
+    },
+    "blog_authors": {
+      "count": 4
+    },
+    "blog_posts": {
+      "count": 3
+    },
+    "cancellation_feedback": {
+      "count": 2
+    },
+    "categories": {
+      "count": 5
+    },
+    "commissions": {
+      "count": 0
+    },
+    "exclusive_videos": {
+      "count": 2
+    },
+    "import_jobs": {
+      "count": 133
+    },
+    "leads": {
+      "count": 0
+    },
+    "notification_group_members": {
+      "count": 2
+    },
+    "notification_groups": {
+      "count": 1
+    },
+    "post_categories": {
+      "count": 0
+    },
+    "profile_answers": {
+      "count": 57
+    },
+    "profile_options": {
+      "count": 12
+    },
+    "profile_questions": {
+      "count": 3
+    },
+    "profiles": {
+      "count": 17
+    },
+    "push_notifications": {
+      "count": 1
+    },
+    "push_subscriptions": {
+      "count": 15
+    },
+    "rate_limit_log": {
+      "count": 1000
+    },
+    "referrals": {
+      "count": 0
+    },
+    "smtp_config": {
+      "count": 1
+    },
+    "subscription_plans": {
+      "count": 5
+    },
+    "sync_logs": {
+      "count": 131
+    },
+    "sync_queue": {
+      "count": 0
+    },
+    "tracking_events": {
+      "count": 0
+    },
+    "tracking_scripts": {
+      "count": 3
+    },
+    "user_roles": {
+      "count": 2
+    },
+    "wallet_items": {
+      "count": 28
+    },
+    "wallet_movements": {
+      "count": 34
+    },
+    "wallet_simulator": {
+      "count": 10
+    }
+  },
+  "completed_at": "2026-02-22T03:43:44.913Z"
+}

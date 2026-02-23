@@ -1,0 +1,14 @@
+[
+  {
+    "id": "eb28117a-2cad-4bae-9482-6e6eab642f64",
+    "smtp_server": "mail.valuationit.com.br",
+    "smtp_port": 587,
+    "smtp_user": "noreply@valuationit.com.br",
+    "smtp_password": "[REDACTED]",
+    "sender_name": "Franklin Silva",
+    "sender_email": "noreply@valuationit.com.br",
+    "security_type": "TLS",
+    "created_at": "2025-11-05T15:58:55.888201+00:00",
+    "updated_at": "2026-01-20T22:08:46.0487+00:00"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "b26428be-d0e2-4cbb-a845-596887e4349a",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "reason": "Pausa temporária nos investimentos",
+    "details": null,
+    "created_at": "2026-01-15T18:55:13.882885+00:00"
+  },
+  {
+    "id": "5f040214-ce80-4d2a-a850-da7058ed808d",
+    "user_id": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "reason": "Outro motivo",
+    "details": "Essa é uma assinatura de testes.",
+    "created_at": "2026-02-06T16:09:54.032878+00:00"
+  }
+]
