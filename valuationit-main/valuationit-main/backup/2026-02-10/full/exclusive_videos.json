@@ -1,0 +1,22 @@
+[
+  {
+    "id": "50287a13-ad63-48cd-a1fe-e1424ab1dcab",
+    "title": "Valuation it Aula 01 | Como usar a Plataforma Valuation Invest Tech: Guia Completo do Zero!",
+    "description": "Primeira aula do curso - Introdução",
+    "youtube_id": "ppiu3YqyMMU",
+    "order_num": 1,
+    "is_active": true,
+    "created_at": "2025-12-31T14:55:59.607951+00:00",
+    "updated_at": "2025-12-31T15:48:55.243785+00:00"
+  },
+  {
+    "id": "239eb32b-c2e3-4e5a-9ba5-f32703ecd506",
+    "title": "Valuation it - Aula 02 | Como Comprar sua Primeira Ação na Prática: Passo a Passo do Zero!",
+    "description": "Segunda aula do curso - Conceitos fundamentais",
+    "youtube_id": "wZpU3vDOGuk",
+    "order_num": 2,
+    "is_active": true,
+    "created_at": "2025-12-31T14:55:59.607951+00:00",
+    "updated_at": "2025-12-31T15:48:55.858912+00:00"
+  }
+]

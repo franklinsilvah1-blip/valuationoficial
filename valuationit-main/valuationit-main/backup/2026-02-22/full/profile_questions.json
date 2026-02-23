@@ -1,0 +1,23 @@
+[
+  {
+    "id": "0b52aa8a-676c-4af8-9787-9dbe1de7cb90",
+    "order_num": 1,
+    "text": "QUAL SEU NÍVEL DE CONHECIMENTO SOBRE INVESTIMENTOS?",
+    "type": "single_choice",
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "a33891cb-5d1f-4af9-a3df-d38f6267b1eb",
+    "order_num": 2,
+    "text": "QUAL SEU OBJETIVO PARA INVESTIR AGORA?",
+    "type": "single_choice",
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "d8bda8d9-8b45-461e-b47e-f9e51994141c",
+    "order_num": 3,
+    "text": "QUAL O VALOR QUE PRETENDE INVESTIR?",
+    "type": "single_choice",
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  }
+]

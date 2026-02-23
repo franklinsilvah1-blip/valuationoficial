@@ -1,0 +1,38 @@
+[
+  {
+    "id": "376ffdb7-746e-4a97-8a2d-8237cf329df1",
+    "name": "Ana Silva",
+    "email": "Ana Silva",
+    "avatar_url": null,
+    "bio": null,
+    "created_at": "2025-11-19T16:09:03.990114+00:00",
+    "updated_at": "2025-11-19T16:09:03.990114+00:00"
+  },
+  {
+    "id": "68a12177-4435-44f7-8c29-75f0f75812eb",
+    "name": "franklin.silvah@gmail.com",
+    "email": "franklin.silvah@gmail.com",
+    "avatar_url": null,
+    "bio": null,
+    "created_at": "2025-11-19T16:09:03.990114+00:00",
+    "updated_at": "2025-11-19T16:09:03.990114+00:00"
+  },
+  {
+    "id": "4a2a7caf-a50f-47a8-a77a-e27de64967d8",
+    "name": "Carlos Mendes",
+    "email": "Carlos Mendes",
+    "avatar_url": null,
+    "bio": null,
+    "created_at": "2025-11-19T16:09:03.990114+00:00",
+    "updated_at": "2025-11-19T16:09:03.990114+00:00"
+  },
+  {
+    "id": "a92307d0-e63c-4e68-9461-f6515593dfac",
+    "name": "Pedro Costa",
+    "email": "Pedro Costa",
+    "avatar_url": null,
+    "bio": null,
+    "created_at": "2025-11-19T16:09:03.990114+00:00",
+    "updated_at": "2025-11-19T16:09:03.990114+00:00"
+  }
+]

@@ -1,0 +1,498 @@
+[
+  {
+    "id": "e15617b4-00c4-496d-bcdf-adbfe323ad45",
+    "user_id": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-07T18:49:10.069Z",
+      "change_type": "administrative",
+      "new_end_date": "2026-02-05"
+    },
+    "created_at": "2025-11-07T18:49:12.515328+00:00"
+  },
+  {
+    "id": "ae5ec9e2-0f73-4702-9cf7-dc21c78c53de",
+    "user_id": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "granted_by": null,
+    "action": "admin_role_granted_auto_specialist",
+    "old_plan": "START",
+    "new_plan": "SPECIALIST",
+    "role_assigned": "admin",
+    "metadata": {
+      "trigger": "on_admin_role_assigned",
+      "timestamp": "2025-11-07T21:30:40.228423+00:00"
+    },
+    "created_at": "2025-11-07T21:30:40.228423+00:00"
+  },
+  {
+    "id": "75f62019-c65b-40d9-88d7-1acf38e536de",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-11T15:35:51.278Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-11T15:35:54.691961+00:00"
+  },
+  {
+    "id": "f05cadb2-cea9-4fef-81a9-c13c0d676719",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-11T15:36:40.093Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-11-28"
+    },
+    "created_at": "2025-11-11T15:36:43.534759+00:00"
+  },
+  {
+    "id": "32abf203-f3ee-48da-a7dc-d0587e88176e",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-11T16:06:48.596Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-11-28"
+    },
+    "created_at": "2025-11-11T16:06:52.005729+00:00"
+  },
+  {
+    "id": "0f91332f-d929-4ff7-86fc-e33ceacbf273",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "SPECIALIST",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-11T16:49:21.400Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-11-28"
+    },
+    "created_at": "2025-11-11T16:49:24.918335+00:00"
+  },
+  {
+    "id": "6b18bb80-934c-495b-85a7-cd0ff268f7ac",
+    "user_id": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "SPECIALIST",
+    "new_plan": "SPECIALIST",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-11T17:30:36.731Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-05"
+    },
+    "created_at": "2025-11-11T17:30:40.284927+00:00"
+  },
+  {
+    "id": "156d19fb-cbb9-4b74-b2a4-81c212fac48a",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-13T15:49:37.228Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-13T15:49:41.948794+00:00"
+  },
+  {
+    "id": "6f847091-b4d8-4a4b-afd6-1cebc48f29fd",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-13T17:56:38.099Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-13T17:56:42.989881+00:00"
+  },
+  {
+    "id": "c0dfc753-eca3-4182-81c1-a52a5f4b0089",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-13T17:57:23.191Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-13T17:57:28.06076+00:00"
+  },
+  {
+    "id": "aac8f651-66ab-4918-a276-848f5ab6f1d6",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-13T18:03:48.774Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-13T18:03:53.633547+00:00"
+  },
+  {
+    "id": "3be1273b-ec8c-4c0f-a20c-2ddd2f9f79a5",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-13T20:24:51.654Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-13T20:24:56.736688+00:00"
+  },
+  {
+    "id": "c64046c1-f067-4a7e-a5d4-d3f88893f5d2",
+    "user_id": "f9ad01ea-bd2b-4a93-af1c-9f4b57aa9b54",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-14T12:57:07.872Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-14"
+    },
+    "created_at": "2025-11-14T12:57:08.78464+00:00"
+  },
+  {
+    "id": "b28b9690-fc11-46f5-8fe8-c3276a4d4943",
+    "user_id": "32f0e94f-ecdc-4e85-804e-9bd477db6f6f",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-23T23:09:15.826Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-31"
+    },
+    "created_at": "2025-11-23T23:09:19.267499+00:00"
+  },
+  {
+    "id": "f1b0953f-e909-41fe-b03d-2694f5eedcf1",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-25T13:31:24.165Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-25T13:31:44.06521+00:00"
+  },
+  {
+    "id": "3964e76f-328f-4123-b208-6e2542b7fb0e",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-25T13:50:52.575Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-11-25T13:51:12.460502+00:00"
+  },
+  {
+    "id": "56175c98-7c3c-430e-8bc1-c0e387bfb0e3",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "SPECIALIST",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-26T15:47:43.538Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-11-28"
+    },
+    "created_at": "2025-11-26T15:47:47.593528+00:00"
+  },
+  {
+    "id": "d3ae1811-71e5-4857-ae66-8a96882f95cb",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-26T15:51:20.238Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-11-28"
+    },
+    "created_at": "2025-11-26T15:51:24.248055+00:00"
+  },
+  {
+    "id": "852ae793-62a5-4d03-8ed5-333716b9768e",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "SPECIALIST",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-11-26T19:17:40.699Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-31"
+    },
+    "created_at": "2025-11-26T19:17:45.569682+00:00"
+  },
+  {
+    "id": "8b851e67-d09c-4de1-88d5-f6c2f5300a6c",
+    "user_id": "3d4f0970-16b1-494e-be1e-6f2aee52ec59",
+    "granted_by": null,
+    "action": "manual_subscription_fix",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "reason": "Webhook não disparou após pagamento",
+      "fixed_at": "2025-12-05T18:30:00Z",
+      "fixed_by": "admin_lovable",
+      "stripe_customer_id": "cus_TYBLwHeT42ItFy",
+      "stripe_subscription_id": "sub_1Sb4z2RyKGDht1Pj9jReDQvk"
+    },
+    "created_at": "2025-12-05T20:52:56.638354+00:00"
+  },
+  {
+    "id": "cf3d4771-06b4-48bb-82fc-f3c43d4aeace",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "SPECIALIST",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-12T19:20:07.379Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-31"
+    },
+    "created_at": "2025-12-12T19:20:10.273213+00:00"
+  },
+  {
+    "id": "a0bb801a-3158-40d1-a2af-4680871669da",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-13T16:13:34.534Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-31"
+    },
+    "created_at": "2025-12-13T16:13:37.955135+00:00"
+  },
+  {
+    "id": "53905caf-d8e0-4b42-b4e9-2147d882be44",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-15T13:22:03.582Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-15T13:22:07.051298+00:00"
+  },
+  {
+    "id": "72fee791-b65f-4c86-89c6-bee167ab99ca",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-15T14:38:28.983Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-15T14:38:29.19269+00:00"
+  },
+  {
+    "id": "6e407127-d168-45c5-a418-9f34a872b615",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-15T14:39:34.131Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-15T14:39:34.30457+00:00"
+  },
+  {
+    "id": "cb10845c-e3d6-4ea8-9388-a1579bff835c",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-15T14:41:52.413Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-15T14:41:52.584056+00:00"
+  },
+  {
+    "id": "d6200c1c-0ae4-4833-86f0-d54e0e2cc13d",
+    "user_id": "ef8aec0a-bfef-4751-a2b1-2f304460c1c7",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "SPECIALIST",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-17T00:43:57.560Z",
+      "change_type": "administrative",
+      "new_end_date": "2026-02-28"
+    },
+    "created_at": "2025-12-17T00:44:02.999533+00:00"
+  },
+  {
+    "id": "81948e15-cb84-4fd1-bee1-e0f5951b845b",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "PRO",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-17T18:22:55.293Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-17T18:22:59.187791+00:00"
+  },
+  {
+    "id": "b63e6d59-105b-4999-a9da-5ad455311328",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-18T21:38:18.578Z",
+      "change_type": "administrative",
+      "new_end_date": "2025-12-31"
+    },
+    "created_at": "2025-12-18T21:38:24.958827+00:00"
+  },
+  {
+    "id": "70119485-e994-4d1a-b51d-3f2cb4f9c57d",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "granted_by": null,
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-18T22:58:20.174Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-18T22:58:21.60382+00:00"
+  },
+  {
+    "id": "7b697d87-4c7f-4b95-a7a2-16479e9f941d",
+    "user_id": "c2c8d2da-de14-4464-8e30-076359ca5632",
+    "granted_by": "b1261c5a-94ed-4a00-adff-473888885907",
+    "action": "admin_plan_change",
+    "old_plan": "PRO",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-18T22:58:46.018Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-18T22:58:46.899691+00:00"
+  },
+  {
+    "id": "659250c0-7bf3-4118-b9e4-0e51d6149c0e",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "START",
+    "new_plan": "FREE",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-18T23:06:41.084Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-18T23:06:42.448273+00:00"
+  },
+  {
+    "id": "f528b022-7bd2-47e3-a8d3-85d3c4d48648",
+    "user_id": "d0822fc1-2c9c-4166-83fa-9e4b7fe12370",
+    "granted_by": "1be2fe0c-ce15-4fa4-85df-0cc1d39ac546",
+    "action": "admin_plan_change",
+    "old_plan": "FREE",
+    "new_plan": "START",
+    "role_assigned": null,
+    "metadata": {
+      "timestamp": "2025-12-18T23:10:49.205Z",
+      "change_type": "administrative",
+      "new_end_date": null
+    },
+    "created_at": "2025-12-18T23:10:50.592022+00:00"
+  }
+]

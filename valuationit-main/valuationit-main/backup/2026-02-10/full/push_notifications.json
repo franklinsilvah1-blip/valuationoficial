@@ -1,0 +1,18 @@
+[
+  {
+    "id": "b11cd97e-4d4b-419c-ba94-c6ae9120aaca",
+    "title": "Teste",
+    "message": "testando mensagem",
+    "icon": "https://valuationit.com.br/favicon.png",
+    "url": "https://valuationit.com.br/",
+    "target_audience": "group",
+    "target_plan": null,
+    "is_active": true,
+    "sent_at": "2026-01-06T19:13:35.581+00:00",
+    "sent_count": 0,
+    "created_at": "2026-01-06T14:20:59.114807+00:00",
+    "updated_at": "2026-01-06T19:13:35.663492+00:00",
+    "created_by": null,
+    "target_group_id": "9b0ff3aa-8bf2-4852-a0bb-7a7211ba2711"
+  }
+]

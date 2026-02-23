@@ -1,0 +1,110 @@
+[
+  {
+    "id": "4e74963c-5405-4696-82d4-b861c898a16c",
+    "question_id": "0b52aa8a-676c-4af8-9787-9dbe1de7cb90",
+    "text": "SÓ INVISTO EM RENDA FIXA (POUPANÇA, CDB, LCI, CRI, ETC)",
+    "weight_start": 1,
+    "weight_pro": 0,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "b6861f72-0829-4554-a381-ee6a957dcecf",
+    "question_id": "0b52aa8a-676c-4af8-9787-9dbe1de7cb90",
+    "text": "INVISTO EM RENDA FIXA COM ISENÇÃO DE IMPOSTO DE RENDA",
+    "weight_start": 1,
+    "weight_pro": 0,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "5426087c-12de-4288-987c-125373b3b0eb",
+    "question_id": "0b52aa8a-676c-4af8-9787-9dbe1de7cb90",
+    "text": "INVISTO FUNDO IMOBILIÁRIOS E EM ALGUMAS AÇÕES OU CRIPTOS",
+    "weight_start": 0,
+    "weight_pro": 1,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "bfe8123e-585f-445b-b63a-85dc6d078f2a",
+    "question_id": "0b52aa8a-676c-4af8-9787-9dbe1de7cb90",
+    "text": "INVISTO EM AÇÕES, FIIs, BDRs, ETFs e CRIPTOMOEDAS",
+    "weight_start": 0,
+    "weight_pro": 0,
+    "weight_specialist": 1,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "4195c419-6cdd-4601-b282-f06334be5e87",
+    "question_id": "a33891cb-5d1f-4af9-a3df-d38f6267b1eb",
+    "text": "REALIZAR UM SONHO IMEDIATO (VIAGENS, COMPRAR UM BEM, ETC...)",
+    "weight_start": 1,
+    "weight_pro": 0,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "368040b9-2e26-469b-9333-8f146b2ec9ad",
+    "question_id": "a33891cb-5d1f-4af9-a3df-d38f6267b1eb",
+    "text": "GERAR RENDA EXTRA",
+    "weight_start": 1,
+    "weight_pro": 0,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "23a566c3-9916-4a61-8367-47fd62f8125b",
+    "question_id": "a33891cb-5d1f-4af9-a3df-d38f6267b1eb",
+    "text": "CONSTRUIR RESERVA FINANCEIRA E PATRIMÔNIO",
+    "weight_start": 0,
+    "weight_pro": 1,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "25d2995b-d2dd-4c6a-b55d-92e0018f3823",
+    "question_id": "a33891cb-5d1f-4af9-a3df-d38f6267b1eb",
+    "text": "MULTIPLICAR PATRIMÔNIO E INDEPENDÊNCIA FINANCEIRA",
+    "weight_start": 0,
+    "weight_pro": 0,
+    "weight_specialist": 1,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "e9cb11fd-d6cb-4a11-8c69-c0aee5529fc9",
+    "question_id": "d8bda8d9-8b45-461e-b47e-f9e51994141c",
+    "text": "DE R$ 1.000 A R$ 9.999",
+    "weight_start": 1,
+    "weight_pro": 0,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "a35f74d8-ef9b-452d-9ace-886c4d67aab7",
+    "question_id": "d8bda8d9-8b45-461e-b47e-f9e51994141c",
+    "text": "DE R$ 10.000 A R$ 49.999",
+    "weight_start": 0,
+    "weight_pro": 1,
+    "weight_specialist": 0,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "93b839fd-58fc-414f-86ed-adc3b52a1f3a",
+    "question_id": "d8bda8d9-8b45-461e-b47e-f9e51994141c",
+    "text": "DE R$ 50.000 A R$ 99.999",
+    "weight_start": 0,
+    "weight_pro": 0,
+    "weight_specialist": 1,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  },
+  {
+    "id": "fcb6c381-3baf-4d1f-ae56-5a92a1d0a0b9",
+    "question_id": "d8bda8d9-8b45-461e-b47e-f9e51994141c",
+    "text": "ACIMA DE R$ 100.000,00",
+    "weight_start": 0,
+    "weight_pro": 0,
+    "weight_specialist": 1,
+    "created_at": "2025-11-11T17:14:23.913408+00:00"
+  }
+]
