@@ -14,16 +14,1728 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          granted_by: string | null
+          id: string
+          metadata: Json | null
+          new_plan: Database["public"]["Enums"]["plan_type"] | null
+          old_plan: Database["public"]["Enums"]["plan_type"] | null
+          role_assigned: Database["public"]["Enums"]["app_role"] | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          metadata?: Json | null
+          new_plan?: Database["public"]["Enums"]["plan_type"] | null
+          old_plan?: Database["public"]["Enums"]["plan_type"] | null
+          role_assigned?: Database["public"]["Enums"]["app_role"] | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          granted_by?: string | null
+          id?: string
+          metadata?: Json | null
+          new_plan?: Database["public"]["Enums"]["plan_type"] | null
+          old_plan?: Database["public"]["Enums"]["plan_type"] | null
+          role_assigned?: Database["public"]["Enums"]["app_role"] | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      affiliate_clicks: {
+        Row: {
+          affiliate_code: string
+          affiliate_id: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          landing_page: string | null
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          affiliate_code: string
+          affiliate_id: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          landing_page?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          affiliate_code?: string
+          affiliate_id?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          landing_page?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_clicks_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliates: {
+        Row: {
+          affiliate_code: string
+          commission_rate: number
+          created_at: string
+          id: string
+          last_inactivity_notification: string | null
+          last_revenue_at: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["affiliate_status"]
+          total_earnings: number
+          total_referrals: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          affiliate_code: string
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          last_inactivity_notification?: string | null
+          last_revenue_at?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["affiliate_status"]
+          total_earnings?: number
+          total_referrals?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          affiliate_code?: string
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          last_inactivity_notification?: string | null
+          last_revenue_at?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["affiliate_status"]
+          total_earnings?: number
+          total_referrals?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliates_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_config: {
+        Row: {
+          created_at: string | null
+          id: string
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
+      asset_analyses: {
+        Row: {
+          analysis_data: Json | null
+          asset_id: string | null
+          carteira: string | null
+          comentario_especialista: string | null
+          created_at: string
+          data_atualizacao: string | null
+          dividendo_esperado: string | null
+          dy2023: string | null
+          dy2024: string | null
+          dy2025: string | null
+          fator_mc: string | null
+          id: string
+          margem_seguranca: string | null
+          nota_crescimento: string | null
+          nota_dividendos: string | null
+          nota_especialista: string | null
+          nota_seguranca: string | null
+          nota_valuation: string | null
+          p_l: string | null
+          p_vp: string | null
+          perfil_investidor: string | null
+          plano_type: string | null
+          preco_justo: string | null
+          preco_teto: string | null
+          recomendacao: string | null
+          recommendation: string | null
+          resumo: string | null
+          roe: string | null
+          roi2023a2025: string | null
+          roi2024: string | null
+          roi2025: string | null
+          roi2026: string | null
+          roitrim: string | null
+          site_id: string | null
+          status_analise: string | null
+          taxa_anual: string | null
+          taxa_mensal: string | null
+          taxa_semanal: string | null
+          tendencia: string | null
+          updated_at: string | null
+          upside: string | null
+          valor: string | null
+        }
+        Insert: {
+          analysis_data?: Json | null
+          asset_id?: string | null
+          carteira?: string | null
+          comentario_especialista?: string | null
+          created_at?: string
+          data_atualizacao?: string | null
+          dividendo_esperado?: string | null
+          dy2023?: string | null
+          dy2024?: string | null
+          dy2025?: string | null
+          fator_mc?: string | null
+          id?: string
+          margem_seguranca?: string | null
+          nota_crescimento?: string | null
+          nota_dividendos?: string | null
+          nota_especialista?: string | null
+          nota_seguranca?: string | null
+          nota_valuation?: string | null
+          p_l?: string | null
+          p_vp?: string | null
+          perfil_investidor?: string | null
+          plano_type?: string | null
+          preco_justo?: string | null
+          preco_teto?: string | null
+          recomendacao?: string | null
+          recommendation?: string | null
+          resumo?: string | null
+          roe?: string | null
+          roi2023a2025?: string | null
+          roi2024?: string | null
+          roi2025?: string | null
+          roi2026?: string | null
+          roitrim?: string | null
+          site_id?: string | null
+          status_analise?: string | null
+          taxa_anual?: string | null
+          taxa_mensal?: string | null
+          taxa_semanal?: string | null
+          tendencia?: string | null
+          updated_at?: string | null
+          upside?: string | null
+          valor?: string | null
+        }
+        Update: {
+          analysis_data?: Json | null
+          asset_id?: string | null
+          carteira?: string | null
+          comentario_especialista?: string | null
+          created_at?: string
+          data_atualizacao?: string | null
+          dividendo_esperado?: string | null
+          dy2023?: string | null
+          dy2024?: string | null
+          dy2025?: string | null
+          fator_mc?: string | null
+          id?: string
+          margem_seguranca?: string | null
+          nota_crescimento?: string | null
+          nota_dividendos?: string | null
+          nota_especialista?: string | null
+          nota_seguranca?: string | null
+          nota_valuation?: string | null
+          p_l?: string | null
+          p_vp?: string | null
+          perfil_investidor?: string | null
+          plano_type?: string | null
+          preco_justo?: string | null
+          preco_teto?: string | null
+          recomendacao?: string | null
+          recommendation?: string | null
+          resumo?: string | null
+          roe?: string | null
+          roi2023a2025?: string | null
+          roi2024?: string | null
+          roi2025?: string | null
+          roi2026?: string | null
+          roitrim?: string | null
+          site_id?: string | null
+          status_analise?: string | null
+          taxa_anual?: string | null
+          taxa_mensal?: string | null
+          taxa_semanal?: string | null
+          tendencia?: string | null
+          updated_at?: string | null
+          upside?: string | null
+          valor?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_analyses_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      asset_favorites: {
+        Row: {
+          asset_id: string | null
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          asset_id?: string | null
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          asset_id?: string | null
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      asset_views: {
+        Row: {
+          asset_id: string
+          created_at: string
+          id: string
+          user_id: string
+          view_date: string | null
+          viewed_at: string
+        }
+        Insert: {
+          asset_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+          view_date?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          asset_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+          view_date?: string | null
+          viewed_at?: string
+        }
+        Relationships: []
+      }
+      assets: {
+        Row: {
+          asset_type: string | null
+          codigo_b3: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          logo_url: string | null
+          name: string | null
+          nome: string | null
+          observacoes: string | null
+          preco_atual: number | null
+          price: number | null
+          ranking_setor: number | null
+          sector: string | null
+          segmento: string | null
+          setor: string | null
+          setor_atuacao: string | null
+          site_id: string | null
+          subsetor: string | null
+          subsetor_atuacao: string | null
+          tag: string | null
+          ticker: string | null
+          tipo: string | null
+          tipo_ativo: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          asset_type?: string | null
+          codigo_b3?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name?: string | null
+          nome?: string | null
+          observacoes?: string | null
+          preco_atual?: number | null
+          price?: number | null
+          ranking_setor?: number | null
+          sector?: string | null
+          segmento?: string | null
+          setor?: string | null
+          setor_atuacao?: string | null
+          site_id?: string | null
+          subsetor?: string | null
+          subsetor_atuacao?: string | null
+          tag?: string | null
+          ticker?: string | null
+          tipo?: string | null
+          tipo_ativo?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          asset_type?: string | null
+          codigo_b3?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name?: string | null
+          nome?: string | null
+          observacoes?: string | null
+          preco_atual?: number | null
+          price?: number | null
+          ranking_setor?: number | null
+          sector?: string | null
+          segmento?: string | null
+          setor?: string | null
+          setor_atuacao?: string | null
+          site_id?: string | null
+          subsetor?: string | null
+          subsetor_atuacao?: string | null
+          tag?: string | null
+          ticker?: string | null
+          tipo?: string | null
+          tipo_ativo?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      blog_authors: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          author: string
+          author_id: string | null
+          blog_author_id: string | null
+          content: string
+          cover_image: string | null
+          created_at: string
+          excerpt: string | null
+          featured: boolean
+          id: string
+          og_image: string | null
+          published_at: string | null
+          scheduled_for: string | null
+          seo_description: string | null
+          seo_keywords: string[] | null
+          seo_title: string | null
+          slug: string
+          status: Database["public"]["Enums"]["blog_status"]
+          title: string
+          updated_at: string
+          views: number | null
+        }
+        Insert: {
+          author: string
+          author_id?: string | null
+          blog_author_id?: string | null
+          content: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt?: string | null
+          featured?: boolean
+          id?: string
+          og_image?: string | null
+          published_at?: string | null
+          scheduled_for?: string | null
+          seo_description?: string | null
+          seo_keywords?: string[] | null
+          seo_title?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["blog_status"]
+          title: string
+          updated_at?: string
+          views?: number | null
+        }
+        Update: {
+          author?: string
+          author_id?: string | null
+          blog_author_id?: string | null
+          content?: string
+          cover_image?: string | null
+          created_at?: string
+          excerpt?: string | null
+          featured?: boolean
+          id?: string
+          og_image?: string | null
+          published_at?: string | null
+          scheduled_for?: string | null
+          seo_description?: string | null
+          seo_keywords?: string[] | null
+          seo_title?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["blog_status"]
+          title?: string
+          updated_at?: string
+          views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_blog_author_id_fkey"
+            columns: ["blog_author_id"]
+            isOneToOne: false
+            referencedRelation: "blog_authors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blog_posts_blog_author_id_fkey"
+            columns: ["blog_author_id"]
+            isOneToOne: false
+            referencedRelation: "blog_authors_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cancellation_feedback: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      commissions: {
+        Row: {
+          affiliate_id: string
+          amount: number
+          created_at: string
+          id: string
+          paid_at: string | null
+          referral_id: string | null
+          status: Database["public"]["Enums"]["commission_status"]
+          stripe_payment_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id: string
+          amount: number
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          referral_id?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          stripe_payment_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string
+          amount?: number
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          referral_id?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          stripe_payment_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exclusive_videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          order_num: number
+          title: string
+          updated_at: string
+          youtube_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          order_num?: number
+          title: string
+          updated_at?: string
+          youtube_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          order_num?: number
+          title?: string
+          updated_at?: string
+          youtube_id?: string
+        }
+        Relationships: []
+      }
+      import_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          error_log: Json | null
+          failed: number | null
+          filename: string
+          id: string
+          inserted: number | null
+          skipped: number | null
+          status: Database["public"]["Enums"]["import_status"]
+          type: Database["public"]["Enums"]["import_type"]
+          updated: number | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_log?: Json | null
+          failed?: number | null
+          filename: string
+          id?: string
+          inserted?: number | null
+          skipped?: number | null
+          status?: Database["public"]["Enums"]["import_status"]
+          type: Database["public"]["Enums"]["import_type"]
+          updated?: number | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_log?: Json | null
+          failed?: number | null
+          filename?: string
+          id?: string
+          inserted?: number | null
+          skipped?: number | null
+          status?: Database["public"]["Enums"]["import_status"]
+          type?: Database["public"]["Enums"]["import_type"]
+          updated?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_jobs_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          affiliate_code: string | null
+          converted_at: string | null
+          created_at: string
+          email: string
+          id: string
+          landing_page: string
+          name: string
+          status: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          affiliate_code?: string | null
+          converted_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          landing_page?: string
+          name: string
+          status?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          affiliate_code?: string | null
+          converted_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          landing_page?: string
+          name?: string
+          status?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      notification_group_members: {
+        Row: {
+          created_at: string | null
+          group_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          group_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          group_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_group_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "notification_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_group_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_groups: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      post_categories: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          post_id: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          post_id: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_categories_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_answers: {
+        Row: {
+          created_at: string
+          cycle: number
+          id: string
+          option_id: string
+          question_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          cycle?: number
+          id?: string
+          option_id: string
+          question_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          cycle?: number
+          id?: string
+          option_id?: string
+          question_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_answers_option_id_fkey"
+            columns: ["option_id"]
+            isOneToOne: false
+            referencedRelation: "profile_options"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "profile_questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_answers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_options: {
+        Row: {
+          created_at: string
+          id: string
+          question_id: string
+          text: string
+          weight_pro: number
+          weight_specialist: number
+          weight_start: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_id: string
+          text: string
+          weight_pro?: number
+          weight_specialist?: number
+          weight_start?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_id?: string
+          text?: string
+          weight_pro?: number
+          weight_specialist?: number
+          weight_start?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_options_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "profile_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_questions: {
+        Row: {
+          created_at: string
+          id: string
+          order_num: number
+          text: string
+          type: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_num: number
+          text: string
+          type?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_num?: number
+          text?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          hide_community_message: boolean | null
+          id: string
+          investor_profile:
+            | Database["public"]["Enums"]["investor_profile"]
+            | null
+          last_reclassification_at: string | null
+          name: string | null
+          notifications_enabled: boolean | null
+          phone: string | null
+          plan: Database["public"]["Enums"]["plan_type"]
+          plan_end_at: string | null
+          plan_start_at: string | null
+          sidebar_collapsed: boolean | null
+          site_id: string | null
+          stripe_customer_id: string | null
+          theme_preference: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          hide_community_message?: boolean | null
+          id: string
+          investor_profile?:
+            | Database["public"]["Enums"]["investor_profile"]
+            | null
+          last_reclassification_at?: string | null
+          name?: string | null
+          notifications_enabled?: boolean | null
+          phone?: string | null
+          plan?: Database["public"]["Enums"]["plan_type"]
+          plan_end_at?: string | null
+          plan_start_at?: string | null
+          sidebar_collapsed?: boolean | null
+          site_id?: string | null
+          stripe_customer_id?: string | null
+          theme_preference?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          hide_community_message?: boolean | null
+          id?: string
+          investor_profile?:
+            | Database["public"]["Enums"]["investor_profile"]
+            | null
+          last_reclassification_at?: string | null
+          name?: string | null
+          notifications_enabled?: boolean | null
+          phone?: string | null
+          plan?: Database["public"]["Enums"]["plan_type"]
+          plan_end_at?: string | null
+          plan_start_at?: string | null
+          sidebar_collapsed?: boolean | null
+          site_id?: string | null
+          stripe_customer_id?: string | null
+          theme_preference?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      push_notifications: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          message: string
+          sent_at: string | null
+          sent_count: number | null
+          target_audience: string | null
+          target_group_id: string | null
+          target_plan: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          message: string
+          sent_at?: string | null
+          sent_count?: number | null
+          target_audience?: string | null
+          target_group_id?: string | null
+          target_plan?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          message?: string
+          sent_at?: string | null
+          sent_count?: number | null
+          target_audience?: string | null
+          target_group_id?: string | null
+          target_plan?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_notifications_target_group_id_fkey"
+            columns: ["target_group_id"]
+            isOneToOne: false
+            referencedRelation: "notification_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          device_id: string | null
+          endpoint: string
+          id: string
+          is_active: boolean | null
+          p256dh: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          device_id?: string | null
+          endpoint: string
+          id?: string
+          is_active?: boolean | null
+          p256dh: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          device_id?: string | null
+          endpoint?: string
+          id?: string
+          is_active?: boolean | null
+          p256dh?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      rate_limit_log: {
+        Row: {
+          created_at: string
+          endpoint: string
+          id: string
+          request_count: number | null
+          user_id: string
+          window_start: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint: string
+          id?: string
+          request_count?: number | null
+          user_id: string
+          window_start?: string
+        }
+        Update: {
+          created_at?: string
+          endpoint?: string
+          id?: string
+          request_count?: number | null
+          user_id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          affiliate_id: string
+          converted_at: string | null
+          created_at: string
+          id: string
+          referred_user_id: string
+          status: string
+        }
+        Insert: {
+          affiliate_id: string
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          referred_user_id: string
+          status?: string
+        }
+        Update: {
+          affiliate_id?: string
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          referred_user_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_referred_user_id_fkey"
+            columns: ["referred_user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sites: {
+        Row: {
+          id: string
+          name: string | null
+          site_id: string | null
+          url: string | null
+        }
+        Insert: {
+          id?: string
+          name?: string | null
+          site_id?: string | null
+          url?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string | null
+          site_id?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
+      smtp_config: {
+        Row: {
+          created_at: string | null
+          id: string
+          security_type: string
+          sender_email: string
+          sender_name: string
+          smtp_password: string
+          smtp_port: number
+          smtp_server: string
+          smtp_user: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          security_type?: string
+          sender_email: string
+          sender_name: string
+          smtp_password: string
+          smtp_port: number
+          smtp_server: string
+          smtp_user: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          security_type?: string
+          sender_email?: string
+          sender_name?: string
+          smtp_password?: string
+          smtp_port?: number
+          smtp_server?: string
+          smtp_user?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      subscription_plans: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_name: string
+          features: Json | null
+          id: string
+          is_active: boolean
+          plan_code: string
+          price_note: string | null
+          price_quarterly: number
+          sort_order: number
+          stripe_price_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_name: string
+          features?: Json | null
+          id?: string
+          is_active?: boolean
+          plan_code: string
+          price_note?: string | null
+          price_quarterly?: number
+          sort_order?: number
+          stripe_price_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          features?: Json | null
+          id?: string
+          is_active?: boolean
+          plan_code?: string
+          price_note?: string | null
+          price_quarterly?: number
+          sort_order?: number
+          stripe_price_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      sync_logs: {
+        Row: {
+          cancellation_requested: boolean | null
+          completed_at: string | null
+          created_at: string | null
+          errors: Json | null
+          failed: number | null
+          id: string
+          inserted: number | null
+          metadata: Json | null
+          skipped: number | null
+          started_at: string
+          status: string
+          sync_type: string
+          total_rows: number | null
+          trigger_type: string
+          triggered_by: string | null
+          updated: number | null
+          warnings: Json | null
+        }
+        Insert: {
+          cancellation_requested?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          errors?: Json | null
+          failed?: number | null
+          id?: string
+          inserted?: number | null
+          metadata?: Json | null
+          skipped?: number | null
+          started_at?: string
+          status: string
+          sync_type: string
+          total_rows?: number | null
+          trigger_type: string
+          triggered_by?: string | null
+          updated?: number | null
+          warnings?: Json | null
+        }
+        Update: {
+          cancellation_requested?: boolean | null
+          completed_at?: string | null
+          created_at?: string | null
+          errors?: Json | null
+          failed?: number | null
+          id?: string
+          inserted?: number | null
+          metadata?: Json | null
+          skipped?: number | null
+          started_at?: string
+          status?: string
+          sync_type?: string
+          total_rows?: number | null
+          trigger_type?: string
+          triggered_by?: string | null
+          updated?: number | null
+          warnings?: Json | null
+        }
+        Relationships: []
+      }
+      sync_queue: {
+        Row: {
+          attempts: number
+          created_at: string
+          error_message: string | null
+          id: string
+          processed_at: string | null
+          row_data: Json
+          row_index: number
+          status: string
+          sync_log_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          row_data: Json
+          row_index: number
+          status?: string
+          sync_log_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          processed_at?: string | null
+          row_data?: Json
+          row_index?: number
+          status?: string
+          sync_log_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sync_queue_sync_log_id_fkey"
+            columns: ["sync_log_id"]
+            isOneToOne: false
+            referencedRelation: "sync_logs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tracking_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_name: string
+          id: string
+          page_url: string | null
+          script_id: string
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_name: string
+          id?: string
+          page_url?: string | null
+          script_id: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_name?: string
+          id?: string
+          page_url?: string | null
+          script_id?: string
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tracking_events_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "tracking_scripts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tracking_scripts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          location: string
+          name: string
+          script_content: string | null
+          script_id: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          location: string
+          name: string
+          script_content?: string | null
+          script_id?: string | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          location?: string
+          name?: string
+          script_content?: string | null
+          script_id?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_items: {
+        Row: {
+          aporte_adicional: number | null
+          asset_id: string | null
+          created_at: string
+          data_compra: string | null
+          id: string
+          preco_compra: number
+          proventos: number | null
+          quantidade: number
+          updated_at: string
+          wallet_id: string
+        }
+        Insert: {
+          aporte_adicional?: number | null
+          asset_id?: string | null
+          created_at?: string
+          data_compra?: string | null
+          id?: string
+          preco_compra: number
+          proventos?: number | null
+          quantidade: number
+          updated_at?: string
+          wallet_id: string
+        }
+        Update: {
+          aporte_adicional?: number | null
+          asset_id?: string | null
+          created_at?: string
+          data_compra?: string | null
+          id?: string
+          preco_compra?: number
+          proventos?: number | null
+          quantidade?: number
+          updated_at?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_items_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallet_simulator"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_movements: {
+        Row: {
+          asset_id: string | null
+          codigo_b3: string
+          created_at: string | null
+          data_operacao: string
+          id: string
+          observacao: string | null
+          quantidade: number
+          tipo_operacao: Database["public"]["Enums"]["operation_type"]
+          user_id: string
+          valor_por_acao: number
+        }
+        Insert: {
+          asset_id?: string | null
+          codigo_b3: string
+          created_at?: string | null
+          data_operacao?: string
+          id?: string
+          observacao?: string | null
+          quantidade: number
+          tipo_operacao: Database["public"]["Enums"]["operation_type"]
+          user_id: string
+          valor_por_acao: number
+        }
+        Update: {
+          asset_id?: string | null
+          codigo_b3?: string
+          created_at?: string | null
+          data_operacao?: string
+          id?: string
+          observacao?: string | null
+          quantidade?: number
+          tipo_operacao?: Database["public"]["Enums"]["operation_type"]
+          user_id?: string
+          valor_por_acao?: number
+        }
+        Relationships: []
+      }
+      wallet_simulator: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      blog_authors_public: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          id: string | null
+          name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          id?: string | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          id?: string | null
+          name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      cleanup_orphaned_syncs: { Args: never; Returns: undefined }
+      create_affiliate: {
+        Args: {
+          custom_code?: string
+          custom_rate?: number
+          target_user_id: string
+        }
+        Returns: string
+      }
+      create_asset_type_if_not_exists: {
+        Args: { type_name: string }
+        Returns: boolean
+      }
+      generate_affiliate_code: { Args: never; Returns: string }
+      generate_seo_keywords: {
+        Args: { content: string; title: string }
+        Returns: string[]
+      }
+      get_all_table_names: {
+        Args: never
+        Returns: {
+          table_name: string
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      request_affiliate_activation: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      affiliate_status: "pending" | "active" | "inactive" | "rejected"
+      app_role: "admin" | "moderator" | "editor" | "user"
+      asset_type: "ACAO" | "FII" | "BDR" | "ETF" | "CRIPTO"
+      blog_status: "draft" | "published" | "scheduled" | "archived"
+      commission_status: "pending" | "approved" | "paid" | "cancelled"
+      import_status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED"
+      import_type: "ASSETS" | "ANALYSES" | "FULL"
+      investor_profile: "START" | "PRO" | "SPECIALIST"
+      operation_type: "COMPRA" | "VENDA" | "PROVENTO" | "APORTE"
+      plan_type: "FREE" | "START" | "PRO" | "SPECIALIST"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +1862,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      affiliate_status: ["pending", "active", "inactive", "rejected"],
+      app_role: ["admin", "moderator", "editor", "user"],
+      asset_type: ["ACAO", "FII", "BDR", "ETF", "CRIPTO"],
+      blog_status: ["draft", "published", "scheduled", "archived"],
+      commission_status: ["pending", "approved", "paid", "cancelled"],
+      import_status: ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"],
+      import_type: ["ASSETS", "ANALYSES", "FULL"],
+      investor_profile: ["START", "PRO", "SPECIALIST"],
+      operation_type: ["COMPRA", "VENDA", "PROVENTO", "APORTE"],
+      plan_type: ["FREE", "START", "PRO", "SPECIALIST"],
+    },
   },
 } as const
