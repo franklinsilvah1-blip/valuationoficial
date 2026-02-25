@@ -237,7 +237,7 @@ async function processQueueBatch(
 
   const syncLogId = firstQueueItem.sync_log_id;
   
-  // ✅ NOVO: Verificar se sync_log está em estado válido
+  // ✅ CORRIGIDO: Verificar se sync_log está em estado válido (aceitar QUEUED e IN_PROGRESS)
   const { data: syncLogStatus } = await supabaseClient
     .from("sync_logs")
     .select("status")
@@ -253,8 +253,11 @@ async function processQueueBatch(
     return { processed: 0, failed: 0, remaining: 0, syncLogId: null };
   }
 
-  if (syncLogStatus.status !== 'IN_PROGRESS') {
-    logStep("⚠️ Sync log is not IN_PROGRESS, cleaning queue items", { 
+  // ✅ Aceitar QUEUED (recém-enfileirado) e IN_PROGRESS (já em processamento)
+  const validStatuses = ['QUEUED', 'IN_PROGRESS'];
+  if (!validStatuses.includes(syncLogStatus.status)) {
+    // Só limpar fila para estados terminais (SUCCESS, FAILED, TIMEOUT, PARTIAL)
+    logStep("⚠️ Sync log in terminal state, cleaning queue items", { 
       syncLogId, 
       status: syncLogStatus.status 
     });
@@ -263,6 +266,18 @@ async function processQueueBatch(
       .delete()
       .eq("sync_log_id", syncLogId);
     return { processed: 0, failed: 0, remaining: 0, syncLogId: null };
+  }
+
+  // ✅ Promover QUEUED -> IN_PROGRESS antes de processar o primeiro lote
+  if (syncLogStatus.status === 'QUEUED') {
+    logStep("📊 Promoting sync_log from QUEUED to IN_PROGRESS", { syncLogId });
+    await supabaseClient
+      .from("sync_logs")
+      .update({ 
+        status: 'IN_PROGRESS',
+        started_at: new Date().toISOString()
+      })
+      .eq("id", syncLogId);
   }
   
   // Get all pending queue items for this sync
@@ -414,13 +429,7 @@ async function processQueueBatch(
         itemId: item.id, 
         rowIndex: item.row_index,
         codigo: item.row_data?.codigo_b3,
-        error: errorMessage,
-        problematicValues: {
-          roi_2023a2025: item.row_data?.roi_2023a2025,
-          roi_2026: item.row_data?.roi_2026,
-          recomendacao: item.row_data?.recomendacao,
-          tendencia: item.row_data?.tendencia
-        }
+        error: errorMessage
       });
 
       // Mark as failed
@@ -432,8 +441,6 @@ async function processQueueBatch(
           processed_at: new Date().toISOString()
         })
         .eq("id", item.id);
-
-      failed++;
     }
   }
 
@@ -586,14 +593,14 @@ Deno.serve(async (req) => {
     if (!pendingCount || pendingCount === 0) {
       logStep("No pending items in queue");
       
-      // ✅ FIX: Verificar e finalizar sync_logs IN_PROGRESS que foram completados
+      // ✅ FIX: Verificar e finalizar sync_logs IN_PROGRESS ou QUEUED que foram completados
       const { data: inProgressSyncs } = await supabaseClient
         .from("sync_logs")
         .select("id, started_at, total_rows")
-        .eq("status", "IN_PROGRESS");
+        .in("status", ["IN_PROGRESS", "QUEUED"]);
 
       if (inProgressSyncs && inProgressSyncs.length > 0) {
-        logStep("🔍 Found IN_PROGRESS sync_logs to check", { count: inProgressSyncs.length });
+        logStep("🔍 Found active sync_logs to check", { count: inProgressSyncs.length });
         
         for (const sync of inProgressSyncs) {
           // Verificar se há itens pendentes ou em processamento para este sync
@@ -604,9 +611,9 @@ Deno.serve(async (req) => {
             .in("status", ["PENDING", "PROCESSING"]);
 
           if (!pendingForSync || pendingForSync === 0) {
-            logStep("📊 Finalizing orphaned sync_log", { syncId: sync.id });
+            logStep("📊 Finalizing completed sync_log", { syncId: sync.id });
             
-            // ✅ FIX: Buscar metadata original para preservar duplicatas detectadas
+            // Buscar metadata original para preservar duplicatas detectadas
             const { data: originalSyncLog } = await supabaseClient
               .from("sync_logs")
               .select("metadata")
@@ -628,7 +635,7 @@ Deno.serve(async (req) => {
             // Determinar status final
             const finalStatus = failed === 0 ? "SUCCESS" : failed < completed ? "PARTIAL" : "FAILED";
 
-            // Finalizar sync_log preservando metadata original (incluindo duplicatas)
+            // Finalizar sync_log preservando metadata original
             await supabaseClient
               .from("sync_logs")
               .update({
@@ -638,7 +645,7 @@ Deno.serve(async (req) => {
                 failed: failed,
                 total_rows: sync.total_rows || totalProcessed,
                 metadata: {
-                  ...originalMetadata,  // ✅ Preserva duplicates_found, duplicate_codes, etc.
+                  ...originalMetadata,
                   finalized_by: "auto_cleanup",
                   finalized_at: new Date().toISOString(),
                   execution_time_ms: Date.now() - new Date(sync.started_at).getTime(),
@@ -652,7 +659,7 @@ Deno.serve(async (req) => {
               })
               .eq("id", sync.id);
 
-            logStep("✅ Finalized orphaned sync_log", { 
+            logStep("✅ Finalized sync_log", { 
               syncId: sync.id, 
               status: finalStatus,
               completed,
@@ -660,15 +667,11 @@ Deno.serve(async (req) => {
             });
 
             // Limpar itens COMPLETED da fila
-            const { error: cleanupError } = await supabaseClient
+            await supabaseClient
               .from("sync_queue")
               .delete()
               .eq("sync_log_id", sync.id)
               .eq("status", "COMPLETED");
-
-            if (!cleanupError) {
-              logStep("🧹 Cleaned up COMPLETED items", { syncId: sync.id });
-            }
 
             // Enviar notificação
             try {
@@ -686,7 +689,6 @@ Deno.serve(async (req) => {
                   endTime: new Date().toISOString(),
                 })
               });
-              logStep("📧 Notification sent for finalized sync", { syncId: sync.id });
             } catch (notifError: any) {
               logStep("⚠️ Failed to send notification", { error: notifError.message });
             }

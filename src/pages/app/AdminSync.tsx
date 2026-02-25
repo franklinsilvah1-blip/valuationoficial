@@ -38,14 +38,14 @@ const useQueueStats = (enabled: boolean = true) => {
     queryKey: ["sync-queue-stats"],
     enabled: enabled && !hasError,
     queryFn: async () => {
-      // ✅ Buscar apenas o sync_log mais recente IN_PROGRESS
+      // ✅ Buscar sync_log mais recente IN_PROGRESS ou QUEUED
       const { data: currentLog, error: logError } = await supabase
         .from("sync_logs")
         .select("*")
-        .eq("status", "IN_PROGRESS")
+        .in("status", ["IN_PROGRESS", "QUEUED"])
         .order("started_at", { ascending: false })
         .limit(1)
-        .maybeSingle(); // ✅ Retorna null se não houver nenhum
+        .maybeSingle();
 
       if (logError) {
         if (logError.message.includes('406')) {
@@ -205,12 +205,12 @@ const useSyncStatus = (enabled: boolean = true) => {
 
       const queueActive = queueData !== null;
 
-      // Verificar sync_log IN_PROGRESS
+      // Verificar sync_log IN_PROGRESS ou QUEUED
       const { data: logData, error: logError } = await supabase
         .from("sync_logs")
         .select("id, started_at, cancellation_requested")
         .eq("sync_type", "google_sheets")
-        .eq("status", "IN_PROGRESS")
+        .in("status", ["IN_PROGRESS", "QUEUED"])
         .order("started_at", { ascending: false })
         .limit(1)
         .maybeSingle();
