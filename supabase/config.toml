@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.restore-all-data]
 verify_jwt = false
+
+[functions.update-app-config]
+verify_jwt = false
