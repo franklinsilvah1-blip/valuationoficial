@@ -1284,7 +1284,7 @@ export type Database = {
           created_at: string | null
           errors: string | null
           failed: number | null
-          id: string | null
+          id: string
           inserted: number | null
           metadata: string | null
           skipped: number | null
@@ -1303,7 +1303,7 @@ export type Database = {
           created_at?: string | null
           errors?: string | null
           failed?: number | null
-          id?: string | null
+          id?: string
           inserted?: number | null
           metadata?: string | null
           skipped?: number | null
@@ -1322,7 +1322,7 @@ export type Database = {
           created_at?: string | null
           errors?: string | null
           failed?: number | null
-          id?: string | null
+          id?: string
           inserted?: number | null
           metadata?: string | null
           skipped?: number | null
@@ -1342,7 +1342,7 @@ export type Database = {
           attempts: number | null
           created_at: string | null
           error_message: string | null
-          id: string | null
+          id: string
           processed_at: string | null
           row_data: string | null
           row_index: number | null
@@ -1353,7 +1353,7 @@ export type Database = {
           attempts?: number | null
           created_at?: string | null
           error_message?: string | null
-          id?: string | null
+          id?: string
           processed_at?: string | null
           row_data?: string | null
           row_index?: number | null
@@ -1364,7 +1364,7 @@ export type Database = {
           attempts?: number | null
           created_at?: string | null
           error_message?: string | null
-          id?: string | null
+          id?: string
           processed_at?: string | null
           row_data?: string | null
           row_index?: number | null
