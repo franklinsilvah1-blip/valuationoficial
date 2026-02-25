@@ -1,100 +1,97 @@
 
 
-## Varredura Completa do Site - Diagnóstico Pós-Migração
+## Diagnóstico Completo da Migração
 
-### Resumo Executivo
+### Estado Atual do Banco
 
-A migração SQL trouxe apenas parte dos dados. Das 37 tabelas do sistema, **16 tabelas estão vazias mas tinham dados no backup**. Além disso, falta o secret `STRIPE_SECRET_KEY` nas Edge Functions, o que impede pagamentos.
+**Dados presentes (OK):**
+- 18 perfis em `profiles`
+- 598 ativos + 598 análises em `assets`/`asset_analyses`
+- 10 carteiras, 28 itens, 34 movimentações
+- 2 admins em `user_roles` (Douglas + Franklin)
+- 5 planos de assinatura, 5 categorias, 4 blog authors, 3 blog posts
+- 5 afiliados, 1 grupo de notificação, 1 SMTP config
+- `app_config`: VAPID key, WhatsApp link, admin_email -- tudo correto
 
----
+**Problemas Críticos Identificados:**
 
-### Tabelas que Precisam de Restauração (dados zerados)
+1. **auth.users está VAZIO** -- Nenhum usuário existe na tabela de autenticação. Ninguém consegue fazer login.
+2. **Nenhuma trigger/function existe** -- `handle_new_user`, `has_role`, `request_affiliate_activation` estão ausentes.
+3. **RLS desabilitado em TODAS as 39 tabelas** -- O banco está completamente aberto.
+4. **Nenhuma RLS policy existe** -- Zero políticas de segurança.
+5. **Nenhum enum `app_role` existe** -- Os tipos necessários para o sistema de roles não foram criados.
+6. **Nenhuma foreign key existe** -- As relações entre tabelas foram perdidas.
 
-| Tabela | Backup | Impacto |
-|---|---|---|
-| **subscription_plans** | 5 planos | Página de assinatura quebrada, checkout não funciona |
-| **affiliates** | 5 afiliados | Programa de afiliados não funciona |
-| **blog_posts** | 3 posts | Blog vazio |
-| **blog_authors** | 4 autores | Blog sem autores |
-| **categories** | 5 categorias | Blog sem categorias |
-| **app_config** | 8 configs | Links de WhatsApp, backup configs, VAPID key perdidos |
-| **smtp_config** | 1 config | Envio de emails não funciona |
-| **tracking_scripts** | 3 scripts | Meta Pixel, Google Analytics e GTM não rastreiam |
-| **profile_questions** | 3 perguntas | Perfil do investidor quebrado |
-| **profile_options** | 12 opções | Perfil do investidor quebrado |
-| **profile_answers** | 57 respostas | Respostas dos usuários perdidas |
-| **asset_favorites** | 31 favoritos | Favoritos dos usuários perdidos |
-| **notification_groups** | 1 grupo | Push notifications não funcionam |
-| **notification_group_members** | 2 membros | Push notifications não funcionam |
-| **push_notifications** | 1 notificação | Histórico de notificações perdido |
-
-### Tabelas Vazias sem Impacto (eram vazias no backup também)
-
-- `commissions`, `referrals`, `affiliate_clicks`, `leads`, `post_categories`, `tracking_events`, `asset_views`, `sync_queue` -- todas tinham 0 registros no backup.
-
-### Tabelas OK (já restauradas anteriormente)
-
-- `profiles` (18), `user_roles` (2), `assets` (598), `asset_analyses` (598), `exclusive_videos` (2), `wallet_simulator` (10), `wallet_items` (28), `wallet_movements` (34), `push_subscriptions` (2)
+**Erros de Build (8 erros):**
+Todos causados pelo types.ts gerado não ter enums (`app_role`), ter `features` como `string` em vez de array, `metadata` como `string` em vez de `jsonb`, e não ter a function `request_affiliate_activation` registrada.
 
 ---
 
-### Secret Faltando: STRIPE_SECRET_KEY
+### Plano de Execução (7 etapas)
 
-Os logs da Edge Function `payment-history` mostram:
-```
-ERROR: STRIPE_SECRET_KEY is not set
-```
+#### Etapa 1 -- Criar Edge Function para migrar usuários para auth.users
+Recriar a edge function `migrate-users` que:
+- Lê todos os perfis de `profiles` com email
+- Cria cada usuário em `auth.users` preservando o UUID original
+- Usa a senha temporária `Valuation@2025`
+- Registra resultados no config.toml
 
-As seguintes Edge Functions dependem do Stripe e não funcionam sem esse secret:
-- `create-checkout` (criar assinatura)
-- `stripe-webhook` (processar pagamentos)
-- `customer-portal` (portal do cliente)
-- `payment-history` (histórico de pagamentos)
-- `check-subscription` (verificar assinatura)
-- `force-sync-subscription` (sincronizar assinatura)
-- `stripe-reports` (relatórios)
+#### Etapa 2 -- Criar enums, functions e triggers via migração SQL
+Uma migração única que cria:
+- **Enum `app_role`**: `('admin', 'editor', 'moderator', 'user')`
+- **Function `has_role`**: Security definer para checar roles sem recursão RLS
+- **Function `handle_new_user`**: Trigger que cria perfil automaticamente com `ON CONFLICT DO NOTHING`
+- **Function `request_affiliate_activation`**: RPC para ativação de afiliados
+- **Trigger `on_auth_user_created`**: Liga `handle_new_user` a `auth.users`
 
-**Ação necessária**: O Douglas precisa fornecer a `STRIPE_SECRET_KEY` do Stripe para que os pagamentos voltem a funcionar.
+#### Etapa 3 -- Habilitar RLS e criar policies em todas as tabelas
+Ativar RLS e criar políticas adequadas para cada tabela:
+- `profiles`: usuário vê/edita o próprio, admin vê todos
+- `user_roles`: apenas leitura via `has_role`, admin gerencia
+- `assets`, `asset_analyses`: leitura pública, admin gerencia
+- `wallet_*`: usuário vê/edita os próprios dados
+- `asset_favorites`, `asset_views`: usuário gerencia os próprios
+- `blog_posts`, `blog_authors`, `categories`: leitura pública, admin/editor gerencia
+- `app_config`, `smtp_config`, `tracking_scripts`: admin only
+- `affiliates`, `commissions`, `referrals`: usuário vê os próprios, admin vê todos
+- `admin_audit_log`: admin only
+- Tabelas de suporte (`leads`, `push_*`, `notification_*`, `sync_*`, `import_*`, `rate_limit_log`, `cancellation_feedback`, `profile_*`): políticas adequadas por contexto
+
+#### Etapa 4 -- Corrigir schema do banco (colunas com tipos incorretos)
+As colunas no banco estão todas como `text` quando deveriam ter tipos corretos. Ajustes necessários:
+- `admin_audit_log.metadata`: de `text` para `jsonb` (o código insere objetos JSON)
+- `subscription_plans.features`: de `text` para `jsonb` (o código espera `string[]`)
+- Adicionar constraints/defaults onde necessário (`id` com `gen_random_uuid()`, `created_at` com `now()`, etc.)
+
+#### Etapa 5 -- Corrigir erros de build no código TypeScript
+Após a migração de schema, o types.ts será regenerado automaticamente. Os erros restantes que precisam de correção manual:
+- **`useSubscriptionPlans.ts`**: Parsear `features` como JSON string se necessário, ou ajustar o cast
+- **`EditClientDialog.tsx` / `EditPlanDialog.tsx`**: Serializar `metadata` como `JSON.stringify()` antes de inserir
+- **`AdminBlog.tsx`**: Corrigir a query join `user_roles -> profiles` (não existe foreign key, precisa fazer queries separadas)
+- **`AdminClients.tsx` / `AdminUsers.tsx`**: Remover referência a `Database["public"]["Enums"]["app_role"]` e usar tipo string
+- **`Afiliado.tsx`**: A function `request_affiliate_activation` precisa ser recriada (etapa 2)
+
+#### Etapa 6 -- Deploy da Edge Function e execução da migração de usuários
+- Registrar `migrate-users` no `config.toml`
+- Deploy e executar a migração
+- Validar que os 18 usuários foram criados em `auth.users`
+
+#### Etapa 7 -- Limpeza e validação final
+- Remover edge function temporária `migrate-users`
+- Verificar todos os dados: profiles, assets, wallets, blog, affiliates, app_config
+- Validar que login funciona com senha `Valuation@2025`
+- Confirmar que admins (Douglas/Franklin) têm acesso ao painel admin
 
 ---
 
-### Tabelas com dados sensíveis (smtp_config)
+### Detalhes Técnicos
 
-A tabela `smtp_config` continha a senha SMTP. No backup está como `[REDACTED]`. Será necessário reinserir a senha manualmente pelo painel admin após restaurar a estrutura.
+**Sobre os tipos gerados (types.ts):**
+O arquivo atual reflete o schema "vazio" -- todas as colunas como nullable text, sem enums, sem functions, sem relationships. Após as migrações SQL (etapas 2-4), o types.ts será regenerado automaticamente pelo Supabase com os tipos corretos, o que resolverá a maioria dos erros de build.
 
----
+**Sobre as foreign keys ausentes:**
+A migração original tinha foreign keys (ex: `wallet_items.wallet_id -> wallet_simulator.id`), mas elas não existem no banco atual. Serão recriadas na migração SQL.
 
-### Plano de Restauração
-
-Vou criar uma **Edge Function `restore-all-data`** que restaura todas as 15 tabelas de uma vez, usando os dados dos backups JSON. Isso inclui:
-
-1. `subscription_plans` (5 registros) -- **Crítico para pagamentos**
-2. `blog_authors` (4 registros)
-3. `blog_posts` (3 registros)
-4. `categories` (5 registros)
-5. `app_config` (8 registros)
-6. `smtp_config` (1 registro, sem senha -- precisará ser reconfigurada)
-7. `tracking_scripts` (3 registros)
-8. `profile_questions` (3 registros)
-9. `profile_options` (12 registros)
-10. `profile_answers` (57 registros)
-11. `asset_favorites` (31 registros)
-12. `affiliates` (5 registros)
-13. `notification_groups` (1 registro)
-14. `notification_group_members` (2 registros)
-15. `push_notifications` (1 registro)
-
-A Edge Function usará `upsert` com `ON CONFLICT DO NOTHING` para segurança.
-
-### Após a Restauração
-
-1. Solicitar a `STRIPE_SECRET_KEY` ao Douglas
-2. Reconfigurar senha SMTP pelo painel admin
-3. Testar o fluxo de assinatura ponta a ponta
-4. Limpar Edge Functions temporárias (`migrate-users`, `restore-wallets`, `restore-all-data`)
-
-### Arquivos a criar/modificar
-
-1. **`supabase/functions/restore-all-data/index.ts`** -- Edge Function com todos os dados de backup embutidos
-2. **`supabase/config.toml`** -- Registrar a nova função
+**Sobre a edge function `migrate-users`:**
+Usará a Service Role Key para chamar `auth.admin.createUser()` preservando UUIDs, mesma abordagem que funcionou anteriormente.
 
