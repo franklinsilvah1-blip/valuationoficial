@@ -297,10 +297,10 @@ export default function AdminAffiliates() {
 
   // Update affiliate status mutation
   const updateAffiliateStatus = useMutation({
-    mutationFn: async ({ affiliateId, status, rejectionReason }: { affiliateId: string; status: "active" | "inactive" | "pending" | "suspended"; rejectionReason?: string }) => {
-      const updateData: { status: "active" | "inactive" | "pending" | "suspended"; rejection_reason?: string | null } = { status };
+    mutationFn: async ({ affiliateId, status, rejectionReason }: { affiliateId: string; status: "active" | "inactive" | "pending" | "rejected"; rejectionReason?: string }) => {
+      const updateData: { status: "active" | "inactive" | "pending" | "rejected"; rejection_reason?: string | null } = { status };
       
-      if (status === "suspended" || status === "inactive") {
+      if (status === "rejected" || status === "inactive") {
         updateData.rejection_reason = rejectionReason || null;
       } else {
         updateData.rejection_reason = null;
@@ -332,7 +332,7 @@ export default function AdminAffiliates() {
         }
       }
 
-      if ((data.status === "suspended" || data.status === "inactive") && selectedAffiliate?.status === "pending") {
+      if ((data.status === "rejected" || data.status === "inactive") && selectedAffiliate?.status === "pending") {
         try {
           await supabase.functions.invoke("send-affiliate-email", {
             body: { 
@@ -772,12 +772,12 @@ export default function AdminAffiliates() {
                 if (selectedAffiliate) {
                   updateAffiliateStatus.mutate({
                     affiliateId: selectedAffiliate.id,
-                    status: newStatus as "active" | "inactive" | "pending" | "suspended",
+                    status: newStatus as "active" | "inactive" | "pending" | "rejected",
                     rejectionReason: rejectionReason.trim() || undefined,
                   });
                 }
               }}
-              disabled={updateAffiliateStatus.isPending || ((newStatus === "suspended" || newStatus === "inactive") && !rejectionReason.trim())}
+              disabled={updateAffiliateStatus.isPending || ((newStatus === "rejected" || newStatus === "inactive") && !rejectionReason.trim())}
               className={newStatus === "active" ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}
             >
               {updateAffiliateStatus.isPending ? "Atualizando..." : "Confirmar"}

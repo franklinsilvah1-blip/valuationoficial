@@ -82,7 +82,7 @@ export default function AdminSubscriptionsPanel() {
       START: profiles.filter(p => p.plan === "START").length,
       PRO: profiles.filter(p => p.plan === "PRO").length,
       SPECIALIST: profiles.filter(p => p.plan === "SPECIALIST").length,
-      FALE_C_ESPECIALISTA: profiles.filter(p => p.plan === "FALE_C_ESPECIALISTA").length,
+      FREE: profiles.filter(p => p.plan === "FREE").length,
     };
 
     // New subscribers this month
@@ -294,8 +294,8 @@ export default function AdminSubscriptionsPanel() {
                   <p className="text-sm text-muted-foreground">SPECIALIST</p>
                 </div>
                 <div className="p-4 rounded-lg bg-green-500/10 text-center">
-                  <p className="text-2xl font-bold text-green-600">{metrics.planCounts.FALE_C_ESPECIALISTA}</p>
-                  <p className="text-sm text-muted-foreground">CONSULTORIA</p>
+                  <p className="text-2xl font-bold text-green-600">{metrics.planCounts.FREE}</p>
+                  <p className="text-sm text-muted-foreground">FREE</p>
                 </div>
               </div>
             )}

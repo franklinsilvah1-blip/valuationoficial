@@ -314,7 +314,7 @@ export default function Afiliado() {
   }
 
   // Affiliate is suspended or inactive
-  if (affiliate.status === "suspended" || affiliate.status === "inactive") {
+  if (affiliate.status === "rejected" || affiliate.status === "inactive") {
     return (
       <AppLayout title="Programa de Afiliados">
         <div className="flex items-center justify-center min-h-[60vh]">
@@ -323,17 +323,17 @@ export default function Afiliado() {
               <div className="mx-auto mb-4 w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
                 <Users className="w-8 h-8 text-red-600" />
               </div>
-              <CardTitle className="text-2xl">Conta {affiliate.status === "suspended" ? "Suspensa" : "Inativa"}</CardTitle>
+              <CardTitle className="text-2xl">Conta {affiliate.status === "rejected" ? "Rejeitada" : "Inativa"}</CardTitle>
               <CardDescription className="text-base">
-                {affiliate.status === "suspended" 
-                  ? "Sua conta de afiliado foi suspensa. Entre em contato com o suporte para mais informações."
+                {affiliate.status === "rejected" 
+                  ? "Sua conta de afiliado foi rejeitada. Entre em contato com o suporte para mais informações."
                   : "Sua conta de afiliado foi desativada por inatividade. Entre em contato para reativação."
                 }
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Badge variant="outline" className="bg-red-500/10 text-red-600 border-red-500/30">
-                {affiliate.status === "suspended" ? "Suspensa" : "Inativa"}
+                {affiliate.status === "rejected" ? "Rejeitada" : "Inativa"}
               </Badge>
             </CardContent>
           </Card>
