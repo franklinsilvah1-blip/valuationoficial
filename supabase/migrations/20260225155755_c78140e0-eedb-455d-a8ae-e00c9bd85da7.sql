@@ -1,0 +1,4 @@
+INSERT INTO exclusive_videos (id, title, description, youtube_id, order_num, is_active, created_at, updated_at) VALUES
+('50287a13-ad63-48cd-a1fe-e1424ab1dcab', 'Valuation it Aula 01 | Como usar a Plataforma Valuation Invest Tech: Guia Completo do Zero!', 'Primeira aula do curso - Introdução', 'ppiu3YqyMMU', 1, true, '2025-12-31T14:55:59.607951+00:00', '2025-12-31T15:48:55.243785+00:00'),
+('239eb32b-c2e3-4e5a-9ba5-f32703ecd506', 'Valuation it - Aula 02 | Como Comprar sua Primeira Ação na Prática: Passo a Passo do Zero!', 'Segunda aula do curso - Conceitos fundamentais', 'wZpU3vDOGuk', 2, true, '2025-12-31T14:55:59.607951+00:00', '2025-12-31T15:48:55.858912+00:00')
+ON CONFLICT (id) DO NOTHING;
