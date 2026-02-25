@@ -1,72 +1,123 @@
 
+Objetivo: corrigir definitivamente a sincronização Google Sheets em modo fila, eliminando o cenário em que a limpeza forçada “funciona” mas a sincronização nunca conclui.
 
-## Diagnóstico: Carteiras com erro 400 (Bad Request)
+Diagnóstico (baseado em logs + código)
+1) Causa raiz principal:
+- `sync-google-sheets` cria `sync_log` como `IN_PROGRESS`, mas logo após enfileirar altera para `QUEUED`.
+- `process-sync-queue` só aceita processar quando o `sync_log` está `IN_PROGRESS`.
+- Resultado: o processor encontra `QUEUED`, considera inválido, apaga itens da fila e encerra com 0 processados.
+- Evidência no log: `Sync log is not IN_PROGRESS, cleaning queue items ... status: "QUEUED"`.
 
-### Problemas Identificados
+2) Efeito colateral:
+- `sync_logs` recentes ficam em `QUEUED` com `total_rows=600`, sem `updated/failed`, e `sync_queue` fica vazia.
+- Isso dá sensação de “iniciou mas não concluiu”.
 
-Analisando os screenshots e o código, existem **dois problemas críticos**:
+3) Fragilidades adicionais encontradas:
+- `process-sync-queue` incrementa `failed` duas vezes no catch do item (contagem incorreta).
+- `monitor-sync-queue` tem regra de timeout de `IN_PROGRESS > 60s`, agressiva para lotes grandes.
+- Filtros de “ativos órfãos” usando `.not("codigo_b3", "in", ...)` com string sem quoting robusto podem falhar em tickers especiais (risco funcional).
 
-**1. Foreign Keys ausentes entre `assets` e `asset_analyses`**
+Arquitetura de correção (estado da sincronização)
+```text
+INÍCIO MANUAL/CRON
+  -> sync-google-sheets cria sync_log = QUEUED
+  -> popula sync_queue (PENDING)
+  -> dispara process-sync-queue
 
-O código em `useWalletSimulator.ts` (linhas 48-53, 134-149) e em `MercadoApp.tsx` faz queries com embedded resources do PostgREST:
-
-```sql
-assets?select=*,asset_analyses(*)
+process-sync-queue
+  -> valida sync_log aceitando QUEUED ou IN_PROGRESS
+  -> ao iniciar processamento real: muda QUEUED -> IN_PROGRESS
+  -> processa lotes
+  -> quando remaining = 0: fecha sync_log em SUCCESS/PARTIAL/FAILED
+  -> limpa itens COMPLETED
 ```
 
-Isso **requer** uma foreign key `asset_analyses.asset_id -> assets.id`. Sem ela, o PostgREST retorna **400 Bad Request** -- exatamente o erro nos screenshots.
+Plano de implementação (arquivos e mudanças)
+1) Corrigir máquina de estados entre funções (principal)
+- Arquivo: `supabase/functions/process-sync-queue/index.ts`
+- Ajustes:
+  - Em `processQueueBatch`, aceitar `sync_log.status` em `['QUEUED', 'IN_PROGRESS']`.
+  - Se status for `QUEUED`, promover para `IN_PROGRESS` antes do primeiro lote (com timestamp consistente).
+  - Remover comportamento destrutivo de apagar fila quando status for `QUEUED`.
+  - Manter limpeza destrutiva apenas para estados finais (`SUCCESS`, `FAILED`, `TIMEOUT`, etc.).
+- Resultado esperado:
+  - Não haverá mais descarte indevido da fila.
 
-**2. Todas as RLS policies ainda são RESTRICTIVE**
+2) Padronizar criação/atualização de status no início da sync
+- Arquivo: `supabase/functions/sync-google-sheets/index.ts`
+- Ajustes:
+  - Manter `QUEUED` após enfileirar (coerente com “aguardando processamento”).
+  - Garantir metadata consistente (`items_queued`, `sheet_codigos_b3`, duplicatas) para finalização posterior.
+  - Garantir que trigger do processor não falhe silenciosamente (log explícito com contexto).
+- Resultado esperado:
+  - Estado inicial claro e compatível com processor.
 
-Toda policy listada no schema mostra `Permissive: No`. Quando há múltiplas policies RESTRICTIVE no mesmo comando (ex: SELECT), **todas** precisam passar simultaneamente. Isso bloqueia o acesso em tabelas como `profiles` (um usuário normal nunca é admin E dono ao mesmo tempo, pois ambas precisam ser true).
+3) Corrigir contadores e integridade dos resultados
+- Arquivo: `supabase/functions/process-sync-queue/index.ts`
+- Ajustes:
+  - Remover incremento duplicado de `failed` no bloco de erro por item.
+  - Revisar atualização incremental de `sync_logs.updated/failed` para refletir exatamente o lote.
+- Resultado esperado:
+  - métricas reais no painel/admin e notificações corretas.
 
-A correção anterior pode ter falhado ou sido sobrescrita.
+4) Endurecer finalização e desativação de órfãos
+- Arquivo: `supabase/functions/process-sync-queue/index.ts`
+- Ajustes:
+  - Tornar filtro `NOT IN` de `codigo_b3` robusto (quote-safe), evitando quebra com strings/tickers não triviais.
+  - Preservar metadata original + metadata de fechamento sem sobrescrever campos críticos.
+- Resultado esperado:
+  - fechamento confiável e limpeza de ativos órfãos sem efeito colateral.
 
----
+5) Ajustar monitor para não matar sync saudável
+- Arquivo: `supabase/functions/monitor-sync-queue/index.ts`
+- Ajustes:
+  - Substituir regra agressiva `IN_PROGRESS > 60s` por critério de “sem progresso real por janela maior” (ex.: 10+ min).
+  - Considerar sinais de progresso (redução de PENDING, aumento de COMPLETED/FAILED) antes de forçar FAIL.
+- Resultado esperado:
+  - elimina falso positivo de travamento durante processamento legítimo de 600+ linhas.
 
-### Plano de Correção (2 etapas)
+6) Alinhamento do painel admin (observabilidade)
+- Arquivo: `src/pages/app/AdminSync.tsx`
+- Ajustes:
+  - Considerar `QUEUED` como estado ativo no cálculo/status visual (além de `IN_PROGRESS`).
+  - Exibir motivo quando fila for limpa por estado inválido (se ocorrer no futuro), para diagnóstico rápido.
+- Resultado esperado:
+  - painel reflete o estado real e evita “sumiço” da sincronização.
 
-#### Etapa 1 -- Criar Foreign Keys essenciais
+Plano de validação (fim-a-fim)
+1) Teste funcional principal:
+- Disparar “Sincronizar Agora” com ~600 linhas.
+- Esperado:
+  - `sync_log`: `QUEUED -> IN_PROGRESS -> SUCCESS/PARTIAL`.
+  - `sync_queue`: PENDING reduz gradualmente até 0.
+  - `updated/failed/total_rows` preenchidos corretamente.
 
-Uma migração SQL que adiciona as relações necessárias para as queries PostgREST funcionarem:
+2) Teste de robustez:
+- Disparar 2 sincronizações seguidas rapidamente.
+- Esperado:
+  - segunda execução bloqueada com mensagem de fila/sync ativa sem corromper primeira.
 
-- `asset_analyses.asset_id` -> `assets.id` (ON DELETE CASCADE)
-- `wallet_items.wallet_id` -> `wallet_simulator.id` (ON DELETE CASCADE)
-- `wallet_items.asset_id` -> `assets.id` (ON DELETE SET NULL)
-- `asset_favorites.asset_id` -> `assets.id` (ON DELETE SET NULL)
-- `asset_favorites.user_id` -> `profiles.id`
-- `wallet_movements.asset_id` -> `assets.id` (ON DELETE SET NULL)
-- `blog_posts.blog_author_id` -> `blog_authors.id`
-- `post_categories.post_id` -> `blog_posts.id`
-- `post_categories.category_id` -> `categories.id`
-- `commissions.affiliate_id` -> `affiliates.id`
-- `commissions.referral_id` -> `referrals.id`
-- `referrals.affiliate_id` -> `affiliates.id`
+3) Teste de recuperação:
+- Executar “Forçar Limpeza” com fila órfã simulada.
+- Esperado:
+  - lock liberado + estado consistente + próxima sincronização conclui.
 
-#### Etapa 2 -- Recriar TODAS as RLS policies como PERMISSIVE
+4) Teste de monitor:
+- Com sync longa ativa, monitor não deve finalizar com timeout prematuro.
 
-Dropar e recriar cada policy sem a keyword `RESTRICTIVE` (que é o padrão no PostgreSQL para `CREATE POLICY` quando não especificado -- mas a migração anterior pode ter usado explicitamente). Tabelas afetadas:
+5) Verificação por logs/DB:
+- Edge logs de `sync-google-sheets`, `process-sync-queue`, `monitor-sync-queue`.
+- SQL: últimos `sync_logs` e contagem por status em `sync_queue`.
 
-- `profiles`, `user_roles`, `assets`, `asset_analyses`
-- `wallet_simulator`, `wallet_items`, `wallet_movements`
-- `asset_favorites`, `asset_views`, `subscription_plans`
-- `blog_posts`, `blog_authors`, `categories`, `post_categories`
-- `affiliates`, `commissions`, `referrals`, `affiliate_clicks`
-- `leads`, `cancellation_feedback`, `app_config`, `smtp_config`
-- `admin_audit_log`, `push_notifications`, `push_subscriptions`
-- `notification_groups`, `notification_group_members`
-- `tracking_scripts`, `tracking_events`
-- `sync_logs`, `sync_queue`, `import_jobs`, `rate_limit_log`
-- `profile_questions`, `profile_options`, `profile_answers`
-- `exclusive_videos`, `sites`, `blog_authors_public`
+Riscos e mitigação
+- Risco: alterar estado sem considerar fluxos antigos.
+  - Mitigação: aceitar retrocompatibilidade (`QUEUED` e `IN_PROGRESS`) no processor.
+- Risco: monitor continuar agressivo.
+  - Mitigação: timeout por inatividade real, não apenas por duração.
+- Risco: regressão em métricas do painel.
+  - Mitigação: validação cruzada logs x DB x UI.
 
----
-
-### Detalhes Técnicos
-
-A causa raiz do erro 400 é que o PostgREST precisa de foreign keys para resolver embedded selects (`asset_analyses(*)`). Sem elas, a query é rejeitada antes mesmo de chegar ao RLS.
-
-Após adicionar as FKs, as queries PostgREST vão funcionar, mas o RLS RESTRICTIVE ainda bloquearia os dados. Por isso as duas etapas são necessárias juntas.
-
-O `types.ts` será regenerado automaticamente após a migração, refletindo as novas `Relationships` no schema.
-
+Seção técnica (explicação simples)
+- Hoje o sistema enfileira corretamente, mas o processador “espera outro status” e por isso joga a fila fora.
+- A correção é alinhar o “idioma de status” entre as funções.
+- Depois disso, a sincronização vai de ponta a ponta: enfileira, processa, fecha log e atualiza painel.
