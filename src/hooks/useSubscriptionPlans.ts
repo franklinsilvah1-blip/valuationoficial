@@ -27,7 +27,14 @@ export const useSubscriptionPlans = () => {
         .order("sort_order", { ascending: true });
 
       if (error) throw error;
-      return data as SubscriptionPlan[];
+      return (data || []).map(item => ({
+        ...item,
+        features: Array.isArray(item.features) 
+          ? item.features as string[]
+          : typeof item.features === 'string' 
+            ? JSON.parse(item.features) 
+            : [],
+      })) as SubscriptionPlan[];
     },
   });
 };
@@ -46,7 +53,7 @@ export const useUpdateSubscriptionPlan = () => {
           price_quarterly: plan.price_quarterly,
           price_note: plan.price_note,
           stripe_price_id: plan.stripe_price_id,
-          features: plan.features,
+          features: JSON.stringify(plan.features) as any,
           is_active: plan.is_active,
           sort_order: plan.sort_order,
         })

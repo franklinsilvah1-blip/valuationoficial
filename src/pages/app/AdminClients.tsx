@@ -38,9 +38,9 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { EditClientDialog } from "@/components/EditClientDialog";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
-import type { Database } from "@/integrations/supabase/types";
 
-type AppRole = Database["public"]["Enums"]["app_role"];
+
+type AppRole = "admin" | "editor" | "moderator";
 
 interface ClientData {
   id: string;
