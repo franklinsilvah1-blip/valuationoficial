@@ -91,7 +91,7 @@ export type Database = {
           affiliate_code: string | null
           commission_rate: number | null
           created_at: string | null
-          id: string | null
+          id: string
           last_inactivity_notification: string | null
           last_revenue_at: string | null
           rejection_reason: string | null
@@ -105,7 +105,7 @@ export type Database = {
           affiliate_code?: string | null
           commission_rate?: number | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           last_inactivity_notification?: string | null
           last_revenue_at?: string | null
           rejection_reason?: string | null
@@ -119,7 +119,7 @@ export type Database = {
           affiliate_code?: string | null
           commission_rate?: number | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           last_inactivity_notification?: string | null
           last_revenue_at?: string | null
           rejection_reason?: string | null
@@ -288,7 +288,15 @@ export type Database = {
           upside?: string | null
           valor?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "asset_analyses_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       asset_favorites: {
         Row: {
@@ -309,7 +317,22 @@ export type Database = {
           id?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "asset_favorites_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       asset_views: {
         Row: {
@@ -344,7 +367,7 @@ export type Database = {
           codigo_b3: string | null
           created_at: string | null
           created_by: string | null
-          id: string | null
+          id: string
           is_active: boolean | null
           logo_url: string | null
           name: string | null
@@ -371,7 +394,7 @@ export type Database = {
           codigo_b3?: string | null
           created_at?: string | null
           created_by?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           logo_url?: string | null
           name?: string | null
@@ -398,7 +421,7 @@ export type Database = {
           codigo_b3?: string | null
           created_at?: string | null
           created_by?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           logo_url?: string | null
           name?: string | null
@@ -428,7 +451,7 @@ export type Database = {
           bio: string | null
           created_at: string | null
           email: string | null
-          id: string | null
+          id: string
           name: string | null
           updated_at: string | null
         }
@@ -437,7 +460,7 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           email?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
@@ -446,7 +469,7 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           email?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
@@ -489,7 +512,7 @@ export type Database = {
           created_at: string | null
           excerpt: string | null
           featured: boolean | null
-          id: string | null
+          id: string
           og_image: string | null
           published_at: string | null
           scheduled_for: string | null
@@ -511,7 +534,7 @@ export type Database = {
           created_at?: string | null
           excerpt?: string | null
           featured?: boolean | null
-          id?: string | null
+          id?: string
           og_image?: string | null
           published_at?: string | null
           scheduled_for?: string | null
@@ -533,7 +556,7 @@ export type Database = {
           created_at?: string | null
           excerpt?: string | null
           featured?: boolean | null
-          id?: string | null
+          id?: string
           og_image?: string | null
           published_at?: string | null
           scheduled_for?: string | null
@@ -546,7 +569,15 @@ export type Database = {
           updated_at?: string | null
           views?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_blog_author_id_fkey"
+            columns: ["blog_author_id"]
+            isOneToOne: false
+            referencedRelation: "blog_authors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       cancellation_feedback: {
         Row: {
@@ -575,19 +606,19 @@ export type Database = {
       categories: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           name: string | null
           slug: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           slug?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           slug?: string | null
         }
@@ -627,7 +658,22 @@ export type Database = {
           stripe_payment_id?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "commissions_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       exclusive_videos: {
         Row: {
@@ -819,7 +865,22 @@ export type Database = {
           id?: string | null
           post_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "post_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_categories_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profile_answers: {
         Row: {
@@ -1081,7 +1142,7 @@ export type Database = {
           affiliate_id: string | null
           converted_at: string | null
           created_at: string | null
-          id: string | null
+          id: string
           referred_user_id: string | null
           status: string | null
         }
@@ -1089,7 +1150,7 @@ export type Database = {
           affiliate_id?: string | null
           converted_at?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           referred_user_id?: string | null
           status?: string | null
         }
@@ -1097,11 +1158,19 @@ export type Database = {
           affiliate_id?: string | null
           converted_at?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           referred_user_id?: string | null
           status?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "referrals_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sites: {
         Row: {
@@ -1434,7 +1503,22 @@ export type Database = {
           updated_at?: string | null
           wallet_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "wallet_items_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wallet_items_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallet_simulator"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       wallet_movements: {
         Row: {
@@ -1473,24 +1557,32 @@ export type Database = {
           user_id?: string | null
           valor_por_acao?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "wallet_movements_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       wallet_simulator: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           updated_at?: string | null
           user_id?: string | null
         }
