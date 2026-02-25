@@ -308,76 +308,99 @@ Deno.serve(async (req) => {
       logStep("Queue health check passed - no issues detected");
     }
 
-    // 5. Check for stuck sync_logs (IN_PROGRESS > 60 seconds) and release lock
+    // 5. Check for stuck sync_logs (IN_PROGRESS > 10 minutes) and release lock
+    // ✅ CORRIGIDO: Aumentado de 60s para 10 minutos para não matar syncs legítimas de 600+ linhas
     const { data: stuckSyncs, error: stuckSyncError } = await supabaseClient
       .from('sync_logs')
       .select('id, started_at, sync_type')
-      .eq('status', 'IN_PROGRESS')
+      .in('status', ['IN_PROGRESS', 'QUEUED'])
       .eq('sync_type', 'google_sheets')
-      .lt('started_at', sixtySecondsAgo);
+      .lt('started_at', tenMinutesAgo);
 
     if (stuckSyncError) {
       logStep("Error checking stuck syncs", { error: stuckSyncError });
     } else if (stuckSyncs && stuckSyncs.length > 0) {
-      logStep("Found stuck sync_logs (>60s)", { count: stuckSyncs.length });
+      // Verificar se há progresso real antes de matar
+      let trulyStuck: typeof stuckSyncs = [];
       
-      // STEP 1: Set cancellation flag
-      await supabaseClient
-        .from('sync_logs')
-        .update({ cancellation_requested: true })
-        .in('id', stuckSyncs.map(s => s.id));
-      
-      logStep("Cancellation requested for stuck syncs");
-      
-      // STEP 2: Wait 2 seconds for process to detect flag
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // STEP 3: Force mark as FAILED
-      await supabaseClient
-        .from('sync_logs')
-        .update({ 
-          status: 'FAILED',
-          completed_at: new Date().toISOString(),
-          errors: [{
-            error: 'Timeout: processo encerrado após 60 segundos sem progresso',
-            timestamp: new Date().toISOString(),
-            reason: 'No progress detected for 60 seconds'
-          }],
-          metadata: {
-            started_at: stuckSyncs[0].started_at,
-            failed_at: new Date().toISOString(),
-            execution_time_ms: Date.now() - new Date(stuckSyncs[0].started_at).getTime(),
-            final_status: 'TIMEOUT',
-            terminated_by_monitor: true
-          }
-        })
-        .in('id', stuckSyncs.map(s => s.id));
-      
-      logStep("Marked stuck syncs as FAILED");
-      
-      // STEP 4: Release sync lock IMMEDIATELY
-      await supabaseClient
-        .from('app_config')
-        .update({ value: 'false' })
-        .eq('key', 'sync_lock');
-      
-      logStep("Sync lock released after timeout cleanup");
-      
-      // STEP 5: Mark queue items as FAILED
       for (const sync of stuckSyncs) {
-        await supabaseClient
+        const { count: pendingCount } = await supabaseClient
           .from('sync_queue')
-          .update({
-            status: 'FAILED',
-            error_message: 'Timeout: sincronização cancelada após 60 segundos',
-            processed_at: new Date().toISOString()
-          })
+          .select('*', { count: 'exact', head: true })
           .eq('sync_log_id', sync.id)
           .in('status', ['PENDING', 'PROCESSING']);
+        
+        // Se não há itens pendentes, provavelmente já terminou - apenas finalizar
+        if (!pendingCount || pendingCount === 0) {
+          logStep("Sync has no pending items, finalizing instead of killing", { syncId: sync.id });
+          // O process-sync-queue vai finalizar na próxima execução
+          continue;
+        }
+        
+        trulyStuck.push(sync);
       }
+
+      if (trulyStuck.length > 0) {
+        logStep("Found truly stuck sync_logs (>10min with pending items)", { count: trulyStuck.length });
       
-      logStep("Marked queue items as FAILED");
-      issues.push(`Sincronização travada detectada e encerrada (${stuckSyncs.length} sync_logs)`);
+        // STEP 1: Set cancellation flag
+        await supabaseClient
+          .from('sync_logs')
+          .update({ cancellation_requested: true })
+          .in('id', trulyStuck.map(s => s.id));
+        
+        logStep("Cancellation requested for stuck syncs");
+        
+        // STEP 2: Wait 2 seconds for process to detect flag
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // STEP 3: Force mark as FAILED
+        await supabaseClient
+          .from('sync_logs')
+          .update({ 
+            status: 'FAILED',
+            completed_at: new Date().toISOString(),
+            errors: [{
+              error: 'Timeout: processo encerrado após 10 minutos sem conclusão',
+              timestamp: new Date().toISOString(),
+              reason: 'No progress detected for 10 minutes'
+            }],
+            metadata: {
+              started_at: trulyStuck[0].started_at,
+              failed_at: new Date().toISOString(),
+              execution_time_ms: Date.now() - new Date(trulyStuck[0].started_at).getTime(),
+              final_status: 'TIMEOUT',
+              terminated_by_monitor: true
+            }
+          })
+          .in('id', trulyStuck.map(s => s.id));
+        
+        logStep("Marked stuck syncs as FAILED");
+        
+        // STEP 4: Release sync lock IMMEDIATELY
+        await supabaseClient
+          .from('app_config')
+          .update({ value: 'false' })
+          .eq('key', 'sync_lock');
+        
+        logStep("Sync lock released after timeout cleanup");
+        
+        // STEP 5: Mark queue items as FAILED
+        for (const sync of trulyStuck) {
+          await supabaseClient
+            .from('sync_queue')
+            .update({
+              status: 'FAILED',
+              error_message: 'Timeout: sincronização cancelada após 10 minutos',
+              processed_at: new Date().toISOString()
+            })
+            .eq('sync_log_id', sync.id)
+            .in('status', ['PENDING', 'PROCESSING']);
+        }
+        
+        logStep("Marked queue items as FAILED");
+        issues.push(`Sincronização travada detectada e encerrada (${trulyStuck.length} sync_logs)`);
+      }
     }
 
     return new Response(
