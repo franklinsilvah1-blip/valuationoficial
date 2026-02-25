@@ -22,14 +22,16 @@ const AdminSMTP = () => {
     security_type: "TLS",
   });
 
+  useEffect(() => {
+    if (!adminLoading && isAdmin) {
+      loadConfig();
+    }
+  }, [adminLoading, isAdmin]);
+
   // Don't render while checking permissions
   if (adminLoading || !isAdmin) {
     return null;
   }
-
-  useEffect(() => {
-    loadConfig();
-  }, []);
 
   const loadConfig = async () => {
     try {
