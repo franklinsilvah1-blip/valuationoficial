@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.restore-wallets]
 verify_jwt = false
+
+[functions.restore-all-data]
+verify_jwt = false
