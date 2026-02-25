@@ -910,6 +910,7 @@ Deno.serve(async (req) => {
       const executionTimeMs = Date.now() - startTime;
       logStep("Queue populated", { ...queueResult, executionTimeMs });
 
+      // ✅ FIX: NÃO definir completed_at aqui - o processador fará isso
       await supabaseClient
         .from('sync_logs')
         .update({
@@ -917,20 +918,20 @@ Deno.serve(async (req) => {
           total_rows: queueResult.totalRows,
           skipped: queueResult.skipped,
           warnings: queueResult.warnings.length > 0 ? queueResult.warnings : null,
-          completed_at: new Date().toISOString(),
           metadata: { 
             execution_time_ms: executionTimeMs,
             queue_mode: true,
             items_queued: queueResult.totalQueued,
             duplicates_found: queueResult.duplicatesFound || 0,
             duplicate_codes: queueResult.duplicateCodes || [],
-            sheet_codigos_b3: queueResult.sheetCodigosB3 || [] // ✅ Armazenar lista de códigos
+            sheet_codigos_b3: queueResult.sheetCodigosB3 || []
           }
         })
         .eq('id', logEntryId);
 
-      // Trigger first batch processing asynchronously
-      logStep("Triggering first queue batch processing");
+      // ✅ FIX: NÃO liberar lock aqui - o processor herda o lock
+      // Trigger first batch processing asynchronously com skipLock
+      logStep("Triggering first queue batch processing (skipLock=true)");
       fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/process-sync-queue`, {
         method: 'POST',
         headers: {
@@ -938,15 +939,10 @@ Deno.serve(async (req) => {
           'Content-Type': 'application/json',
           'x-cron-secret': Deno.env.get('CRON_SECRET') || '',
           'X-Trigger-Type': 'auto'
-        }
+        },
+        body: JSON.stringify({ skipLock: true })
       }).catch(err => logStep("Error triggering queue processor", { error: err.message }));
-
-      // Release lock after queueing (queue processor will handle the rest)
-      await supabaseClient
-        .from('app_config')
-        .update({ value: 'false' })
-        .eq('key', 'sync_lock');
-      logStep("Sync lock released after queueing");
+      logStep("Lock NOT released - processor will inherit and release when done");
 
       return new Response(
         JSON.stringify({

@@ -544,8 +544,17 @@ Deno.serve(async (req) => {
     { auth: { persistSession: false } }
   );
 
+  // ✅ FIX: Aceitar skipLock do body (chamada interna do sync-google-sheets)
+  let skipLock = false;
   try {
-    // ✅ NOVO: Adicionar diagnóstico detalhado
+    const body = await req.clone().json();
+    skipLock = body?.skipLock === true;
+  } catch { /* no body = not skipping lock */ }
+
+  logStep("Lock mode", { skipLock });
+
+  try {
+    // ✅ Diagnóstico
     const { data: diagnosticInfo } = await supabaseClient
       .from("sync_queue")
       .select("sync_log_id, status")
@@ -564,17 +573,21 @@ Deno.serve(async (req) => {
       syncLogIds: syncLogIds.slice(0, 3)
     });
 
-    // Try to acquire distributed lock
-    const lockAcquired = await acquireSyncLock(supabaseClient);
-    if (!lockAcquired) {
-      return new Response(
-        JSON.stringify({ 
-          success: true, 
-          skipped: true,
-          message: "Sync already in progress by another instance" 
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
-      );
+    // ✅ FIX: Só adquirir lock se NÃO for chamada interna
+    if (!skipLock) {
+      const lockAcquired = await acquireSyncLock(supabaseClient);
+      if (!lockAcquired) {
+        return new Response(
+          JSON.stringify({ 
+            success: true, 
+            skipped: true,
+            message: "Sync already in progress by another instance" 
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 }
+        );
+      }
+    } else {
+      logStep("⏩ Skipping lock acquisition (inherited from sync-google-sheets)");
     }
 
     // ✅ CRITICAL FIX: Clean up orphaned items FIRST (before checking PENDING)
@@ -950,8 +963,20 @@ Deno.serve(async (req) => {
 
     logStep("Queue processing completed", { status, ...result });
 
-    // REMOVED: Auto-continuation logic to prevent race conditions
-    // The cron job will handle continuing the sync in the next run
+    // ✅ FIX: Auto-continuation - re-trigger self if remaining items
+    if (result.remaining > 0) {
+      logStep("🔄 Auto-continuing: triggering next batch", { remaining: result.remaining });
+      fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/process-sync-queue`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+          'Content-Type': 'application/json',
+          'x-cron-secret': Deno.env.get('CRON_SECRET') || '',
+          'X-Trigger-Type': 'auto'
+        },
+        body: JSON.stringify({ skipLock: true })
+      }).catch(err => logStep("Error triggering next batch", { error: err.message }));
+    }
 
     return new Response(
       JSON.stringify({
