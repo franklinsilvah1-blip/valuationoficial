@@ -225,13 +225,14 @@ const useSyncStatus = (enabled: boolean = true) => {
       const hasQueueActivity = queueActive;
       const isCancelling = logData?.cancellation_requested || false;
 
-      // Verificar se está realmente travado (mais de 5 minutos sem progresso)
+      // ✅ FIX: Considerar travado apenas se > 10 min E sem itens pendentes na fila
       let isStuck = false;
       if (logData?.started_at) {
         const startedAt = new Date(logData.started_at);
         const now = new Date();
         const minutesRunning = (now.getTime() - startedAt.getTime()) / 1000 / 60;
-        isStuck = minutesRunning > 5;
+        // Só é stuck se > 10 min E não há atividade na fila
+        isStuck = minutesRunning > 10 && !queueActive;
       }
 
       setHasError(false);
