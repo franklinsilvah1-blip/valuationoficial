@@ -759,9 +759,25 @@ SELECT * FROM cron.job WHERE jobname = 'process-sync-queue-every-minute';`;
           <Alert variant="destructive" className="mb-6">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>⚠️ Fila Órfã Detectada</AlertTitle>
-            <AlertDescription>
-              Existem {queueStats?.pending || 0} itens na fila sem sincronização ativa. 
-              Use "Forçar Limpeza" ou inicie uma nova sincronização.
+            <AlertDescription className="flex items-center justify-between">
+              <span>
+                Existem {queueStats?.pending || 0} itens na fila sem sincronização ativa. 
+                Use "Forçar Limpeza" ou inicie uma nova sincronização.
+              </span>
+              <Button
+                onClick={() => {
+                  if (confirm("🚨 Forçar limpeza da fila órfã?\n\nIsso irá:\n- Limpar todos os itens pendentes na fila\n- Marcar processos órfãos como FAILED\n- Liberar lock travado\n\nDeseja continuar?")) {
+                    forceCleanup.mutate();
+                  }
+                }}
+                disabled={forceCleanup.isPending}
+                variant="destructive"
+                size="sm"
+                className="ml-4 shrink-0"
+              >
+                <AlertCircle className={`h-4 w-4 mr-2 ${forceCleanup.isPending ? 'animate-spin' : ''}`} />
+                {forceCleanup.isPending ? "Limpando..." : "Forçar Limpeza"}
+              </Button>
             </AlertDescription>
           </Alert>
         )}
