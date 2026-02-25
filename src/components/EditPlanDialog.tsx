@@ -105,11 +105,11 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
           action: "admin_plan_change",
           old_plan: client.plan as any,
           new_plan: newPlan as any,
-          metadata: {
+          metadata: JSON.stringify({
             change_type: "administrative",
             new_end_date: newEndDate || null,
             timestamp: new Date().toISOString(),
-          },
+          }) as any,
         });
 
         if (auditError) {

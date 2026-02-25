@@ -103,7 +103,7 @@ export default function Afiliado() {
   // Request affiliate activation (creates with 'pending' status for manual approval)
   const activateAffiliate = useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.rpc("request_affiliate_activation");
+      const { data, error } = await supabase.rpc("request_affiliate_activation" as any);
 
       if (error) throw error;
       return data;

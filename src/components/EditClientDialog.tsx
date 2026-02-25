@@ -144,12 +144,12 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
           action: "admin_plan_change",
           old_plan: client.plan as any,
           new_plan: newPlan as any,
-          metadata: {
+          metadata: JSON.stringify({
             change_type: isAdminChange ? "administrative" : "stripe_update",
             new_end_date: newEndDate || null,
             profile_updated: true,
             timestamp: new Date().toISOString(),
-          },
+          }) as any,
         });
 
         // If not admin change, also update Stripe

@@ -37,9 +37,9 @@ import { ptBR } from "date-fns/locale";
 import { Search, Users, Trash2, Edit, UserMinus, MoreHorizontal, Shield, PenTool, Eye } from "lucide-react";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { EditPlanDialog } from "@/components/EditPlanDialog";
-import type { Database } from "@/integrations/supabase/types";
 
-type AppRole = Database["public"]["Enums"]["app_role"];
+
+type AppRole = "admin" | "editor" | "moderator";
 
 interface UserWithRole {
   id: string;

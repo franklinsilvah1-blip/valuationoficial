@@ -20,7 +20,7 @@ export type Database = {
           created_at: string | null
           granted_by: string | null
           id: string | null
-          metadata: string | null
+          metadata: Json | null
           new_plan: string | null
           old_plan: string | null
           role_assigned: string | null
@@ -31,7 +31,7 @@ export type Database = {
           created_at?: string | null
           granted_by?: string | null
           id?: string | null
-          metadata?: string | null
+          metadata?: Json | null
           new_plan?: string | null
           old_plan?: string | null
           role_assigned?: string | null
@@ -42,7 +42,7 @@ export type Database = {
           created_at?: string | null
           granted_by?: string | null
           id?: string | null
-          metadata?: string | null
+          metadata?: Json | null
           new_plan?: string | null
           old_plan?: string | null
           role_assigned?: string | null
@@ -907,7 +907,7 @@ export type Database = {
           created_at: string | null
           email: string | null
           hide_community_message: boolean | null
-          id: string | null
+          id: string
           investor_profile: string | null
           last_reclassification_at: string | null
           name: string | null
@@ -926,7 +926,7 @@ export type Database = {
           created_at?: string | null
           email?: string | null
           hide_community_message?: boolean | null
-          id?: string | null
+          id?: string
           investor_profile?: string | null
           last_reclassification_at?: string | null
           name?: string | null
@@ -945,7 +945,7 @@ export type Database = {
           created_at?: string | null
           email?: string | null
           hide_community_message?: boolean | null
-          id?: string | null
+          id?: string
           investor_profile?: string | null
           last_reclassification_at?: string | null
           name?: string | null
@@ -1168,7 +1168,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           display_name: string | null
-          features: string | null
+          features: Json | null
           id: string | null
           is_active: boolean | null
           plan_code: string | null
@@ -1182,7 +1182,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           display_name?: string | null
-          features?: string | null
+          features?: Json | null
           id?: string | null
           is_active?: boolean | null
           plan_code?: string | null
@@ -1196,7 +1196,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           display_name?: string | null
-          features?: string | null
+          features?: Json | null
           id?: string | null
           is_active?: boolean | null
           plan_code?: string | null
@@ -1501,10 +1501,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      request_affiliate_activation: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor" | "moderator"
+      plan_type: "FREE" | "START" | "PRO" | "SPECIALIST" | "FALE_C_ESPECIALISTA"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1631,6 +1640,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor", "moderator"],
+      plan_type: ["FREE", "START", "PRO", "SPECIALIST", "FALE_C_ESPECIALISTA"],
+    },
   },
 } as const

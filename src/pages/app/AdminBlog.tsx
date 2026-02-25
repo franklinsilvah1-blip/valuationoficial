@@ -120,21 +120,29 @@ const AdminBlog = () => {
   const { data: authors = [], isLoading: loadingAuthors } = useQuery({
     queryKey: ["blog-authors"],
     queryFn: async () => {
-      // Buscar apenas usuários com role 'admin'
-      const { data, error } = await supabase
+      // Buscar admin user_ids primeiro
+      const { data: roles, error: rolesError } = await supabase
         .from("user_roles")
-        .select(`
-          user_id,
-          profiles!inner(id, name)
-        `)
+        .select("user_id")
         .eq("role", "admin");
 
-      if (error) throw error;
+      if (rolesError) throw rolesError;
       
-      // Mapear para o formato esperado
-      return (data || []).map(item => ({
-        id: item.user_id,
-        name: item.profiles.name || "Admin",
+      const adminIds = (roles || []).map(r => r.user_id).filter(Boolean);
+      if (adminIds.length === 0) return [] as Author[];
+
+      const { data: profiles, error: profilesError } = await supabase
+        .from("profiles")
+        .select("id, name, email")
+        .in("id", adminIds);
+
+      if (profilesError) throw profilesError;
+      
+      return (profiles || []).map(p => ({
+        id: p.id,
+        name: p.name || "Admin",
+        email: p.email,
+        avatar_url: null,
       })) as Author[];
     },
   });
