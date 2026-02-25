@@ -1,97 +1,72 @@
 
 
-## Diagnóstico Completo da Migração
+## Diagnóstico: Carteiras com erro 400 (Bad Request)
 
-### Estado Atual do Banco
+### Problemas Identificados
 
-**Dados presentes (OK):**
-- 18 perfis em `profiles`
-- 598 ativos + 598 análises em `assets`/`asset_analyses`
-- 10 carteiras, 28 itens, 34 movimentações
-- 2 admins em `user_roles` (Douglas + Franklin)
-- 5 planos de assinatura, 5 categorias, 4 blog authors, 3 blog posts
-- 5 afiliados, 1 grupo de notificação, 1 SMTP config
-- `app_config`: VAPID key, WhatsApp link, admin_email -- tudo correto
+Analisando os screenshots e o código, existem **dois problemas críticos**:
 
-**Problemas Críticos Identificados:**
+**1. Foreign Keys ausentes entre `assets` e `asset_analyses`**
 
-1. **auth.users está VAZIO** -- Nenhum usuário existe na tabela de autenticação. Ninguém consegue fazer login.
-2. **Nenhuma trigger/function existe** -- `handle_new_user`, `has_role`, `request_affiliate_activation` estão ausentes.
-3. **RLS desabilitado em TODAS as 39 tabelas** -- O banco está completamente aberto.
-4. **Nenhuma RLS policy existe** -- Zero políticas de segurança.
-5. **Nenhum enum `app_role` existe** -- Os tipos necessários para o sistema de roles não foram criados.
-6. **Nenhuma foreign key existe** -- As relações entre tabelas foram perdidas.
+O código em `useWalletSimulator.ts` (linhas 48-53, 134-149) e em `MercadoApp.tsx` faz queries com embedded resources do PostgREST:
 
-**Erros de Build (8 erros):**
-Todos causados pelo types.ts gerado não ter enums (`app_role`), ter `features` como `string` em vez de array, `metadata` como `string` em vez de `jsonb`, e não ter a function `request_affiliate_activation` registrada.
+```sql
+assets?select=*,asset_analyses(*)
+```
+
+Isso **requer** uma foreign key `asset_analyses.asset_id -> assets.id`. Sem ela, o PostgREST retorna **400 Bad Request** -- exatamente o erro nos screenshots.
+
+**2. Todas as RLS policies ainda são RESTRICTIVE**
+
+Toda policy listada no schema mostra `Permissive: No`. Quando há múltiplas policies RESTRICTIVE no mesmo comando (ex: SELECT), **todas** precisam passar simultaneamente. Isso bloqueia o acesso em tabelas como `profiles` (um usuário normal nunca é admin E dono ao mesmo tempo, pois ambas precisam ser true).
+
+A correção anterior pode ter falhado ou sido sobrescrita.
 
 ---
 
-### Plano de Execução (7 etapas)
+### Plano de Correção (2 etapas)
 
-#### Etapa 1 -- Criar Edge Function para migrar usuários para auth.users
-Recriar a edge function `migrate-users` que:
-- Lê todos os perfis de `profiles` com email
-- Cria cada usuário em `auth.users` preservando o UUID original
-- Usa a senha temporária `Valuation@2025`
-- Registra resultados no config.toml
+#### Etapa 1 -- Criar Foreign Keys essenciais
 
-#### Etapa 2 -- Criar enums, functions e triggers via migração SQL
-Uma migração única que cria:
-- **Enum `app_role`**: `('admin', 'editor', 'moderator', 'user')`
-- **Function `has_role`**: Security definer para checar roles sem recursão RLS
-- **Function `handle_new_user`**: Trigger que cria perfil automaticamente com `ON CONFLICT DO NOTHING`
-- **Function `request_affiliate_activation`**: RPC para ativação de afiliados
-- **Trigger `on_auth_user_created`**: Liga `handle_new_user` a `auth.users`
+Uma migração SQL que adiciona as relações necessárias para as queries PostgREST funcionarem:
 
-#### Etapa 3 -- Habilitar RLS e criar policies em todas as tabelas
-Ativar RLS e criar políticas adequadas para cada tabela:
-- `profiles`: usuário vê/edita o próprio, admin vê todos
-- `user_roles`: apenas leitura via `has_role`, admin gerencia
-- `assets`, `asset_analyses`: leitura pública, admin gerencia
-- `wallet_*`: usuário vê/edita os próprios dados
-- `asset_favorites`, `asset_views`: usuário gerencia os próprios
-- `blog_posts`, `blog_authors`, `categories`: leitura pública, admin/editor gerencia
-- `app_config`, `smtp_config`, `tracking_scripts`: admin only
-- `affiliates`, `commissions`, `referrals`: usuário vê os próprios, admin vê todos
-- `admin_audit_log`: admin only
-- Tabelas de suporte (`leads`, `push_*`, `notification_*`, `sync_*`, `import_*`, `rate_limit_log`, `cancellation_feedback`, `profile_*`): políticas adequadas por contexto
+- `asset_analyses.asset_id` -> `assets.id` (ON DELETE CASCADE)
+- `wallet_items.wallet_id` -> `wallet_simulator.id` (ON DELETE CASCADE)
+- `wallet_items.asset_id` -> `assets.id` (ON DELETE SET NULL)
+- `asset_favorites.asset_id` -> `assets.id` (ON DELETE SET NULL)
+- `asset_favorites.user_id` -> `profiles.id`
+- `wallet_movements.asset_id` -> `assets.id` (ON DELETE SET NULL)
+- `blog_posts.blog_author_id` -> `blog_authors.id`
+- `post_categories.post_id` -> `blog_posts.id`
+- `post_categories.category_id` -> `categories.id`
+- `commissions.affiliate_id` -> `affiliates.id`
+- `commissions.referral_id` -> `referrals.id`
+- `referrals.affiliate_id` -> `affiliates.id`
 
-#### Etapa 4 -- Corrigir schema do banco (colunas com tipos incorretos)
-As colunas no banco estão todas como `text` quando deveriam ter tipos corretos. Ajustes necessários:
-- `admin_audit_log.metadata`: de `text` para `jsonb` (o código insere objetos JSON)
-- `subscription_plans.features`: de `text` para `jsonb` (o código espera `string[]`)
-- Adicionar constraints/defaults onde necessário (`id` com `gen_random_uuid()`, `created_at` com `now()`, etc.)
+#### Etapa 2 -- Recriar TODAS as RLS policies como PERMISSIVE
 
-#### Etapa 5 -- Corrigir erros de build no código TypeScript
-Após a migração de schema, o types.ts será regenerado automaticamente. Os erros restantes que precisam de correção manual:
-- **`useSubscriptionPlans.ts`**: Parsear `features` como JSON string se necessário, ou ajustar o cast
-- **`EditClientDialog.tsx` / `EditPlanDialog.tsx`**: Serializar `metadata` como `JSON.stringify()` antes de inserir
-- **`AdminBlog.tsx`**: Corrigir a query join `user_roles -> profiles` (não existe foreign key, precisa fazer queries separadas)
-- **`AdminClients.tsx` / `AdminUsers.tsx`**: Remover referência a `Database["public"]["Enums"]["app_role"]` e usar tipo string
-- **`Afiliado.tsx`**: A function `request_affiliate_activation` precisa ser recriada (etapa 2)
+Dropar e recriar cada policy sem a keyword `RESTRICTIVE` (que é o padrão no PostgreSQL para `CREATE POLICY` quando não especificado -- mas a migração anterior pode ter usado explicitamente). Tabelas afetadas:
 
-#### Etapa 6 -- Deploy da Edge Function e execução da migração de usuários
-- Registrar `migrate-users` no `config.toml`
-- Deploy e executar a migração
-- Validar que os 18 usuários foram criados em `auth.users`
-
-#### Etapa 7 -- Limpeza e validação final
-- Remover edge function temporária `migrate-users`
-- Verificar todos os dados: profiles, assets, wallets, blog, affiliates, app_config
-- Validar que login funciona com senha `Valuation@2025`
-- Confirmar que admins (Douglas/Franklin) têm acesso ao painel admin
+- `profiles`, `user_roles`, `assets`, `asset_analyses`
+- `wallet_simulator`, `wallet_items`, `wallet_movements`
+- `asset_favorites`, `asset_views`, `subscription_plans`
+- `blog_posts`, `blog_authors`, `categories`, `post_categories`
+- `affiliates`, `commissions`, `referrals`, `affiliate_clicks`
+- `leads`, `cancellation_feedback`, `app_config`, `smtp_config`
+- `admin_audit_log`, `push_notifications`, `push_subscriptions`
+- `notification_groups`, `notification_group_members`
+- `tracking_scripts`, `tracking_events`
+- `sync_logs`, `sync_queue`, `import_jobs`, `rate_limit_log`
+- `profile_questions`, `profile_options`, `profile_answers`
+- `exclusive_videos`, `sites`, `blog_authors_public`
 
 ---
 
 ### Detalhes Técnicos
 
-**Sobre os tipos gerados (types.ts):**
-O arquivo atual reflete o schema "vazio" -- todas as colunas como nullable text, sem enums, sem functions, sem relationships. Após as migrações SQL (etapas 2-4), o types.ts será regenerado automaticamente pelo Supabase com os tipos corretos, o que resolverá a maioria dos erros de build.
+A causa raiz do erro 400 é que o PostgREST precisa de foreign keys para resolver embedded selects (`asset_analyses(*)`). Sem elas, a query é rejeitada antes mesmo de chegar ao RLS.
 
-**Sobre as foreign keys ausentes:**
-A migração original tinha foreign keys (ex: `wallet_items.wallet_id -> wallet_simulator.id`), mas elas não existem no banco atual. Serão recriadas na migração SQL.
+Após adicionar as FKs, as queries PostgREST vão funcionar, mas o RLS RESTRICTIVE ainda bloquearia os dados. Por isso as duas etapas são necessárias juntas.
 
-**Sobre a edge function `migrate-users`:**
-Usará a Service Role Key para chamar `auth.admin.createUser()` preservando UUIDs, mesma abordagem que funcionou anteriormente.
+O `types.ts` será regenerado automaticamente após a migração, refletindo as novas `Relationships` no schema.
 
