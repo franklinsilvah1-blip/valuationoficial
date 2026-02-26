@@ -82,16 +82,19 @@ const useQueueStats = (enabled: boolean = true) => {
       const processingCount = data?.filter(i => i.status === 'PROCESSING').length || 0;
       
       // Buscar itens já processados (COMPLETED/FAILED) para este sync_log
-      let processedCount = 0;
+      let completedCount = 0;
+      let failedCount = 0;
       if (currentLog?.id) {
-        const { count } = await supabase
+        const { data: doneItems } = await supabase
           .from("sync_queue")
-          .select("id", { count: "exact", head: true })
+          .select("status")
           .eq("sync_log_id", currentLog.id)
           .in("status", ["COMPLETED", "FAILED"]);
-        processedCount = count || 0;
+        completedCount = doneItems?.filter(i => i.status === 'COMPLETED').length || 0;
+        failedCount = doneItems?.filter(i => i.status === 'FAILED').length || 0;
       }
       
+      const processedCount = completedCount + failedCount;
       // Total = todos os itens desta sincronização
       const totalItems = pendingCount + processingCount + processedCount;
 
@@ -101,8 +104,8 @@ const useQueueStats = (enabled: boolean = true) => {
         pending: pendingCount,
         processing: processingCount,
         processed: processedCount,
-        completed: 0,
-        failed: 0,
+        completed: completedCount,
+        failed: failedCount,
       };
 
       return stats;
@@ -724,18 +727,22 @@ SELECT * FROM cron.job WHERE jobname = 'process-sync-queue-every-minute';`;
               </div>
 
               {/* Estatísticas detalhadas */}
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-blue-200">
+              <div className="grid grid-cols-4 gap-4 pt-4 border-t border-blue-200">
                 <div className="text-center p-3 bg-white/60 rounded-lg">
                   <p className="text-2xl font-bold text-blue-900">{queueStats.total}</p>
-                  <p className="text-xs text-blue-700 mt-1">Total Assets</p>
+                  <p className="text-xs text-blue-700 mt-1">Total</p>
                 </div>
                 <div className="text-center p-3 bg-white/60 rounded-lg">
                   <p className="text-2xl font-bold text-yellow-600">{queueStats.pending}</p>
                   <p className="text-xs text-blue-700 mt-1">Na Fila</p>
                 </div>
                 <div className="text-center p-3 bg-white/60 rounded-lg">
-                  <p className="text-2xl font-bold text-green-600">{queueStats.processed}</p>
-                  <p className="text-xs text-blue-700 mt-1">Processados</p>
+                  <p className="text-2xl font-bold text-green-600">{queueStats.completed}</p>
+                  <p className="text-xs text-blue-700 mt-1">Finalizados</p>
+                </div>
+                <div className="text-center p-3 bg-white/60 rounded-lg">
+                  <p className="text-2xl font-bold text-red-600">{queueStats.failed}</p>
+                  <p className="text-xs text-blue-700 mt-1">Falhas</p>
                 </div>
               </div>
             </CardContent>
