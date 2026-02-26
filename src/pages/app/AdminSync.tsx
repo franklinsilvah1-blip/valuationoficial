@@ -254,6 +254,44 @@ const useSyncStatus = (enabled: boolean = true) => {
   });
 };
 
+// Hook para buscar motivos de falha da última sincronização
+const useLastSyncFailures = (enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ["last-sync-failures"],
+    enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("sync_logs")
+        .select("id, metadata, completed_at, status, failed, updated, total_rows, started_at")
+        .order("started_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) return null;
+
+      const metadata = data.metadata as {
+        top_errors?: Array<{ message: string; count: number }>;
+        stats?: { completed: number; failed: number; total_processed: number; success_rate: string };
+        final_status?: string;
+      } | null;
+
+      return {
+        syncId: data.id,
+        completedAt: data.completed_at,
+        startedAt: data.started_at,
+        status: data.status,
+        failed: data.failed || 0,
+        updated: data.updated || 0,
+        totalRows: data.total_rows || 0,
+        topErrors: metadata?.top_errors || [],
+        finalStatus: metadata?.final_status || data.status,
+      };
+    },
+    refetchInterval: 15000,
+  });
+};
+
 // Hook para buscar duplicatas da última sincronização
 const useLastSyncDuplicates = (enabled: boolean = true) => {
   return useQuery({
@@ -283,7 +321,7 @@ const useLastSyncDuplicates = (enabled: boolean = true) => {
         duplicateCodes: metadata?.duplicateCodes || [],
       };
     },
-    refetchInterval: 30000, // Atualiza a cada 30 segundos
+    refetchInterval: 30000,
   });
 };
 
@@ -377,6 +415,7 @@ const AdminSync = () => {
   const { data: syncStatus } = useSyncStatus(queriesEnabled);
   const { data: lastSyncDuplicates } = useLastSyncDuplicates(queriesEnabled);
   const { data: lastSyncOrphans } = useLastSyncOrphans(queriesEnabled);
+  const { data: lastSyncFailures } = useLastSyncFailures(queriesEnabled);
   const syncNow = useSyncNow();
   const forceCleanup = useForceCleanup();
 
@@ -774,7 +813,7 @@ SELECT * FROM cron.job WHERE jobname = 'process-sync-queue-every-minute';`;
               </span>
               <Button
                 onClick={() => {
-                  if (confirm("🚨 Forçar limpeza da fila órfã?\n\nIsso irá:\n- Limpar todos os itens pendentes na fila\n- Marcar processos órfãos como FAILED\n- Liberar lock travado\n\nDeseja continuar?")) {
+                  if (confirm("🚨 Forçar limpeza da fila órfã?")) {
                     forceCleanup.mutate();
                   }
                 }}
@@ -788,6 +827,74 @@ SELECT * FROM cron.job WHERE jobname = 'process-sync-queue-every-minute';`;
               </Button>
             </AlertDescription>
           </Alert>
+        )}
+
+        {/* Card de Motivos de Falha da Última Sincronização */}
+        {lastSyncFailures && lastSyncFailures.failed > 0 && !syncStatus?.isActive && (
+          <Card className="mb-6 border-red-200 bg-red-50">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-red-900 flex items-center gap-2">
+                    <XCircle className="h-5 w-5" />
+                    {lastSyncFailures.status === 'FAILED' ? 'Sincronização Falhou' : 
+                     lastSyncFailures.status === 'PARTIAL' ? 'Sincronização Parcial' : 
+                     `${lastSyncFailures.failed} Falha(s) na Última Sincronização`}
+                  </CardTitle>
+                  <CardDescription className="text-red-700">
+                    {lastSyncFailures.updated} sucesso(s) • {lastSyncFailures.failed} falha(s) de {lastSyncFailures.totalRows} total
+                    {lastSyncFailures.completedAt && (
+                      <> • {format(new Date(lastSyncFailures.completedAt), "dd/MM/yyyy HH:mm:ss", { locale: ptBR })}</>
+                    )}
+                  </CardDescription>
+                </div>
+                <Badge 
+                  variant="outline" 
+                  className={
+                    lastSyncFailures.status === 'FAILED' ? 'bg-red-100 text-red-800 border-red-300' :
+                    lastSyncFailures.status === 'PARTIAL' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                    'bg-green-100 text-green-800 border-green-300'
+                  }
+                >
+                  {lastSyncFailures.status === 'FAILED' ? '❌ Falhou' :
+                   lastSyncFailures.status === 'PARTIAL' ? '⚠️ Parcial' : 
+                   `✅ ${lastSyncFailures.status}`}
+                </Badge>
+              </div>
+            </CardHeader>
+            {lastSyncFailures.topErrors.length > 0 && (
+              <CardContent>
+                <p className="text-sm font-medium text-red-800 mb-3">Top motivos de falha:</p>
+                <div className="bg-white/70 rounded-lg border border-red-200 overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-red-100/50">
+                        <TableHead className="text-red-900 font-semibold">Erro</TableHead>
+                        <TableHead className="text-red-900 font-semibold text-center w-24">Qtd</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {lastSyncFailures.topErrors.map((err, idx) => (
+                        <TableRow key={idx} className="hover:bg-red-50">
+                          <TableCell className="font-mono text-xs text-red-700 break-all">
+                            {err.message}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Badge variant="outline" className="bg-red-100 text-red-800 border-red-300">
+                              {err.count}x
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                <p className="text-xs text-red-600 mt-3">
+                  Sync ID: <span className="font-mono">{lastSyncFailures.syncId}</span>
+                </p>
+              </CardContent>
+            )}
+          </Card>
         )}
 
 

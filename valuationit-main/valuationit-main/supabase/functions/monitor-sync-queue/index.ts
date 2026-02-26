@@ -239,7 +239,74 @@ Deno.serve(async (req) => {
       }
     }
 
-    // 4. Check for large PENDING queue (more than 100 items)
+    // NEW: Auto-finalize orphaned sync_logs with no pending/processing items
+    const { data: activeSyncLogs } = await supabaseClient
+      .from('sync_logs')
+      .select('id, started_at, total_rows')
+      .in('status', ['IN_PROGRESS', 'QUEUED']);
+
+    if (activeSyncLogs && activeSyncLogs.length > 0) {
+      for (const syncLog of activeSyncLogs) {
+        const { count: pendingProcessing } = await supabaseClient
+          .from('sync_queue')
+          .select('*', { count: 'exact', head: true })
+          .eq('sync_log_id', syncLog.id)
+          .in('status', ['PENDING', 'PROCESSING']);
+
+        if (!pendingProcessing || pendingProcessing === 0) {
+          logStep("Found orphaned sync_log with no pending items", { syncLogId: syncLog.id });
+
+          // Get final stats
+          const { data: queueItems } = await supabaseClient
+            .from('sync_queue')
+            .select('status, error_message')
+            .eq('sync_log_id', syncLog.id);
+
+          const completed = queueItems?.filter((i: any) => i.status === 'COMPLETED').length || 0;
+          const failed = queueItems?.filter((i: any) => i.status === 'FAILED').length || 0;
+          const finalStatus = failed === 0 ? 'SUCCESS' : (completed > 0 ? 'PARTIAL' : 'FAILED');
+
+          // Aggregate top errors
+          const failedItems = queueItems?.filter((i: any) => i.status === 'FAILED' && i.error_message) || [];
+          const errorCounts: Record<string, number> = {};
+          for (const item of failedItems) {
+            const msg = (item.error_message || 'Unknown').substring(0, 100);
+            errorCounts[msg] = (errorCounts[msg] || 0) + 1;
+          }
+          const topErrors = Object.entries(errorCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([message, count]) => ({ message, count }));
+
+          await supabaseClient
+            .from('sync_logs')
+            .update({
+              status: finalStatus,
+              completed_at: new Date().toISOString(),
+              updated: completed,
+              failed: failed,
+              total_rows: syncLog.total_rows || (completed + failed),
+              metadata: {
+                finalized_by: 'monitor_auto_close',
+                finalized_at: new Date().toISOString(),
+                top_errors: topErrors,
+                stats: { completed, failed, total: completed + failed }
+              }
+            })
+            .eq('id', syncLog.id);
+
+          // Release lock
+          await supabaseClient
+            .from('app_config')
+            .update({ value: 'false', updated_at: new Date().toISOString() })
+            .eq('key', 'sync_lock');
+
+          logStep("✅ Auto-finalized orphaned sync_log", { syncLogId: syncLog.id, status: finalStatus });
+          issues.push(`sync_log ${syncLog.id} finalizado automaticamente (${finalStatus})`);
+        }
+      }
+    }
+
     const { count: pendingCount, error: pendingError } = await supabaseClient
       .from('sync_queue')
       .select('*', { count: 'exact', head: true })
