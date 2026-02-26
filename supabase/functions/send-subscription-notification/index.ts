@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
+import { APP_URL } from "../_shared/constants.ts";
 import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 import { decryptPassword } from "../_shared/crypto.ts";
 
@@ -205,7 +206,7 @@ Deno.serve(async (req) => {
     });
 
     // Generate email content
-    const loginUrl = `${req.headers.get("origin") || "https://valuationit.com.br"}/app/historico`;
+    const loginUrl = `${APP_URL}/app/historico`;
     const { subject, html } = generateEmailContent(data, loginUrl);
 
     // Send email using SMTP

@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { sendEmail, getSenderConfig } from "../_shared/email.ts";
+import { APP_URL } from "../_shared/constants.ts";
 
 const LOGO_URL = "https://valuationit.com.br/logo.webp";
 
@@ -87,7 +88,7 @@ Deno.serve(async (req) => {
       type: "magiclink",
       email: email,
       options: {
-        redirectTo: "https://valuationit.com.br/app/dashboard"
+        redirectTo: `${APP_URL}/app/dashboard`
       }
     });
 
