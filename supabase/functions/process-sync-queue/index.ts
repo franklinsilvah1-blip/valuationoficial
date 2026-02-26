@@ -410,7 +410,7 @@ async function processQueueBatch(
       const { error: analysisError } = await supabaseClient
         .from("asset_analyses")
         .upsert(analysisData, {
-          onConflict: "asset_id,carteira",
+          onConflict: "asset_id",
           ignoreDuplicates: false
         });
 
