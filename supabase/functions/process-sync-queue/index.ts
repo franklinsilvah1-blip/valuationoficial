@@ -409,7 +409,7 @@ async function processQueueBatch(
       const { error: analysisError } = await supabaseClient
         .from("asset_analyses")
         .upsert(analysisData, {
-          onConflict: "asset_id",
+          onConflict: "asset_id,carteira",
           ignoreDuplicates: false
         });
 
@@ -427,12 +427,11 @@ async function processQueueBatch(
       processed++;
     } catch (error: any) {
       failed++;
-      const errorMessage = error.message || String(error);
+      const errorMessage = (error.message || String(error)).substring(0, 200);
       
       logStep("Error processing queue item", { 
         itemId: item.id, 
         rowIndex: item.row_index,
-        codigo: item.row_data?.codigo_b3,
         error: errorMessage
       });
 
@@ -748,7 +747,7 @@ Deno.serve(async (req) => {
           // Get queue stats WITH metadata
           const { data: queueStats } = await supabaseClient
             .from("sync_queue")
-            .select("status, metadata")
+            .select("status")
             .eq("sync_log_id", result.syncLogId);
 
           if (queueStats) {
