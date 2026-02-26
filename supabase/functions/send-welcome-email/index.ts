@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { sendEmail, getSenderConfig } from "../_shared/email.ts";
+import { APP_URL } from "../_shared/constants.ts";
 
 interface WelcomeEmailRequest {
   userId: string;
@@ -67,7 +68,7 @@ Deno.serve(async (req) => {
     const planName = planNames[plan] || plan;
 
     // Prepare email content
-    const loginUrl = `${req.headers.get("origin") || "https://valuationit.com.br"}/auth`;
+    const loginUrl = `${APP_URL}/auth`;
     
     // Cores primárias: preto (#1a1a1a) e dourado (#D4A506)
     const emailHtml = `

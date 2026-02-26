@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { sendEmail, getSenderConfig } from "../_shared/email.ts";
+import { APP_URL } from "../_shared/constants.ts";
 
 interface PasswordRecoveryRequestRequest {
   email: string;
@@ -93,7 +94,7 @@ Deno.serve(async (req) => {
       type: "recovery",
       email: email,
       options: {
-        redirectTo: "https://valuationit.com.br/reset-password"
+        redirectTo: `${APP_URL}/reset-password`
       }
     });
 
