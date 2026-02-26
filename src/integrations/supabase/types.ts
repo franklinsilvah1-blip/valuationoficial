@@ -158,8 +158,8 @@ export type Database = {
       asset_analyses: {
         Row: {
           analysis_data: string | null
-          asset_id: string | null
-          carteira: string | null
+          asset_id: string
+          carteira: string
           comentario_especialista: string | null
           created_at: string | null
           data_atualizacao: string | null
@@ -168,7 +168,7 @@ export type Database = {
           dy2024: string | null
           dy2025: string | null
           fator_mc: string | null
-          id: string | null
+          id: string
           margem_seguranca: string | null
           nota_crescimento: string | null
           nota_dividendos: string | null
@@ -202,8 +202,8 @@ export type Database = {
         }
         Insert: {
           analysis_data?: string | null
-          asset_id?: string | null
-          carteira?: string | null
+          asset_id: string
+          carteira: string
           comentario_especialista?: string | null
           created_at?: string | null
           data_atualizacao?: string | null
@@ -212,7 +212,7 @@ export type Database = {
           dy2024?: string | null
           dy2025?: string | null
           fator_mc?: string | null
-          id?: string | null
+          id?: string
           margem_seguranca?: string | null
           nota_crescimento?: string | null
           nota_dividendos?: string | null
@@ -246,8 +246,8 @@ export type Database = {
         }
         Update: {
           analysis_data?: string | null
-          asset_id?: string | null
-          carteira?: string | null
+          asset_id?: string
+          carteira?: string
           comentario_especialista?: string | null
           created_at?: string | null
           data_atualizacao?: string | null
@@ -256,7 +256,7 @@ export type Database = {
           dy2024?: string | null
           dy2025?: string | null
           fator_mc?: string | null
-          id?: string | null
+          id?: string
           margem_seguranca?: string | null
           nota_crescimento?: string | null
           nota_dividendos?: string | null
