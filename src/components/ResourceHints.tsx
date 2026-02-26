@@ -38,6 +38,11 @@ const ResourceHints = () => {
 
     const currentPath = location.pathname;
     
+    // Guard: não fazer prefetch de rotas públicas quando em área admin/app
+    if (currentPath.startsWith('/app/') || currentPath.startsWith('/app')) {
+      return;
+    }
+    
     // Adicionar prefetch para rotas prováveis
     const routesToPrefetch = ROUTE_PREFETCH_MAP[currentPath] || [];
     

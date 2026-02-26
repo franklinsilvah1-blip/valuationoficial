@@ -976,6 +976,10 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({ skipLock: true })
       }).catch(err => logStep("Error triggering next batch", { error: err.message }));
+    } else {
+      // ✅ FIX: Queue complete — always release lock regardless of skipLock
+      logStep("✅ Queue fully processed, releasing lock");
+      await releaseSyncLock(supabaseClient);
     }
 
     return new Response(
@@ -1006,7 +1010,11 @@ Deno.serve(async (req) => {
       }
     );
   } finally {
-    // CRITICAL: Always release lock, even on errors
-    await releaseSyncLock(supabaseClient);
+    // Only release lock if we acquired it (not inherited via skipLock)
+    if (!skipLock) {
+      await releaseSyncLock(supabaseClient);
+    } else {
+      logStep("⏩ Skipping lock release (inherited lock)");
+    }
   }
 });

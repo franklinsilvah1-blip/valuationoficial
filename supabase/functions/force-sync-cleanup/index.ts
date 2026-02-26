@@ -81,7 +81,7 @@ Deno.serve(async (req) => {
     const { data: orphanedSyncs, error: orphanedError } = await supabaseAdmin
       .from('sync_logs')
       .select('id')
-      .eq('status', 'IN_PROGRESS');
+      .in('status', ['IN_PROGRESS', 'QUEUED']);
 
     if (!orphanedError && orphanedSyncs && orphanedSyncs.length > 0) {
       console.log('[FORCE-CLEANUP] Found orphaned syncs', { count: orphanedSyncs.length });
@@ -96,7 +96,7 @@ Deno.serve(async (req) => {
             timestamp: new Date().toISOString()
           }]
         })
-        .eq('status', 'IN_PROGRESS');
+        .in('status', ['IN_PROGRESS', 'QUEUED']);
 
       if (updateError) {
         console.error('[FORCE-CLEANUP] Error updating orphaned syncs', updateError);
