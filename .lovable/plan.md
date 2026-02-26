@@ -1,45 +1,57 @@
 
-Objetivo: corrigir o fluxo para que (1) os 600 itens realmente persistam no banco e (2) o botão saia de “Sincronizando...” ao finalizar.
+Diagnóstico confirmado (com base nos logs e schema atual):
+- A falha em massa NÃO está no `asset_analyses`.
+- O erro `there is no unique or exclusion constraint matching the ON CONFLICT specification` vem do upsert em `assets` com `onConflict: "codigo_b3"`.
+- A tabela `assets` hoje só tem `PRIMARY KEY (id)` e não tem `UNIQUE (codigo_b3)`, então o `upsert` quebra em todos os itens.
+- Resultado observado: 600 itens processados com falha e `error_message` igual para todos na fila.
 
-1) Corrigir persistência dos ativos/análises (edge function `process-sync-queue`)
-- Ajustar o `upsert` de `asset_analyses` para usar o conflito real da tabela:
-  - de `onConflict: "asset_id"`
-  - para `onConflict: "asset_id,carteira"`
-- Manter `row_data` com parse defensivo (já aplicado) e reforçar tratamento de erro por item com mensagem curta no `error_message`.
-- Garantir que o contador final do `sync_log` use:
-  - `updated = COMPLETED`
-  - `failed = FAILED`
-  - sem “sucesso falso” quando tudo falhar.
+Plano de correção (estrutura completa de sincronização):
 
-2) Corrigir conclusão do sync (remove travamento do botão)
-- No bloco de finalização da mesma function, remover query inválida em `sync_queue`:
-  - de `.select("status, metadata")`
-  - para `.select("status")` (a coluna `metadata` não existe nessa tabela).
-- Separar “finalização de `sync_logs`” de “envio de notificação”:
-  - finalizar status (`SUCCESS`/`PARTIAL`/`FAILED`) e `completed_at` primeiro;
-  - enviar notificação depois em bloco `try/catch` isolado (sem impedir conclusão).
-- Manter release de lock ao final (`remaining === 0`) e fallback seguro em erro.
+1) Corrigir schema para suportar upsert de ativos
+- Criar migration apenas de schema para:
+  - `ALTER TABLE public.assets ALTER COLUMN codigo_b3 SET NOT NULL`
+  - `ALTER TABLE public.assets ADD CONSTRAINT assets_codigo_b3_unique UNIQUE (codigo_b3)`
+- Antes da migration, validar duplicidade/valor vazio em `assets.codigo_b3`; se houver, limpar dados existentes e só então aplicar constraint.
 
-3) Ajustar UX de progresso no `AdminSync.tsx` (evitar leitura enganosa)
-- `useQueueStats` deve retornar contadores separados:
-  - `completedCount`, `failedCount`, `pendingCount`, `processingCount`.
-- Trocar rótulo “Processados” por “Finalizados”.
-- Exibir falhas explicitamente na UI (badge/card), para não parecer sucesso quando `failed > 0`.
-- Manter botão desabilitado apenas por atividade real (lock/fila/log ativo), não por interpretação ambígua.
+2) Melhorar diagnóstico de falha no processamento (edge function)
+- Arquivo: `supabase/functions/process-sync-queue/index.ts`
+- Separar erros por etapa com mensagens explícitas:
+  - `ASSET_UPSERT_ERROR: ...`
+  - `ANALYSIS_UPSERT_ERROR: ...`
+  - `ROW_PARSE_ERROR: ...`
+- Persistir `error_message` curto e legível em `sync_queue`.
+- No fechamento da sync, agregar top motivos de falha (ex.: contagem por `error_message`) e salvar em `sync_logs.metadata` para consumo da UI.
 
-4) Estabilização pós-fix
-- Aplicar limpeza única de resíduos (se houver logs presos antigos):
-  - `force-sync-cleanup` para marcar órfãos e liberar lock.
-- Redeploy obrigatório:
-  - `process-sync-queue` (principal)
-  - `sync-google-sheets` (somente se ajustar payload/telemetria)
-- Validação operacional:
-  - executar sync manual;
-  - confirmar em `sync_logs`: transição até status terminal e `completed_at` preenchido;
-  - confirmar em banco: `asset_analyses` atualizado (não só fila processada);
-  - confirmar UI: barra 100% + botão liberado em seguida.
+3) Garantir finalização de sync mesmo quando tudo falhar
+- Em `process-sync-queue`, reforçar finalização terminal quando `remaining=0` (inclusive cenário 100% FAILED), sempre preenchendo:
+  - `status` final (`FAILED`/`PARTIAL`/`SUCCESS`)
+  - `completed_at`
+  - `updated` e `failed`
+- Garantir que lock seja liberado em qualquer estado terminal.
 
-Seção técnica (resumo objetivo)
-- Defeito crítico 1: chave de conflito incompatível com constraint real (`asset_id,carteira`) → falha de upsert em massa.
-- Defeito crítico 2: select de coluna inexistente (`sync_queue.metadata`) no fluxo de conclusão → sync pode ficar em `IN_PROGRESS/QUEUED` mesmo com 100% da barra.
-- Efeito visível: “600/600 processados” sem refletir ativos atualizados + botão preso em estado ativo.
+4) Tornar monitor responsável por “fechar órfãos sem pendências”
+- Arquivo: `supabase/functions/monitor-sync-queue/index.ts`
+- Se `sync_log` estiver `IN_PROGRESS/QUEUED` e não houver `PENDING/PROCESSING`, finalizar automaticamente com base na fila (`COMPLETED` vs `FAILED`) em vez de apenas “continuar”.
+- Isso evita botão preso quando o processador não reentra para o passo final.
+
+5) Mostrar motivo da falha no painel admin
+- Arquivo: `src/pages/app/AdminSync.tsx`
+- Adicionar bloco “Motivos de falha da última sincronização” com:
+  - Top erros agregados (mensagem + quantidade)
+  - Exemplo de linhas (`row_index`) afetadas
+  - Sync log ID e timestamp
+- Exibir status final claro (`Falhou`, `Parcial`, `Sucesso`) e não apenas progresso numérico.
+
+6) Validação pós-correção
+- Executar: `force-sync-cleanup` (uma vez) para limpar estado anterior.
+- Rodar nova sincronização manual.
+- Confirmar:
+  - `assets` e `asset_analyses` atualizados
+  - `sync_queue` sem itens presos
+  - `sync_logs` com status terminal e `completed_at`
+  - UI exibindo o motivo real de falha quando ocorrer.
+
+Seção técnica (objetiva):
+- Causa raiz primária: ausência de `UNIQUE (codigo_b3)` em `assets` para suportar `upsert(..., { onConflict: "codigo_b3" })`.
+- Causa secundária operacional: fluxo permite ficar sem finalização terminal em alguns cenários, mantendo percepção de processo “rodando”.
+- Correção definitiva combina: constraint correta + finalização robusta + observabilidade de erro no Admin.
