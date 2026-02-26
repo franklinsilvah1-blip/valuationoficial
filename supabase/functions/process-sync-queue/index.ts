@@ -11,6 +11,7 @@ type AssetType = "FII" | "ACAO" | "BDR" | "CRIPTO" | "ETF" | "INDICE" | "RFIXA";
 type TrendType = "ALTA" | "BAIXA" | "NEUTRO";
 
 const normalizePlanType = (value: string): PlanType => {
+  if (!value) return "START";
   const normalized = value.toUpperCase().trim();
   
   // Reconhecer "Não Recomendado" → FALE_C_ESPECIALISTA
@@ -27,6 +28,7 @@ const normalizePlanType = (value: string): PlanType => {
 };
 
 const normalizeAssetType = (tipo: string): AssetType => {
+  if (!tipo) return "ACAO";
   const normalized = tipo.toUpperCase().trim();
   if (normalized === "FII") return "FII";
   if (normalized === "ACAO" || normalized === "AÇÃO") return "ACAO";
@@ -346,7 +348,9 @@ async function processQueueBatch(
 
     try {
       // Item already marked as PROCESSING at batch start
-      const rowData = item.row_data;
+      const rowData = typeof item.row_data === 'string' 
+        ? JSON.parse(item.row_data) 
+        : item.row_data;
       const tipo = normalizeAssetType(rowData.tipo);
       const carteira = normalizePlanType(rowData.carteira);
       const recomendacao = normalizeRecommendation(rowData.recomendacao);
