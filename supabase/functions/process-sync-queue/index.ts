@@ -348,22 +348,23 @@ async function processQueueBatch(
 
     try {
       // Item already marked as PROCESSING at batch start
-      const rowData = typeof item.row_data === 'string' 
-        ? JSON.parse(item.row_data) 
-        : item.row_data;
+      let rowData: any;
+      try {
+        rowData = typeof item.row_data === 'string' 
+          ? JSON.parse(item.row_data) 
+          : item.row_data;
+      } catch (parseErr: any) {
+        throw new Error(`ROW_PARSE_ERROR: ${parseErr.message}`);
+      }
+
+      if (!rowData?.codigo_b3) {
+        throw new Error(`ROW_PARSE_ERROR: campo codigo_b3 ausente ou vazio`);
+      }
+
       const tipo = normalizeAssetType(rowData.tipo);
       const carteira = normalizePlanType(rowData.perfil_investidor || rowData.carteira);
       const recomendacao = normalizeRecommendation(rowData.recomendacao);
       const tendencia = normalizeTrend(rowData.tendencia);
-
-      // Check if asset already exists BEFORE upsert
-      const { data: existingAsset } = await supabaseClient
-        .from("assets")
-        .select("id")
-        .eq("codigo_b3", rowData.codigo_b3)
-        .single();
-
-      const wasUpdate = !!existingAsset;
 
       // Upsert asset
       const { data: asset, error: assetError } = await supabaseClient
@@ -374,7 +375,7 @@ async function processQueueBatch(
             nome: rowData.nome,
             tipo,
             setor: rowData.setor || null,
-            is_active: true, // ✅ Mark as active (exists in current spreadsheet)
+            is_active: true,
             updated_at: new Date().toISOString(),
           },
           { onConflict: "codigo_b3" }
@@ -382,7 +383,7 @@ async function processQueueBatch(
         .select()
         .single();
 
-      if (assetError) throw assetError;
+      if (assetError) throw new Error(`ASSET_UPSERT_ERROR: ${assetError.message}`);
 
       // Prepare analysis data with numeric validation
       const analysisData: any = {
@@ -405,7 +406,7 @@ async function processQueueBatch(
         updated_at: new Date().toISOString(),
       };
 
-      // Upsert analysis (one per asset now)
+      // Upsert analysis
       const { error: analysisError } = await supabaseClient
         .from("asset_analyses")
         .upsert(analysisData, {
@@ -413,7 +414,7 @@ async function processQueueBatch(
           ignoreDuplicates: false
         });
 
-      if (analysisError) throw analysisError;
+      if (analysisError) throw new Error(`ANALYSIS_UPSERT_ERROR: ${analysisError.message}`);
 
       // Mark as completed
       await supabaseClient
@@ -435,12 +436,12 @@ async function processQueueBatch(
         error: errorMessage
       });
 
-      // Mark as failed
+      // Mark as failed with categorized error
       await supabaseClient
         .from("sync_queue")
         .update({ 
           status: "FAILED",
-          error_message: error.message,
+          error_message: errorMessage,
           processed_at: new Date().toISOString()
         })
         .eq("id", item.id);
@@ -731,9 +732,9 @@ Deno.serve(async (req) => {
     // If there are remaining items, the cron will pick them up in the next run
     const status = result.remaining === 0 ? 'SUCCESS' : 'IN_PROGRESS';
 
-    // If queue is complete, send notification email
+    // If queue is complete, finalize sync_log
     if (status === 'SUCCESS' && result.syncLogId) {
-      logStep("Queue complete, sending notification", { syncLogId: result.syncLogId });
+      logStep("Queue complete, finalizing sync", { syncLogId: result.syncLogId });
       
       try {
         // Get sync log details
@@ -744,10 +745,10 @@ Deno.serve(async (req) => {
           .single();
 
         if (syncLog) {
-          // Get queue stats WITH metadata
+          // Get queue stats
           const { data: queueStats } = await supabaseClient
             .from("sync_queue")
-            .select("status")
+            .select("status, error_message")
             .eq("sync_log_id", result.syncLogId);
 
           if (queueStats) {
@@ -790,6 +791,18 @@ Deno.serve(async (req) => {
 
             const notificationStatus = stats.failed === 0 ? 'success' : stats.failed < stats.completed ? 'partial' : 'failed';
 
+            // Aggregate top failure reasons from queue items
+            const failedItems = queueStats.filter((i: any) => i.status === 'FAILED' && i.error_message);
+            const errorCounts: Record<string, number> = {};
+            for (const item of failedItems) {
+              const msg = (item.error_message || 'Unknown error').substring(0, 100);
+              errorCounts[msg] = (errorCounts[msg] || 0) + 1;
+            }
+            const topErrors = Object.entries(errorCounts)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5)
+              .map(([message, count]) => ({ message, count }));
+
             // Update sync log status with complete information
             await supabaseClient
               .from("sync_logs")
@@ -811,11 +824,12 @@ Deno.serve(async (req) => {
                   final_status: notificationStatus,
                   queue_completed: true,
                   notification_sent: true,
+                  top_errors: topErrors,
                   stats: {
                     total_processed: stats.totalProcessed,
                     completed: stats.completed,
                     failed: stats.failed,
-                    success_rate: ((stats.completed / stats.totalProcessed) * 100).toFixed(2) + '%'
+                    success_rate: stats.totalProcessed > 0 ? ((stats.completed / stats.totalProcessed) * 100).toFixed(2) + '%' : '0%'
                   }
                 }
               })
