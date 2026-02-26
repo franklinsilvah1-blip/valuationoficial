@@ -1,69 +1,63 @@
 
 
-## Diagnóstico Confirmado (3 problemas raiz)
+## Diagnóstico Confirmado
 
-### Bug 1: Botão travado em "Sincronizando..." após Forçar Limpeza
-**Causa**: `force-sync-cleanup` só limpa logs com status `IN_PROGRESS` (linha 84), mas todos os 5 logs recentes estão em `QUEUED`. Após a limpeza, os logs QUEUED persistem → `useSyncStatus` os encontra → `isActive: true` → botão permanece desabilitado.
+### Causa raiz: `row_data` é coluna `text`, não `jsonb`
 
-**Correção**: `force-sync-cleanup/index.ts` — limpar logs em QUEUED **e** IN_PROGRESS.
-```
-.in('status', ['IN_PROGRESS', 'QUEUED'])
-```
-
-### Bug 2: `process-sync-queue` nunca executa (sem logs)
-**Causa**: O `finally` block (linha 1009-1011) **sempre** chama `releaseSyncLock()`, mesmo quando `skipLock=true`. Isso libera o lock imediatamente e pode causar conflitos. Além disso, a auto-continuação via `fetch()` no finally pode falhar silenciosamente.
-
-**Correção**: `process-sync-queue/index.ts` — só liberar lock no `finally` quando `skipLock === false`. Quando `skipLock=true`, o lock deve ser liberado apenas ao finalizar o sync (remaining=0) ou em erro.
+A coluna `sync_queue.row_data` é do tipo `text`. O Supabase client retorna strings para colunas `text`. Então quando o processador faz:
 
 ```typescript
-} finally {
-  // Só liberar lock se NÃO foi herdado (chamada via cron)
-  if (!skipLock) {
-    await releaseSyncLock(supabaseClient);
-  }
-}
+const rowData = item.row_data; // ← STRING, não objeto
+const tipo = normalizeAssetType(rowData.tipo); // ← undefined.toUpperCase() → CRASH
 ```
 
-E na finalização bem-sucedida (remaining=0), sempre liberar:
+Isso explica o erro `Cannot read properties of undefined (reading 'toUpperCase')` em **todos os 150 itens** — nenhum foi processado.
+
+Os dados estão corretos no banco (JSON válido armazenado como texto), mas o processador nunca os parseia.
+
+### Correção
+
+**Arquivo: `supabase/functions/process-sync-queue/index.ts`**
+
+Na linha 349, adicionar `JSON.parse()`:
+
 ```typescript
-if (result.remaining === 0) {
-  await releaseSyncLock(supabaseClient);
-}
+// ANTES (bug):
+const rowData = item.row_data;
+
+// DEPOIS (fix):
+const rowData = typeof item.row_data === 'string' 
+  ? JSON.parse(item.row_data) 
+  : item.row_data;
 ```
 
-### Bug 3: Hero image carregando na página admin
-**Causa**: `ResourceHints.tsx` faz prefetch da rota `/` (homepage) a partir de qualquer página, o que faz o Vite carregar `Index.tsx` com o import do `hero-background.webp`.
+Isso é a única mudança necessária. Após o parse, `rowData.tipo`, `rowData.carteira`, etc., funcionarão corretamente.
 
-**Correção**: `ResourceHints.tsx` — remover rotas admin do prefetch e limitar o prefetch apenas a rotas públicas quando o usuário está em área pública. Adicionar guard para não prefetchar `/` quando já está em `/app/*`.
+### Proteção adicional (defensive coding)
 
----
+Nas funções `normalizePlanType` e `normalizeAssetType`, adicionar guard para `null`/`undefined`:
 
-## Plano de Implementação
+```typescript
+const normalizePlanType = (value: string): PlanType => {
+  if (!value) return "START";
+  const normalized = value.toUpperCase().trim();
+  // ...
+};
 
-### 1. `supabase/functions/force-sync-cleanup/index.ts`
-- Linha 84: Trocar `.eq('status', 'IN_PROGRESS')` por `.in('status', ['IN_PROGRESS', 'QUEUED'])`
-- Linha 99: Idem para o update
-- Mensagens de log: atualizar para mencionar QUEUED + IN_PROGRESS
+const normalizeAssetType = (tipo: string): AssetType => {
+  if (!tipo) return "ACAO";
+  const normalized = tipo.toUpperCase().trim();
+  // ...
+};
+```
 
-### 2. `supabase/functions/process-sync-queue/index.ts`
-- Linhas 1008-1011 (finally block): Condicionar `releaseSyncLock` a `!skipLock`
-- Após a finalização do sync (remaining=0, status SUCCESS no bloco ~linha 732-960): Garantir chamada explícita a `releaseSyncLock`
-- Mover `skipLock` para escopo acessível pelo `finally` (já está — variável `let skipLock` na linha 548)
+### Redeploy
 
-### 3. `src/components/ResourceHints.tsx`
-- Adicionar guard: se `currentPath` começa com `/app/`, não fazer prefetch de rotas públicas como `/`
-- Isso evita carregar o bundle da homepage (com hero-background.webp) em páginas admin
+Redeploy de `process-sync-queue` após a alteração.
 
-### 4. Deploy
-- Redeploy das 3 edge functions: `force-sync-cleanup`, `process-sync-queue`, `sync-google-sheets`
+### Resultado esperado
 
----
-
-## Fluxo Esperado Após Correção
-
-1. Admin clica "Forçar Limpeza" → limpa logs QUEUED e IN_PROGRESS → botão "Sincronizar Agora" fica disponível
-2. Admin clica "Sincronizar Agora" → `sync-google-sheets` cria log QUEUED, popula fila, triggera `process-sync-queue` com `skipLock=true`
-3. `process-sync-queue` promove QUEUED→IN_PROGRESS, processa batch, auto-continua com `skipLock=true`
-4. Ao finalizar (remaining=0), libera lock e marca log como SUCCESS
-5. Na página admin, nenhum carregamento de hero-background.webp
+- Os 600 itens da fila serão parseados e processados corretamente.
+- `sync_log` transicionará de QUEUED → IN_PROGRESS → SUCCESS.
+- Métricas `updated`/`failed` refletirão valores reais.
 
