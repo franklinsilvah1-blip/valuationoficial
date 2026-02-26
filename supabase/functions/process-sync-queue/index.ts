@@ -352,7 +352,7 @@ async function processQueueBatch(
         ? JSON.parse(item.row_data) 
         : item.row_data;
       const tipo = normalizeAssetType(rowData.tipo);
-      const carteira = normalizePlanType(rowData.carteira);
+      const carteira = normalizePlanType(rowData.perfil_investidor || rowData.carteira);
       const recomendacao = normalizeRecommendation(rowData.recomendacao);
       const tendencia = normalizeTrend(rowData.tendencia);
 
