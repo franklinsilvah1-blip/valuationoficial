@@ -1,29 +1,34 @@
 
 
-## Diagnóstico
+## Problema
 
-**Problema confirmado**: 963 análises para 601 ativos. A planilha tem 1 linha por ativo, mas o banco mantém análises duplicadas com `carteira` diferente (ex: GARE11 tem uma análise "SPECIALIST" e outra "FALE_C_ESPECIALISTA" de syncs anteriores). São 362 ativos com 2 análises cada.
+Dois problemas distintos com URLs nos emails:
 
-**Causa raiz**: A constraint `UNIQUE(asset_id, carteira)` permite múltiplas análises por ativo quando o valor de `perfil_investidor` na planilha muda entre syncs. O correto é **1 análise por ativo** (constraint `UNIQUE(asset_id)` apenas).
+1. **Supabase Auth `site_url`** configurado como `localhost:3000` no projeto Supabase. Isso faz com que todos os links de verificação de email, reset de senha e magic link do Supabase Auth redirecionem para `localhost:3000` (como mostra o screenshot). Essa configuração precisa ser alterada no **Dashboard do Supabase > Authentication > URL Configuration > Site URL** para `https://valuationit.com.br`.
 
-**Impacto nas carteiras de clientes**: `wallet_items` referencia `asset_id`, não `analysis_id`, então as carteiras de clientes estão intactas. O problema é na exibição — filtros por `carteira` no Mercado podem mostrar dados duplicados ou inconsistentes.
+2. **Edge functions usando `req.headers.get("origin")`** como base de URL. Quando chamadas por cron, webhook ou contexto sem browser, o header `origin` pode ser `null` ou incorreto. Os fallbacks estão inconsistentes:
+   - `create-checkout`: fallback para `clube-carteira-facil.lovable.app` (URL errada, projeto antigo)
+   - `customer-portal`: fallback para `valuationit.com.br` (correto)
+   - `send-welcome-email`: usa `origin` com fallback correto
+   - `send-subscription-notification`: usa `origin` com fallback correto
 
-## Correção
+### Correção
 
-### 1. Migration: limpar duplicatas e corrigir constraint
+**Passo 1 (manual, obrigatório):** O usuário precisa ir no Supabase Dashboard > Authentication > URL Configuration e alterar:
+- **Site URL**: `https://valuationit.com.br`
+- **Redirect URLs**: adicionar `https://valuationit.com.br/**` e `https://valuationoficial.lovable.app/**`
 
-- Deletar análises duplicadas mantendo apenas a mais recente (`updated_at DESC`) por `asset_id`
-- Dropar constraints `UNIQUE(asset_id, carteira)` (existem duas: `asset_analyses_asset_carteira_unique` e `asset_analyses_asset_id_carteira_unique`)
-- Criar nova constraint `UNIQUE(asset_id)` apenas
+**Passo 2 (código):** Criar constante `APP_URL` centralizada em `_shared/constants.ts` com valor `https://valuationit.com.br` e substituir em todas as edge functions:
 
-### 2. Edge function: `process-sync-queue/index.ts`
+- `supabase/functions/_shared/constants.ts` (novo): exportar `APP_URL = "https://valuationit.com.br"`
+- `send-welcome-email/index.ts`: trocar `req.headers.get("origin") || "https://valuationit.com.br"` por import de `APP_URL`
+- `send-subscription-notification/index.ts`: idem
+- `create-checkout/index.ts`: trocar fallback `clube-carteira-facil.lovable.app` por `APP_URL`
+- `customer-portal/index.ts`: trocar `req.headers.get("origin") || "https://valuationit.com.br"` por `APP_URL`
+- `send-magic-link/index.ts`: confirmar que `redirectTo` usa `APP_URL`
+- `send-password-recovery-request/index.ts`: confirmar que `redirectTo` usa `APP_URL`
 
-- Alterar `onConflict: "asset_id,carteira"` para `onConflict: "asset_id"`
-- Isso garante que cada sync sobrescreve a análise existente do ativo, sem criar duplicata
+Em todos os casos, **não usar mais `req.headers.get("origin")`** para construir URLs de email/redirect. Usar sempre a constante fixa `APP_URL`.
 
-### 3. Redeploy da edge function
-
-### Dados de clientes
-
-As carteiras (`wallet_items`, `wallet_simulator`, `wallet_movements`) referenciam `asset_id` diretamente — não são afetadas pela limpeza de `asset_analyses`. Ficam intactas.
+**Passo 3:** Redeploy de todas as edge functions alteradas.
 
