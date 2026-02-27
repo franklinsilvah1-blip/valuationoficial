@@ -19,7 +19,7 @@ export type Database = {
           action: string | null
           created_at: string | null
           granted_by: string | null
-          id: string | null
+          id: string
           metadata: Json | null
           new_plan: string | null
           old_plan: string | null
@@ -30,7 +30,7 @@ export type Database = {
           action?: string | null
           created_at?: string | null
           granted_by?: string | null
-          id?: string | null
+          id?: string
           metadata?: Json | null
           new_plan?: string | null
           old_plan?: string | null
@@ -41,7 +41,7 @@ export type Database = {
           action?: string | null
           created_at?: string | null
           granted_by?: string | null
-          id?: string | null
+          id?: string
           metadata?: Json | null
           new_plan?: string | null
           old_plan?: string | null
@@ -55,7 +55,7 @@ export type Database = {
           affiliate_code: string | null
           affiliate_id: string | null
           created_at: string | null
-          id: string | null
+          id: string
           ip_address: string | null
           landing_page: string | null
           referrer: string | null
@@ -66,7 +66,7 @@ export type Database = {
           affiliate_code?: string | null
           affiliate_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           ip_address?: string | null
           landing_page?: string | null
           referrer?: string | null
@@ -77,7 +77,7 @@ export type Database = {
           affiliate_code?: string | null
           affiliate_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           ip_address?: string | null
           landing_page?: string | null
           referrer?: string | null
@@ -134,21 +134,21 @@ export type Database = {
       app_config: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           key: string | null
           updated_at: string | null
           value: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           key?: string | null
           updated_at?: string | null
           value?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           key?: string | null
           updated_at?: string | null
           value?: string | null
@@ -302,19 +302,19 @@ export type Database = {
         Row: {
           asset_id: string | null
           created_at: string | null
-          id: string | null
+          id: string
           user_id: string | null
         }
         Insert: {
           asset_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
         }
         Update: {
           asset_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
         }
         Relationships: [
@@ -338,7 +338,7 @@ export type Database = {
         Row: {
           asset_id: string | null
           created_at: string | null
-          id: string | null
+          id: string
           user_id: string | null
           view_date: string | null
           viewed_at: string | null
@@ -346,7 +346,7 @@ export type Database = {
         Insert: {
           asset_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
           view_date?: string | null
           viewed_at?: string | null
@@ -354,7 +354,7 @@ export type Database = {
         Update: {
           asset_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
           view_date?: string | null
           viewed_at?: string | null
@@ -480,7 +480,7 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           created_at: string | null
-          id: string | null
+          id: string
           name: string | null
           updated_at: string | null
         }
@@ -488,7 +488,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
@@ -496,7 +496,7 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
@@ -583,21 +583,21 @@ export type Database = {
         Row: {
           created_at: string | null
           details: string | null
-          id: string | null
+          id: string
           reason: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           details?: string | null
-          id?: string | null
+          id?: string
           reason?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           details?: string | null
-          id?: string | null
+          id?: string
           reason?: string | null
           user_id?: string | null
         }
@@ -629,7 +629,7 @@ export type Database = {
           affiliate_id: string | null
           amount: number | null
           created_at: string | null
-          id: string | null
+          id: string
           paid_at: string | null
           referral_id: string | null
           status: string | null
@@ -640,7 +640,7 @@ export type Database = {
           affiliate_id?: string | null
           amount?: number | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           paid_at?: string | null
           referral_id?: string | null
           status?: string | null
@@ -651,7 +651,7 @@ export type Database = {
           affiliate_id?: string | null
           amount?: number | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           paid_at?: string | null
           referral_id?: string | null
           status?: string | null
@@ -679,7 +679,7 @@ export type Database = {
         Row: {
           created_at: string | null
           description: string | null
-          id: string | null
+          id: string
           is_active: boolean | null
           order_num: number | null
           title: string | null
@@ -689,7 +689,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           description?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           order_num?: number | null
           title?: string | null
@@ -699,7 +699,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           description?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           order_num?: number | null
           title?: string | null
@@ -716,7 +716,7 @@ export type Database = {
           error_log: string | null
           failed: number | null
           filename: string | null
-          id: string | null
+          id: string
           inserted: number | null
           skipped: number | null
           status: string | null
@@ -730,7 +730,7 @@ export type Database = {
           error_log?: string | null
           failed?: number | null
           filename?: string | null
-          id?: string | null
+          id?: string
           inserted?: number | null
           skipped?: number | null
           status?: string | null
@@ -744,7 +744,7 @@ export type Database = {
           error_log?: string | null
           failed?: number | null
           filename?: string | null
-          id?: string | null
+          id?: string
           inserted?: number | null
           skipped?: number | null
           status?: string | null
@@ -759,7 +759,7 @@ export type Database = {
           converted_at: string | null
           created_at: string | null
           email: string | null
-          id: string | null
+          id: string
           landing_page: string | null
           name: string | null
           status: string | null
@@ -774,7 +774,7 @@ export type Database = {
           converted_at?: string | null
           created_at?: string | null
           email?: string | null
-          id?: string | null
+          id?: string
           landing_page?: string | null
           name?: string | null
           status?: string | null
@@ -789,7 +789,7 @@ export type Database = {
           converted_at?: string | null
           created_at?: string | null
           email?: string | null
-          id?: string | null
+          id?: string
           landing_page?: string | null
           name?: string | null
           status?: string | null
@@ -805,19 +805,19 @@ export type Database = {
         Row: {
           created_at: string | null
           group_id: string | null
-          id: string | null
+          id: string
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           group_id?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           group_id?: string | null
-          id?: string | null
+          id?: string
           user_id?: string | null
         }
         Relationships: []
@@ -826,21 +826,21 @@ export type Database = {
         Row: {
           created_at: string | null
           description: string | null
-          id: string | null
+          id: string
           name: string | null
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           description?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           description?: string | null
-          id?: string | null
+          id?: string
           name?: string | null
           updated_at?: string | null
         }
@@ -850,19 +850,19 @@ export type Database = {
         Row: {
           category_id: string | null
           created_at: string | null
-          id: string | null
+          id: string
           post_id: string | null
         }
         Insert: {
           category_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           post_id?: string | null
         }
         Update: {
           category_id?: string | null
           created_at?: string | null
-          id?: string | null
+          id?: string
           post_id?: string | null
         }
         Relationships: [
@@ -886,7 +886,7 @@ export type Database = {
         Row: {
           created_at: string | null
           cycle: number | null
-          id: string | null
+          id: string
           option_id: string | null
           question_id: string | null
           user_id: string | null
@@ -894,7 +894,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           cycle?: number | null
-          id?: string | null
+          id?: string
           option_id?: string | null
           question_id?: string | null
           user_id?: string | null
@@ -902,7 +902,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           cycle?: number | null
-          id?: string | null
+          id?: string
           option_id?: string | null
           question_id?: string | null
           user_id?: string | null
@@ -912,7 +912,7 @@ export type Database = {
       profile_options: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           question_id: string | null
           text: string | null
           weight_pro: number | null
@@ -921,7 +921,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           question_id?: string | null
           text?: string | null
           weight_pro?: number | null
@@ -930,7 +930,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           question_id?: string | null
           text?: string | null
           weight_pro?: number | null
@@ -942,21 +942,21 @@ export type Database = {
       profile_questions: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           order_num: number | null
           text: string | null
           type: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           order_num?: number | null
           text?: string | null
           type?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           order_num?: number | null
           text?: string | null
           type?: string | null
@@ -1028,7 +1028,7 @@ export type Database = {
           created_at: string | null
           created_by: string | null
           icon: string | null
-          id: string | null
+          id: string
           is_active: boolean | null
           message: string | null
           sent_at: string | null
@@ -1044,7 +1044,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           icon?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           message?: string | null
           sent_at?: string | null
@@ -1060,7 +1060,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           icon?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           message?: string | null
           sent_at?: string | null
@@ -1080,7 +1080,7 @@ export type Database = {
           created_at: string | null
           device_id: string | null
           endpoint: string | null
-          id: string | null
+          id: string
           is_active: boolean | null
           p256dh: string | null
           updated_at: string | null
@@ -1091,7 +1091,7 @@ export type Database = {
           created_at?: string | null
           device_id?: string | null
           endpoint?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           p256dh?: string | null
           updated_at?: string | null
@@ -1102,7 +1102,7 @@ export type Database = {
           created_at?: string | null
           device_id?: string | null
           endpoint?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           p256dh?: string | null
           updated_at?: string | null
@@ -1114,7 +1114,7 @@ export type Database = {
         Row: {
           created_at: string | null
           endpoint: string | null
-          id: string | null
+          id: string
           request_count: number | null
           user_id: string | null
           window_start: string | null
@@ -1122,7 +1122,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           endpoint?: string | null
-          id?: string | null
+          id?: string
           request_count?: number | null
           user_id?: string | null
           window_start?: string | null
@@ -1130,7 +1130,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           endpoint?: string | null
-          id?: string | null
+          id?: string
           request_count?: number | null
           user_id?: string | null
           window_start?: string | null
@@ -1174,19 +1174,19 @@ export type Database = {
       }
       sites: {
         Row: {
-          id: string | null
+          id: string
           name: string | null
           site_id: string | null
           url: string | null
         }
         Insert: {
-          id?: string | null
+          id?: string
           name?: string | null
           site_id?: string | null
           url?: string | null
         }
         Update: {
-          id?: string | null
+          id?: string
           name?: string | null
           site_id?: string | null
           url?: string | null
@@ -1196,7 +1196,7 @@ export type Database = {
       smtp_config: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           security_type: string | null
           sender_email: string | null
           sender_name: string | null
@@ -1208,7 +1208,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           security_type?: string | null
           sender_email?: string | null
           sender_name?: string | null
@@ -1220,7 +1220,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           security_type?: string | null
           sender_email?: string | null
           sender_name?: string | null
@@ -1238,7 +1238,7 @@ export type Database = {
           description: string | null
           display_name: string | null
           features: Json | null
-          id: string | null
+          id: string
           is_active: boolean | null
           plan_code: string | null
           price_note: string | null
@@ -1252,7 +1252,7 @@ export type Database = {
           description?: string | null
           display_name?: string | null
           features?: Json | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           plan_code?: string | null
           price_note?: string | null
@@ -1266,7 +1266,7 @@ export type Database = {
           description?: string | null
           display_name?: string | null
           features?: Json | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           plan_code?: string | null
           price_note?: string | null
@@ -1378,7 +1378,7 @@ export type Database = {
           created_at: string | null
           event_data: string | null
           event_name: string | null
-          id: string | null
+          id: string
           page_url: string | null
           script_id: string | null
           session_id: string | null
@@ -1388,7 +1388,7 @@ export type Database = {
           created_at?: string | null
           event_data?: string | null
           event_name?: string | null
-          id?: string | null
+          id?: string
           page_url?: string | null
           script_id?: string | null
           session_id?: string | null
@@ -1398,7 +1398,7 @@ export type Database = {
           created_at?: string | null
           event_data?: string | null
           event_name?: string | null
-          id?: string | null
+          id?: string
           page_url?: string | null
           script_id?: string | null
           session_id?: string | null
@@ -1410,7 +1410,7 @@ export type Database = {
         Row: {
           created_at: string | null
           created_by: string | null
-          id: string | null
+          id: string
           is_active: boolean | null
           location: string | null
           name: string | null
@@ -1422,7 +1422,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           created_by?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           location?: string | null
           name?: string | null
@@ -1434,7 +1434,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           created_by?: string | null
-          id?: string | null
+          id?: string
           is_active?: boolean | null
           location?: string | null
           name?: string | null
@@ -1448,19 +1448,19 @@ export type Database = {
       user_roles: {
         Row: {
           created_at: string | null
-          id: string | null
+          id: string
           role: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           role?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          id?: string
           role?: string | null
           user_id?: string | null
         }
@@ -1472,7 +1472,7 @@ export type Database = {
           asset_id: string | null
           created_at: string | null
           data_compra: string | null
-          id: string | null
+          id: string
           preco_compra: number | null
           proventos: number | null
           quantidade: number | null
@@ -1484,7 +1484,7 @@ export type Database = {
           asset_id?: string | null
           created_at?: string | null
           data_compra?: string | null
-          id?: string | null
+          id?: string
           preco_compra?: number | null
           proventos?: number | null
           quantidade?: number | null
@@ -1496,7 +1496,7 @@ export type Database = {
           asset_id?: string | null
           created_at?: string | null
           data_compra?: string | null
-          id?: string | null
+          id?: string
           preco_compra?: number | null
           proventos?: number | null
           quantidade?: number | null
