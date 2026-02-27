@@ -175,9 +175,7 @@ const RMC = () => {
     setIsSubmitting(false);
   };
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    const id = deleteId;
+  const handleDelete = async (id: string) => {
     await deleteMovement(id);
     setDeleteId(null);
   };
@@ -657,8 +655,10 @@ const RMC = () => {
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={(e) => {
-                e.preventDefault();
-                handleDelete();
+                e.stopPropagation();
+                if (deleteId) {
+                  handleDelete(deleteId);
+                }
               }}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
