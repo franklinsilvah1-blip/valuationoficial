@@ -1523,39 +1523,39 @@ export type Database = {
       wallet_movements: {
         Row: {
           asset_id: string | null
-          codigo_b3: string | null
+          codigo_b3: string
           created_at: string | null
-          data_operacao: string | null
-          id: string | null
+          data_operacao: string
+          id: string
           observacao: string | null
-          quantidade: number | null
-          tipo_operacao: string | null
-          user_id: string | null
-          valor_por_acao: number | null
+          quantidade: number
+          tipo_operacao: string
+          user_id: string
+          valor_por_acao: number
         }
         Insert: {
           asset_id?: string | null
-          codigo_b3?: string | null
+          codigo_b3: string
           created_at?: string | null
-          data_operacao?: string | null
-          id?: string | null
+          data_operacao: string
+          id?: string
           observacao?: string | null
-          quantidade?: number | null
-          tipo_operacao?: string | null
-          user_id?: string | null
-          valor_por_acao?: number | null
+          quantidade: number
+          tipo_operacao: string
+          user_id: string
+          valor_por_acao: number
         }
         Update: {
           asset_id?: string | null
-          codigo_b3?: string | null
+          codigo_b3?: string
           created_at?: string | null
-          data_operacao?: string | null
-          id?: string | null
+          data_operacao?: string
+          id?: string
           observacao?: string | null
-          quantidade?: number | null
-          tipo_operacao?: string | null
-          user_id?: string | null
-          valor_por_acao?: number | null
+          quantidade?: number
+          tipo_operacao?: string
+          user_id?: string
+          valor_por_acao?: number
         }
         Relationships: [
           {
