@@ -8,8 +8,11 @@ export const useWalletSimulator = () => {
   const queryClient = useQueryClient();
 
   // Buscar carteira do usuário
-  const { data: wallet, isLoading: loadingWallet } = useQuery({
+  const { data: wallet, isLoading: loadingWallet, isError: walletError, error: walletErrorObj } = useQuery({
     queryKey: ["wallet-simulator"],
+    retry: 2,
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Usuário não autenticado");
@@ -26,8 +29,11 @@ export const useWalletSimulator = () => {
   });
 
   // Buscar favoritos do usuário com dados dos ativos
-  const { data: favorites, isLoading: loadingFavorites } = useQuery({
+  const { data: favorites, isLoading: loadingFavorites, isError: favoritesError, error: favoritesErrorObj } = useQuery({
     queryKey: ["favorites-for-wallet"],
+    retry: 2,
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
@@ -101,8 +107,11 @@ export const useWalletSimulator = () => {
   });
 
   // Buscar itens da carteira diretamente pelo user_id (desacoplado de favoritos)
-  const { data: items, isLoading: loadingItems } = useQuery({
+  const { data: items, isLoading: loadingItems, isError: itemsError, error: itemsErrorObj } = useQuery({
     queryKey: ["wallet-items"],
+    retry: 2,
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
@@ -162,7 +171,7 @@ export const useWalletSimulator = () => {
           ? analyses[0] 
           : analyses;
         
-        const precoAtual = assetAnalysis?.valor || 0;
+        const precoAtual = Number(assetAnalysis?.valor) || 0;
         
         console.log('[WALLET-ITEM-LOAD]', {
           codigo: asset?.codigo_b3,
@@ -178,9 +187,9 @@ export const useWalletSimulator = () => {
           tipo: asset?.tipo || '',
           setor: asset?.setor || '',
           preco_atual: precoAtual,
-          roitrim: assetAnalysis?.roitrim || 0,
-          dy2025: assetAnalysis?.dy2025,
-          roi2025: assetAnalysis?.roi2025,
+          roitrim: Number(assetAnalysis?.roitrim) || 0,
+          dy2025: assetAnalysis?.dy2025 ? Number(assetAnalysis.dy2025) : undefined,
+          roi2025: assetAnalysis?.roi2025 ? Number(assetAnalysis.roi2025) : undefined,
           proventos: item.proventos || 0,
         };
       });
@@ -356,6 +365,8 @@ export const useWalletSimulator = () => {
     simulatedItems,
     totals,
     isLoading: loadingWallet || loadingFavorites || loadingItems,
+    isError: walletError || favoritesError || itemsError,
+    error: walletErrorObj || favoritesErrorObj || itemsErrorObj,
     createWallet,
     addOrUpdateItem,
     updateItem,

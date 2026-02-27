@@ -24,7 +24,7 @@ import {
 const COLORS = ['#8b5cf6', '#f59e0b', '#10b981', '#ef4444', '#3b82f6', '#ec4899', '#14b8a6', '#f97316'];
 
 const Carteira = () => {
-  const { favorites, simulatedItems, totals, isLoading, addOrUpdateItem, removeItem } = useWalletSimulator();
+  const { favorites, simulatedItems, totals, isLoading, isError, addOrUpdateItem, removeItem } = useWalletSimulator();
   const { user, userPlan } = useAuth();
   
   // Criar Set de IDs dos favoritos para mostrar indicador visual
@@ -243,6 +243,25 @@ const Carteira = () => {
             <div className="h-8 bg-muted rounded w-1/4"></div>
             <div className="h-64 bg-muted rounded"></div>
           </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  if (isError) {
+    return (
+      <AppLayout title="Minha Carteira">
+        <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+          <Card>
+            <CardContent className="text-center py-12">
+              <p className="text-destructive mb-4">
+                Erro ao carregar sua carteira. Verifique sua conexão e tente novamente.
+              </p>
+              <Button onClick={() => window.location.reload()}>
+                Tentar novamente
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </AppLayout>
     );
