@@ -176,9 +176,10 @@ const RMC = () => {
   };
 
   const handleDelete = async () => {
-    if (deleteId) {
-      await deleteMovement(deleteId);
-      setDeleteId(null);
+    const id = deleteId;
+    setDeleteId(null);
+    if (id) {
+      await deleteMovement(id);
     }
   };
 
