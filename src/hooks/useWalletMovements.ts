@@ -58,6 +58,7 @@ export const useWalletMovements = () => {
       const { error } = await supabase
         .from('wallet_movements')
         .insert({
+          id: crypto.randomUUID(),
           user_id: user.id,
           asset_id: data.asset_id,
           codigo_b3: data.codigo_b3.toUpperCase(),
