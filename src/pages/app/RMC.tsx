@@ -176,11 +176,10 @@ const RMC = () => {
   };
 
   const handleDelete = async () => {
+    if (!deleteId) return;
     const id = deleteId;
+    await deleteMovement(id);
     setDeleteId(null);
-    if (id) {
-      await deleteMovement(id);
-    }
   };
 
   const clearFilters = () => {
@@ -646,7 +645,7 @@ const RMC = () => {
       </Dialog>
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => { if (!open) setDeleteId(null); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
@@ -656,7 +655,13 @@ const RMC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                handleDelete();
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               Excluir
             </AlertDialogAction>
           </AlertDialogFooter>
