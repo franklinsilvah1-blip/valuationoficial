@@ -1,28 +1,22 @@
 
-
 ## Problema
 
-A coluna `valor_por_acao` na tabela `wallet_movements` é do tipo `integer`, mas valores de ações são decimais (ex: R$ 5,19). O Postgres rejeita "5.19" como integer, causando o erro `invalid input syntax for type integer: "5.19"`.
-
-A coluna `quantidade` também é `integer`, o que é correto para ações inteiras, mas pode falhar para frações.
+O `AlertDialogAction` do Radix UI fecha o dialog automaticamente ao clicar, disparando `onOpenChange(() => setDeleteId(null))` que limpa o `deleteId` **antes** de `handleDelete` conseguir usá-lo. Resultado: `handleDelete` roda com `deleteId` já `null`, e nada é deletado.
 
 ## Correção
 
-### 1. Migration: alterar tipo das colunas
+Em `src/pages/app/RMC.tsx`:
 
-```sql
-ALTER TABLE public.wallet_movements 
-  ALTER COLUMN valor_por_acao TYPE numeric USING valor_por_acao::numeric;
+1. **`handleDelete`**: Capturar o `deleteId` em variável local antes de limpar o state, garantindo que o ID esteja disponível independente do timing do Radix.
 
-ALTER TABLE public.wallet_movements 
-  ALTER COLUMN quantidade TYPE numeric USING quantidade::numeric;
+```tsx
+const handleDelete = async () => {
+  const id = deleteId;
+  setDeleteId(null);
+  if (id) {
+    await deleteMovement(id);
+  }
+};
 ```
 
-Alterar ambas para `numeric` garante suporte a valores decimais. Dados existentes (inteiros) são convertidos automaticamente sem perda.
-
-### 2. Atualizar types.ts
-
-Atualizar o tipo gerado para refletir `number` em vez de `number` (já é number no TS, mas o schema precisa bater).
-
-Nenhuma alteração no frontend é necessária -- o hook `useWalletMovements` já envia os valores como `number`.
-
+Isso resolve a race condition porque o valor é capturado sincronamente antes de qualquer setState.
