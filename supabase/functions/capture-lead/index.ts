@@ -12,12 +12,60 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // IP-based rate limiting
+    const clientIP = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Check rate limit: 10 requests per hour per IP
+    const windowStart = new Date(Date.now() - 60 * 60000).toISOString();
+    const { count, error: rlError } = await supabase
+      .from("rate_limit_log")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", clientIP)
+      .eq("endpoint", "capture-lead")
+      .gte("window_start", windowStart);
+
+    if (rlError) {
+      console.error("[CAPTURE-LEAD] Rate limit check error:", rlError);
+    } else if (count !== null && count >= 10) {
+      return new Response(
+        JSON.stringify({ error: "Muitas tentativas. Tente novamente mais tarde." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Log this request for rate limiting
+    await supabase.from("rate_limit_log").insert({
+      user_id: clientIP,
+      endpoint: "capture-lead",
+      window_start: new Date().toISOString(),
+    });
+
     const { name, email, whatsapp, utm_source, utm_medium, utm_campaign, utm_content, landing_page, affiliate_code } = await req.json();
 
     // Validate required fields
     if (!name || !email) {
       return new Response(
         JSON.stringify({ error: "Nome e email são obrigatórios" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Input length validation
+    if (typeof name !== "string" || name.length > 200 ||
+        typeof email !== "string" || email.length > 255 ||
+        (whatsapp && (typeof whatsapp !== "string" || whatsapp.length > 30)) ||
+        (utm_source && String(utm_source).length > 200) ||
+        (utm_medium && String(utm_medium).length > 200) ||
+        (utm_campaign && String(utm_campaign).length > 200) ||
+        (utm_content && String(utm_content).length > 500) ||
+        (landing_page && String(landing_page).length > 500) ||
+        (affiliate_code && String(affiliate_code).length > 50)) {
+      return new Response(
+        JSON.stringify({ error: "Dados inválidos" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
