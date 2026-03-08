@@ -208,8 +208,7 @@ Por favor, responda diretamente para o email: ${email}
     
     return new Response(
       JSON.stringify({ 
-        error: userMessage,
-        details: error.message 
+        error: userMessage
       }),
       {
         status: error.message === "INVALID_REQUEST" ? 400 : 500,
