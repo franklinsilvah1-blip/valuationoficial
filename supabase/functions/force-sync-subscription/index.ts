@@ -259,8 +259,7 @@ Deno.serve(async (req) => {
     
     return new Response(JSON.stringify({ 
       success: false,
-      error: errorMessage,
-      stack: errorStack
+      error: "Erro ao sincronizar assinatura. Tente novamente."
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
