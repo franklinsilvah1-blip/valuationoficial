@@ -356,7 +356,7 @@ const MercadoApp = () => {
       if (error) throw error;
 
       // Processar resultados - agora cada ativo tem UMA análise
-      return data?.map((asset: any) => {
+      const mapped = data?.map((asset: any) => {
         const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
         if (!analysis || Object.keys(analysis).length === 0) return null;
 
