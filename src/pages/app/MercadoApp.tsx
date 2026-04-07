@@ -232,7 +232,7 @@ const MercadoApp = () => {
         error
       } = await query;
       if (error) throw error;
-      return data?.map((asset: any) => {
+      const mapped = data?.map((asset: any) => {
         const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
         if (!analysis || Object.keys(analysis).length === 0) return null;
         const hasFullAccess = hasFullAccessToAsset(userPlan, analysis.carteira);
