@@ -252,7 +252,7 @@ const AssetCard = ({
     if (!nota) return "bg-gray-100 text-gray-700 border-gray-300";
     
     // Estilo preto (escuro): TOP ANO, TOP TRIM, TOP PDY, Recomendado (RA)
-    if (nota.includes("TOP ANO") || nota.includes("TOP TRIM") || nota.includes("TOP PDY") || nota.includes("(RA)")) {
+    if (nota.includes("TOP ANO") || nota.includes("TOP TRIM") || nota.includes("TOP GANHOS") || nota.includes("(RA)")) {
       return "bg-gray-900 text-white border-gray-800";
     }
     // Estilo amarelo: Recomendado (DY), (RB), (RM)
