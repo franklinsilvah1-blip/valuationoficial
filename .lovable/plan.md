@@ -1,76 +1,74 @@
 
 
-## Causa Raiz Encontrada
+## Plano de Ajustes - Plataforma ValuAtion v06/04/2026
 
-A tabela `wallet_movements` no banco de dados está **sem PRIMARY KEY, sem DEFAULT no `id`, e todas as colunas são nullable**. Isso significa que:
+### Contexto
 
-1. Quando um registro é inserido sem `id`, ele fica com `id = NULL`
-2. A query de delete (`.eq('id', id)`) **nunca consegue encontrar registros com id NULL** (em SQL, `NULL = NULL` é sempre `false`)
-3. Existem 6 de 40 registros com `id` NULL no banco agora
+O documento lista 4 ajustes + 1 bug de build existente. Analisei todo o código envolvido.
 
-**Evidência do banco:**
+---
 
-```text
-total registros: 40
-com id:          34
-sem id (NULL):    6   ← estes nunca podem ser deletados
-```
+### 1. Simplificar acesso: planos pagos veem tudo, FREE vê card resumido
 
-A coluna `id` deveria ter `PRIMARY KEY DEFAULT gen_random_uuid()` conforme a migration original, mas o schema real mostra `is_nullable: YES`, sem default, sem constraint de PK.
+**Situação atual**: A lógica em `assetAccessHelper.ts` e `fieldVisibility.ts` restringe campos baseado no cruzamento PLANO x PERFIL_DO_ATIVO (ex: START so ve START, PRO ve START+PRO).
 
-## Correções
+**Mudança**: Qualquer plano pago (START, PRO, SPECIALIST) = card completo. Apenas FREE = card resumido.
 
-### 1. Migration para corrigir a tabela `wallet_movements`
+**Arquivos**:
+- `src/utils/assetAccessHelper.ts` — Simplificar: `plan !== "FREE"` → `cardType: "full"`
+- `src/utils/fieldVisibility.ts` — `getFieldVisibility`: se nao e FREE, retorna `FULL_VISIBILITY`. Idem para `hasFullAccessToAsset`.
 
-Novo arquivo: `supabase/migrations/<timestamp>_fix_wallet_movements_schema.sql`
+---
 
-```sql
--- Gerar UUIDs para registros que não têm id
-UPDATE wallet_movements SET id = gen_random_uuid() WHERE id IS NULL;
+### 2. Atualizar filtro "Nota Especialista": remover "TOP PDY", adicionar "TOP GANHOS"
 
--- Gerar timestamps para registros sem created_at
-UPDATE wallet_movements SET created_at = now()::text WHERE created_at IS NULL;
+**Arquivos**:
+- `src/utils/filterMappings.ts` — No array `NOTA_ESPECIALISTA_OPTIONS`: trocar `{ value: "Ativo TOP PDY", label: "Ativo TOP PDY" }` por `{ value: "Ativo TOP GANHOS", label: "Ativo TOP GANHOS" }`. Atualizar tambem o objeto `labels.nota_especialista`.
+- `src/components/AssetCard.tsx` — Na funcao de estilo da badge (linha ~255): trocar `TOP PDY` por `TOP GANHOS` na condicao de estilo escuro.
 
--- Adicionar DEFAULT e NOT NULL na coluna id
-ALTER TABLE wallet_movements 
-  ALTER COLUMN id SET DEFAULT gen_random_uuid(),
-  ALTER COLUMN id SET NOT NULL;
+---
 
--- Adicionar PRIMARY KEY
-ALTER TABLE wallet_movements ADD PRIMARY KEY (id);
+### 3. Corrigir/ativar a funcao "Ordenar por"
 
--- Garantir NOT NULL nas colunas obrigatórias
-ALTER TABLE wallet_movements ALTER COLUMN user_id SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN codigo_b3 SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN tipo_operacao SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN valor_por_acao SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN quantidade SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN data_operacao SET NOT NULL;
-ALTER TABLE wallet_movements ALTER COLUMN created_at SET DEFAULT now()::text;
+**Situacao atual**: O select de ordenacao ja existe com varias opcoes, e a logica de sort no Supabase query tambem existe. A query faz `query.order("asset_analyses.roi2026", ...)` etc.
 
--- Recriar índices de performance
-CREATE INDEX IF NOT EXISTS idx_wallet_movements_user_id ON wallet_movements(user_id);
-CREATE INDEX IF NOT EXISTS idx_wallet_movements_data_operacao ON wallet_movements(data_operacao);
-```
+**Problema provavel**: Os campos sao armazenados como `text` no banco (nao `numeric`), entao a ordenacao e lexicografica (ex: "9%" > "51%"). Isso precisa de cast ou sort client-side.
 
-### 2. Frontend: Gerar UUID no insert como fallback
+**Mudanca solicitada**: Manter 3 opcoes de ordenacao conforme pedido:
+- ROI 2026 (decrescente)
+- ROI 2025 (decrescente)  
+- ROI 2023/2025 (decrescente — campo agora renomeado para 2023A26)
 
-Em `src/hooks/useWalletMovements.ts`, adicionar `crypto.randomUUID()` no insert para garantir que o `id` sempre esteja presente, mesmo que o default do banco falhe:
+Adicionar opcoes `roi2025` e `roi2023a2025` no select e na logica de query (ambas as queries, linhas ~198 e ~345). Para o sort funcionar corretamente com campos text, aplicar sort client-side convertendo para numero.
 
-```ts
-const { error } = await supabase
-  .from('wallet_movements')
-  .insert({
-    id: crypto.randomUUID(),  // ← garantia de ID
-    user_id: user.id,
-    ...
-  } as any);
-```
+**Arquivos**:
+- `src/pages/app/MercadoApp.tsx` — Adicionar opcoes no `<select>`, adicionar handlers de sort nas 2 queries, e adicionar sort client-side pos-fetch para corrigir ordenacao textual.
 
-### Resumo
+---
 
-| Alteração | Arquivo |
-|-----------|---------|
-| Corrigir schema: PK, defaults, NOT NULL | Nova migration SQL |
-| Gerar UUID no insert como fallback | `src/hooks/useWalletMovements.ts` |
+### 4. Renomear "ROI 2023A25" para "ROI 2023A26"
+
+**Arquivos** (label de exibicao apenas, o campo do banco permanece `roi2023a2025`):
+- `src/components/AssetCard.tsx` — Trocar todas as ocorrencias de `ROI 2023A25:` por `ROI 2023A26:`
+- `src/pages/app/MercadoApp.tsx` — Se houver labels no select de ordenacao
+
+---
+
+### 5. Fix build error: `process.env` em ErrorBoundary
+
+**Arquivo**: `src/components/ErrorBoundary.tsx` linha 76
+- Trocar `process.env.NODE_ENV === "development"` por `import.meta.env.DEV` (Vite)
+
+---
+
+### Resumo de arquivos impactados
+
+| Arquivo | Ajustes |
+|---------|---------|
+| `src/utils/assetAccessHelper.ts` | #1 - Simplificar acesso |
+| `src/utils/fieldVisibility.ts` | #1 - Simplificar visibilidade |
+| `src/utils/filterMappings.ts` | #2 - TOP PDY → TOP GANHOS |
+| `src/components/AssetCard.tsx` | #2 badge style + #4 rename label |
+| `src/pages/app/MercadoApp.tsx` | #3 sort options + #4 rename label |
+| `src/components/ErrorBoundary.tsx` | #5 build fix |
 
