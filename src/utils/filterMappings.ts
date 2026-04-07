@@ -140,7 +140,7 @@ export const normalizeCarteira = (value?: string): string => {
 export const NOTA_ESPECIALISTA_OPTIONS = [
   { value: "Ativo TOP ANO", label: "Ativo TOP ANO" },
   { value: "Ativo TOP TRIM", label: "Ativo TOP TRIM" },
-  { value: "Ativo TOP PDY", label: "Ativo TOP PDY" },
+  { value: "Ativo TOP GANHOS", label: "Ativo TOP GANHOS" },
   { value: "Recomendado (DY)", label: "Recomendado (DY)" },
   { value: "Recomendado (RB)", label: "Recomendado (RB)" },
   { value: "Recomendado (RM)", label: "Recomendado (RM)" },
