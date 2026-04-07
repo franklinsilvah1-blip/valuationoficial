@@ -194,42 +194,13 @@ const MercadoApp = () => {
         query = query.eq("asset_analyses.carteira", filters.carteira as any);
       }
 
-      // Aplicar ordenação
-      const [sortField, sortDirection] = sortBy.split("_");
-      const isAsc = sortDirection === "asc";
+      // Aplicar ordenação base (código como fallback)
+      const [sortField] = sortBy.split("_");
       if (sortField === "codigo") {
-        query = query.order("codigo_b3", {
-          ascending: isAsc
-        });
-      } else if (sortField === "roi2026") {
-        query = query.order("asset_analyses.roi2026", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "roitrim") {
-        query = query.order("asset_analyses.roitrim", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "taxa") {
-        query = query.order("asset_analyses.taxa_semanal", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "dy2025") {
-        query = query.order("asset_analyses.dy2025", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "valor") {
-        query = query.order("asset_analyses.valor", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
+        const isAsc = sortBy.includes("asc");
+        query = query.order("codigo_b3", { ascending: isAsc });
       } else {
-        query = query.order("codigo_b3", {
-          ascending: true
-        });
+        query = query.order("codigo_b3", { ascending: true });
       }
       const {
         data,
