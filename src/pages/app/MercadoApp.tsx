@@ -394,6 +394,7 @@ const MercadoApp = () => {
           accessLevel
         };
       }).filter(Boolean);
+      return sortResultsClientSide(results, sortBy);
     }
   });
   const handleSearch = (newFilters: any) => {
