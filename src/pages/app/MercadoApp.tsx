@@ -25,6 +25,31 @@ import {
   NOTA_ESPECIALISTA_OPTIONS,
   getFilterLabel 
 } from "@/utils/filterMappings";
+// Helper: parse numeric value from text fields (e.g. "12.5%", "12,5", "R$ 30")
+const parseNumericText = (val: any): number => {
+  if (val == null || val === "") return -Infinity;
+  const str = String(val).replace(/[%R$\s]/g, "").replace(",", ".");
+  const n = parseFloat(str);
+  return isNaN(n) ? -Infinity : n;
+};
+
+const sortResultsClientSide = (items: any[], sortKey: string): any[] => {
+  const fieldMap: Record<string, string> = {
+    roi2026: "roi2026",
+    roi2025: "roi2025",
+    roi2023a26: "roi2023a2025",
+  };
+  const [field, dir] = sortKey.split("_");
+  const dataField = fieldMap[field];
+  if (!dataField) return items;
+  const desc = dir === "desc";
+  return [...items].sort((a, b) => {
+    const va = parseNumericText(a[dataField]);
+    const vb = parseNumericText(b[dataField]);
+    return desc ? vb - va : va - vb;
+  });
+};
+
 const MercadoApp = () => {
   const navigate = useNavigate();
   const {
@@ -194,49 +219,20 @@ const MercadoApp = () => {
         query = query.eq("asset_analyses.carteira", filters.carteira as any);
       }
 
-      // Aplicar ordenação
-      const [sortField, sortDirection] = sortBy.split("_");
-      const isAsc = sortDirection === "asc";
+      // Aplicar ordenação base (código como fallback)
+      const [sortField] = sortBy.split("_");
       if (sortField === "codigo") {
-        query = query.order("codigo_b3", {
-          ascending: isAsc
-        });
-      } else if (sortField === "roi2026") {
-        query = query.order("asset_analyses.roi2026", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "roitrim") {
-        query = query.order("asset_analyses.roitrim", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "taxa") {
-        query = query.order("asset_analyses.taxa_semanal", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "dy2025") {
-        query = query.order("asset_analyses.dy2025", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "valor") {
-        query = query.order("asset_analyses.valor", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
+        const isAsc = sortBy.includes("asc");
+        query = query.order("codigo_b3", { ascending: isAsc });
       } else {
-        query = query.order("codigo_b3", {
-          ascending: true
-        });
+        query = query.order("codigo_b3", { ascending: true });
       }
       const {
         data,
         error
       } = await query;
       if (error) throw error;
-      return data?.map((asset: any) => {
+      const mapped = data?.map((asset: any) => {
         const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
         if (!analysis || Object.keys(analysis).length === 0) return null;
         const hasFullAccess = hasFullAccessToAsset(userPlan, analysis.carteira);
@@ -269,7 +265,8 @@ const MercadoApp = () => {
           fatorMc: analysis.fator_mc,
           accessLevel
         };
-      }).filter(Boolean);
+      }).filter(Boolean) || [];
+      return sortResultsClientSide(mapped, sortBy);
     }
   });
   const {
@@ -342,42 +339,13 @@ const MercadoApp = () => {
         query = query.eq("asset_analyses.nota_especialista", filters.nota_especialista);
       }
 
-      // Aplicar ordenação
-      const [sortField, sortDirection] = sortBy.split("_");
-      const isAsc = sortDirection === "asc";
+      // Aplicar ordenação base (código como fallback)
+      const [sortField] = sortBy.split("_");
       if (sortField === "codigo") {
-        query = query.order("codigo_b3", {
-          ascending: isAsc
-        });
-      } else if (sortField === "roi2026") {
-        query = query.order("asset_analyses.roi2026", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "roitrim") {
-        query = query.order("asset_analyses.roitrim", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "taxa") {
-        query = query.order("asset_analyses.taxa_semanal", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "dy2025") {
-        query = query.order("asset_analyses.dy2025", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
-      } else if (sortField === "valor") {
-        query = query.order("asset_analyses.valor", {
-          ascending: isAsc,
-          nullsFirst: false
-        });
+        const isAsc = sortBy.includes("asc");
+        query = query.order("codigo_b3", { ascending: isAsc });
       } else {
-        query = query.order("codigo_b3", {
-          ascending: true
-        });
+        query = query.order("codigo_b3", { ascending: true });
       }
       const from = (currentPage - 1) * itemsPerPage;
       const to = from + itemsPerPage - 1;
@@ -388,7 +356,7 @@ const MercadoApp = () => {
       if (error) throw error;
 
       // Processar resultados - agora cada ativo tem UMA análise
-      return data?.map((asset: any) => {
+      const mapped = data?.map((asset: any) => {
         const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
         if (!analysis || Object.keys(analysis).length === 0) return null;
 
@@ -425,7 +393,8 @@ const MercadoApp = () => {
           fatorMc: analysis.fator_mc,
           accessLevel
         };
-      }).filter(Boolean);
+      }).filter(Boolean) || [];
+      return sortResultsClientSide(mapped, sortBy);
     }
   });
   const handleSearch = (newFilters: any) => {
@@ -791,15 +760,8 @@ const MercadoApp = () => {
                 <option value="codigo_asc">Código (A-Z)</option>
                 <option value="codigo_desc">Código (Z-A)</option>
                 <option value="roi2026_desc">ROI 2026 (Maior)</option>
-                <option value="roi2026_asc">ROI 2026 (Menor)</option>
-                <option value="roitrim_desc">ROI Trimestral (Maior)</option>
-                <option value="roitrim_asc">ROI Trimestral (Menor)</option>
-                <option value="taxa_desc">Taxa Semanal (Maior)</option>
-                <option value="taxa_asc">Taxa Semanal (Menor)</option>
-                <option value="dy2025_desc">DY 2025 (Maior)</option>
-                <option value="dy2025_asc">DY 2025 (Menor)</option>
-                <option value="valor_desc">Valor (Maior)</option>
-                <option value="valor_asc">Valor (Menor)</option>
+                <option value="roi2025_desc">ROI 2025 (Maior)</option>
+                <option value="roi2023a26_desc">ROI 2023A26 (Maior)</option>
               </select>
             </div>
           </div>}
