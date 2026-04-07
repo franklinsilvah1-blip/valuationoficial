@@ -265,8 +265,8 @@ const MercadoApp = () => {
           fatorMc: analysis.fator_mc,
           accessLevel
         };
-      }).filter(Boolean) as any[];
-      return sortResultsClientSide(filtered, sortBy);
+      }).filter(Boolean) || [];
+      return sortResultsClientSide(mapped, sortBy);
     }
   });
   const {
