@@ -430,7 +430,7 @@ const AssetCard = ({
               )}
               {roi2023a2025 !== undefined && (
                 <div className="flex items-center justify-between">
-                  <span className="text-xs">ROI 2023A25:</span>
+                  <span className="text-xs">ROI 2023A26:</span>
                   <span className="text-xs font-medium">{formatPercent(roi2023a2025)}</span>
                 </div>
               )}

@@ -34,7 +34,7 @@ export interface FieldHighlightConfig {
   carteira: boolean;
 }
 
-// Configuração básica para cards resumidos (FREE ou sem acesso completo)
+// Configuração básica para cards resumidos (FREE)
 const BASIC_VISIBILITY: FieldVisibilityConfig = {
   codigo_b3: true,
   nome: true,
@@ -56,7 +56,7 @@ const BASIC_VISIBILITY: FieldVisibilityConfig = {
   nota_especialista: false,
 };
 
-// Configuração completa para cards com acesso total
+// Configuração completa para planos pagos
 const FULL_VISIBILITY: FieldVisibilityConfig = {
   codigo_b3: true,
   nome: true,
@@ -79,49 +79,23 @@ const FULL_VISIBILITY: FieldVisibilityConfig = {
 };
 
 /**
- * Determina quais campos são visíveis baseado no plano do usuário e PERFIL DO ATIVO.
+ * Determina quais campos são visíveis baseado no plano do usuário.
  * 
- * Regras simplificadas (apenas PLANO + PERFIL DO ATIVO):
- * - FREE: Sempre campos básicos
- * - START: Completo se PERFIL_DO_ATIVO = START
- * - PRO: Completo se PERFIL_DO_ATIVO ∈ {START, PRO}
- * - SPECIALIST: Sempre campos completos
+ * Regras simplificadas:
+ * - FREE: Campos básicos
+ * - START / PRO / SPECIALIST: Todos os campos
  */
 export const getFieldVisibility = (
   userPlan: PlanType | string,
-  assetPerfilInvestidor?: string
+  _assetPerfilInvestidor?: string
 ): FieldVisibilityConfig => {
   const plan = userPlan.toUpperCase() as PlanType;
-  const perfil = assetPerfilInvestidor?.toUpperCase();
 
-  // FREE: Sempre campos básicos
   if (plan === "FREE") {
     return BASIC_VISIBILITY;
   }
 
-  // SPECIALIST: Sempre campos completos
-  if (plan === "SPECIALIST") {
-    return FULL_VISIBILITY;
-  }
-
-  // START: Completo se PERFIL_DO_ATIVO = START
-  if (plan === "START") {
-    if (perfil === "START") {
-      return FULL_VISIBILITY;
-    }
-    return BASIC_VISIBILITY;
-  }
-
-  // PRO: Completo se PERFIL_DO_ATIVO = START ou PRO
-  if (plan === "PRO") {
-    if (perfil === "START" || perfil === "PRO") {
-      return FULL_VISIBILITY;
-    }
-    return BASIC_VISIBILITY;
-  }
-
-  // Fallback
-  return BASIC_VISIBILITY;
+  return FULL_VISIBILITY;
 };
 
 /**
@@ -141,7 +115,6 @@ export const getFieldHighlights = (userPlan: PlanType | string): FieldHighlightC
     };
   }
 
-  // START, PRO, SPECIALIST: mesmos highlights
   return {
     perfil_investidor: true,
     recomendacao: true,
@@ -153,29 +126,15 @@ export const getFieldHighlights = (userPlan: PlanType | string): FieldHighlightC
 };
 
 /**
- * Verifica se o usuário tem acesso completo ao ativo
- * Regras simplificadas: apenas PLANO + PERFIL DO ATIVO
+ * Verifica se o usuário tem acesso completo ao ativo.
+ * Qualquer plano pago tem acesso completo.
  */
 export const hasFullAccessToAsset = (
   userPlan: PlanType | string,
-  assetPerfilInvestidor?: string
+  _assetPerfilInvestidor?: string
 ): boolean => {
   const plan = userPlan.toUpperCase() as PlanType;
-  const perfil = assetPerfilInvestidor?.toUpperCase();
-
-  if (plan === "FREE") return false;
-  
-  if (plan === "SPECIALIST") return true;
-  
-  if (plan === "START") {
-    return perfil === "START";
-  }
-  
-  if (plan === "PRO") {
-    return perfil === "START" || perfil === "PRO";
-  }
-
-  return false;
+  return plan !== "FREE";
 };
 
 /**

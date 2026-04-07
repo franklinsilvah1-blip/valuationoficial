@@ -791,15 +791,8 @@ const MercadoApp = () => {
                 <option value="codigo_asc">Código (A-Z)</option>
                 <option value="codigo_desc">Código (Z-A)</option>
                 <option value="roi2026_desc">ROI 2026 (Maior)</option>
-                <option value="roi2026_asc">ROI 2026 (Menor)</option>
-                <option value="roitrim_desc">ROI Trimestral (Maior)</option>
-                <option value="roitrim_asc">ROI Trimestral (Menor)</option>
-                <option value="taxa_desc">Taxa Semanal (Maior)</option>
-                <option value="taxa_asc">Taxa Semanal (Menor)</option>
-                <option value="dy2025_desc">DY 2025 (Maior)</option>
-                <option value="dy2025_asc">DY 2025 (Menor)</option>
-                <option value="valor_desc">Valor (Maior)</option>
-                <option value="valor_asc">Valor (Menor)</option>
+                <option value="roi2025_desc">ROI 2025 (Maior)</option>
+                <option value="roi2023a26_desc">ROI 2023A26 (Maior)</option>
               </select>
             </div>
           </div>}

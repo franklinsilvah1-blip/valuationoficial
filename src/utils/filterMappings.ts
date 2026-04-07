@@ -198,7 +198,7 @@ export const getFilterLabel = (key: string, value: string): string => {
     nota_especialista: {
       "Ativo TOP ANO": "Ativo TOP ANO",
       "Ativo TOP TRIM": "Ativo TOP TRIM",
-      "Ativo TOP PDY": "Ativo TOP PDY",
+      "Ativo TOP GANHOS": "Ativo TOP GANHOS",
       "Recomendado (DY)": "Recomendado (DY)",
       "Recomendado (RB)": "Recomendado (RB)",
       "Recomendado (RM)": "Recomendado (RM)",

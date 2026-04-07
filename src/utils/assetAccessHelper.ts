@@ -8,32 +8,19 @@ export type AccessResult = {
 };
 
 /**
- * Determina o nível de acesso ao ativo baseado em PLANO + PERFIL DO ATIVO
+ * Determina o nível de acesso ao ativo baseado no PLANO do usuário.
  * 
  * Regras simplificadas:
- * 
- * FREE: Sempre card resumido + botão upgrade
- * 
- * START: 
- * - PERFIL_DO_ATIVO = START → Card completo
- * - PERFIL_DO_ATIVO ≠ START → Card resumido + botão upgrade
- * 
- * PRO:
- * - PERFIL_DO_ATIVO = START ou PRO → Card completo
- * - PERFIL_DO_ATIVO = SPECIALIST → Card resumido + botão upgrade
- * 
- * SPECIALIST:
- * - Sempre card completo, independente do PERFIL DO ATIVO
+ * - FREE: Card resumido + botão upgrade
+ * - START / PRO / SPECIALIST: Card completo (acesso total)
  */
 export const getAssetAccessLevelWithProfile = (
   userPlan: PlanType | string,
-  assetPerfilInvestidor: string | undefined
+  _assetPerfilInvestidor?: string | undefined
 ): AccessResult => {
   const plan = userPlan.toUpperCase();
-  const perfil = assetPerfilInvestidor?.toUpperCase();
 
-  // ========== FREE ==========
-  // Sempre card resumido + botão upgrade
+  // FREE: sempre card resumido + botão upgrade
   if (plan === "FREE") {
     return { 
       cardType: "limited", 
@@ -42,40 +29,6 @@ export const getAssetAccessLevelWithProfile = (
     };
   }
 
-  // ========== SPECIALIST ==========
-  // SEMPRE card COMPLETO, independente do PERFIL DO ATIVO
-  if (plan === "SPECIALIST") {
-    return { cardType: "full", buttons: [] };
-  }
-
-  // ========== START ==========
-  if (plan === "START") {
-    // PERFIL_DO_ATIVO = START → Card completo
-    if (perfil === "START") {
-      return { cardType: "full", buttons: [] };
-    }
-    // PERFIL_DO_ATIVO ≠ START → Card resumido + upgrade
-    return { 
-      cardType: "limited", 
-      buttons: ["upgrade"],
-      message: "Análise completa disponível no Plano PRO ou SPECIALIST"
-    };
-  }
-
-  // ========== PRO ==========
-  if (plan === "PRO") {
-    // PERFIL_DO_ATIVO = START ou PRO → Card completo
-    if (perfil === "START" || perfil === "PRO") {
-      return { cardType: "full", buttons: [] };
-    }
-    // PERFIL_DO_ATIVO = SPECIALIST → Card resumido + upgrade
-    return { 
-      cardType: "limited", 
-      buttons: ["upgrade"],
-      message: "Análise completa disponível no Plano SPECIALIST"
-    };
-  }
-
-  // Fallback para qualquer plano não reconhecido
+  // Qualquer plano pago: card completo
   return { cardType: "full", buttons: [] };
 };
