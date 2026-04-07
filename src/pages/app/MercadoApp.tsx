@@ -25,6 +25,31 @@ import {
   NOTA_ESPECIALISTA_OPTIONS,
   getFilterLabel 
 } from "@/utils/filterMappings";
+// Helper: parse numeric value from text fields (e.g. "12.5%", "12,5", "R$ 30")
+const parseNumericText = (val: any): number => {
+  if (val == null || val === "") return -Infinity;
+  const str = String(val).replace(/[%R$\s]/g, "").replace(",", ".");
+  const n = parseFloat(str);
+  return isNaN(n) ? -Infinity : n;
+};
+
+const sortResultsClientSide = (items: any[], sortKey: string): any[] => {
+  const fieldMap: Record<string, string> = {
+    roi2026: "roi2026",
+    roi2025: "roi2025",
+    roi2023a26: "roi2023a2025",
+  };
+  const [field, dir] = sortKey.split("_");
+  const dataField = fieldMap[field];
+  if (!dataField) return items;
+  const desc = dir === "desc";
+  return [...items].sort((a, b) => {
+    const va = parseNumericText(a[dataField]);
+    const vb = parseNumericText(b[dataField]);
+    return desc ? vb - va : va - vb;
+  });
+};
+
 const MercadoApp = () => {
   const navigate = useNavigate();
   const {
