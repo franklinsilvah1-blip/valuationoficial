@@ -266,6 +266,7 @@ const MercadoApp = () => {
           accessLevel
         };
       }).filter(Boolean);
+      return sortResultsClientSide(results, sortBy);
     }
   });
   const {
