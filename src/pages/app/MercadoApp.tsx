@@ -145,130 +145,7 @@ const MercadoApp = () => {
   });
   const totalPages = Math.ceil((totalCount || 0) / itemsPerPage);
 
-  // Query para buscar ativos TOP em destaque
-  const {
-    data: topAssets,
-    isLoading: isLoadingTopAssets
-  } = useQuery({
-    queryKey: ["top-assets", userPlan, filters],
-    staleTime: 5 * 60 * 1000, // 5 minutos
-    gcTime: 10 * 60 * 1000, // 10 minutos
-    queryFn: async () => {
-      // @ts-ignore - Supabase type inference issue with deep chaining
-      let query = supabase.from("assets").select(`
-          *,
-          asset_analyses!inner(
-            perfil_investidor,
-            recomendacao,
-            tendencia,
-            taxa_semanal,
-            roi2026,
-            carteira,
-            nota_especialista,
-            valor,
-            roitrim,
-            roi2025,
-            dy2025,
-            roi2024,
-            fator_mc,
-            roi2023a2025
-          )
-        `)
-        .eq("is_active", true) // Only show active assets from spreadsheet
-        .order("codigo_b3")
-        .limit(6);
-
-      // Aplicar filtro de nota_especialista
-      if (filters.nota_especialista && filters.nota_especialista !== "all") {
-        query = query.eq("asset_analyses.nota_especialista", filters.nota_especialista);
-      } else {
-        // Se não há filtro específico, mostra todos os TOP
-        query = query.in("asset_analyses.nota_especialista", ["Ativo TOP TRIM", "Ativo TOP DY"]);
-      }
-
-      // Aplicar os mesmos filtros da busca principal
-      if (filters.codigo) {
-        query = query.or(`codigo_b3.ilike.%${filters.codigo}%,nome.ilike.%${filters.codigo}%`);
-      }
-      if (filters.tipo && filters.tipo !== "all") {
-        query = query.eq("tipo", filters.tipo.toUpperCase() as any);
-      }
-      if (filters.setor && filters.setor !== "all") {
-        query = query.eq("setor", filters.setor);
-      }
-      if (filters.perfil_investidor && filters.perfil_investidor !== "all") {
-        query = query.eq("asset_analyses.perfil_investidor", filters.perfil_investidor);
-      }
-      if (filters.recomendacao && filters.recomendacao !== "all") {
-        const recomendacaoValues = RECOMENDACAO_GROUPS[filters.recomendacao];
-        if (recomendacaoValues && recomendacaoValues.length > 0) {
-          query = query.in("asset_analyses.recomendacao", recomendacaoValues as any);
-        } else {
-          query = query.eq("asset_analyses.recomendacao", filters.recomendacao as any);
-        }
-      }
-      if (filters.tendencia && filters.tendencia !== "all") {
-        const tendenciaValues = TENDENCIA_GROUPS[filters.tendencia];
-        if (tendenciaValues && tendenciaValues.length > 0) {
-          query = query.in("asset_analyses.tendencia", tendenciaValues as any);
-        } else {
-          query = query.eq("asset_analyses.tendencia", filters.tendencia as any);
-        }
-      }
-      if (filters.carteira && filters.carteira !== "all") {
-        query = query.eq("asset_analyses.carteira", filters.carteira as any);
-      }
-
-      // Aplicar ordenação base (código como fallback)
-      const [sortField] = sortBy.split("_");
-      if (sortField === "codigo") {
-        const isAsc = sortBy.includes("asc");
-        query = query.order("codigo_b3", { ascending: isAsc });
-      } else {
-        query = query.order("codigo_b3", { ascending: true });
-      }
-      const {
-        data,
-        error
-      } = await query;
-      if (error) throw error;
-      const mapped = data?.map((asset: any) => {
-        const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
-        if (!analysis || Object.keys(analysis).length === 0) return null;
-        const hasFullAccess = hasFullAccessToAsset(userPlan, analysis.carteira);
-        const requiredPlan = getRequiredPlanForAsset(analysis.carteira);
-        let accessLevel: "full" | "limited" | "upgrade_to_pro" | "upgrade_to_specialist";
-        if (hasFullAccess) {
-          accessLevel = "full";
-        } else if (userPlan === "FREE") {
-          accessLevel = "limited";
-        } else if (requiredPlan === "SPECIALIST") {
-          accessLevel = "upgrade_to_specialist";
-        } else {
-          accessLevel = "upgrade_to_pro";
-        }
-        return {
-          ...asset,
-          perfilInvestidor: analysis.perfil_investidor,
-          recomendacao: analysis.recomendacao,
-          tendencia: analysis.tendencia,
-          taxaSemanal: analysis.taxa_semanal,
-          roi2026: analysis.roi2026,
-          carteira: analysis.carteira,
-          nota_especialista: analysis.nota_especialista,
-          valor: analysis.valor,
-          roi2023a2025: analysis.roi2023a2025,
-          roitrim: analysis.roitrim,
-          roi2025: analysis.roi2025,
-          dy2025: analysis.dy2025,
-          roi2024: analysis.roi2024,
-          fatorMc: analysis.fator_mc,
-          accessLevel
-        };
-      }).filter(Boolean) || [];
-      return sortResultsClientSide(mapped, sortBy);
-    }
-  });
+  
   const {
     data: assetsWithAnalyses,
     isLoading,
@@ -776,26 +653,22 @@ const MercadoApp = () => {
                     Ativos em Destaque
                   </h3>
                   <p className="text-muted-foreground max-w-2xl mx-auto">
-                    Descubra os melhores ativos selecionados pelos nossos especialistas com análises completas e recomendações exclusivas. Acesse ativos TOP TRIM e TOP DY com insights detalhados.
+                    Acesse os melhores ativos globais recomendados por Especialistas.
                   </p>
-                  <div className="flex flex-wrap gap-3 justify-center pt-4">
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      🏆 Ativos TOP TRIM
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      💎 Ativos TOP DY
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      📊 Análises Completas
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      🎯 Recomendações Exclusivas
-                    </Badge>
+                  <div className="flex flex-col items-center gap-2 pt-4">
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP ANO
+                    </span>
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP TRIM
+                    </span>
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP GANHOS
+                    </span>
                   </div>
                   <div className="pt-6">
-                    <Button size="lg" className="gradient-cta text-accent-foreground font-bold text-base md:text-lg px-6 md:px-8 hover-scale shadow-lg whitespace-normal h-auto py-3 flex-col" onClick={() => navigate("/assinatura")}>
-                      <span>🚀 Fazer Upgrade para ver</span>
-                      <span>ativos em destaque</span>
+                    <Button size="lg" className="gradient-cta text-accent-foreground font-bold text-base md:text-lg px-6 md:px-8 hover-scale shadow-lg" onClick={() => navigate("/assinatura")}>
+                      🚀 Fazer upgrade plano
                     </Button>
                     <p className="text-xs text-muted-foreground mt-3">
                       A partir de R$ 49,90/mês • Acesso ilimitado a todos os ativos
@@ -804,37 +677,6 @@ const MercadoApp = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>}
-
-        {/* Seção de Ativos TOP em Destaque - Apenas para usuários não FREE e sem filtros ativos */}
-        {userPlan !== "FREE" && topAssets && topAssets.length > 0 && !hasActiveFilters && <div className="mb-12">
-            <div className="mb-6">
-              <div>
-                <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                  <span className="text-2xl">⭐</span>
-                  Ativos em Destaque
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Os melhores ativos selecionados pelos nossos especialistas
-                </p>
-              </div>
-            </div>
-            
-            {isLoadingTopAssets ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {[...Array(3)].map((_, i) => <AssetCardSkeleton key={i} />)}
-              </div> : <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 rounded-xl -z-10" />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 p-3 md:p-6 rounded-xl border-2 border-primary/10">
-                  {topAssets.map((asset: any) => <div key={asset.id} className="relative bg-gray-50 dark:bg-gray-800/30 md:bg-transparent md:dark:bg-transparent rounded-lg p-2 md:p-0">
-                      <div className="absolute -top-2 -right-2 z-10">
-                        <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0 shadow-lg">
-                          {asset.nota_especialista === "Ativo TOP TRIM" ? "🏆 TOP TRIM" : "💎 TOP DY"}
-                        </Badge>
-                      </div>
-                      <AssetCard assetId={asset.id} codigo={asset.codigo_b3} nome={asset.nome} tipo={asset.tipo} setor={asset.setor} perfilInvestidor={asset.perfilInvestidor} recomendacao={asset.recomendacao} tendencia={asset.tendencia} taxaSemanal={asset.taxaSemanal} carteira={asset.carteira} nota={asset.nota_especialista} notaEspecialista={asset.nota_especialista} resumo={asset.resumo} valor={asset.valor} roi2026={asset.roi2026} roi2023a2025={asset.roi2023a2025} roitrim={asset.roitrim} roi2025={asset.roi2025} dy2025={asset.dy2025} roi24={asset.roi24} fatorMc={asset.fatorMc} userPlan={userPlan} />
-                    </div>)}
-                </div>
-              </div>}
           </div>}
 
         {/* Results */}
