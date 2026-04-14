@@ -776,26 +776,22 @@ const MercadoApp = () => {
                     Ativos em Destaque
                   </h3>
                   <p className="text-muted-foreground max-w-2xl mx-auto">
-                    Descubra os melhores ativos selecionados pelos nossos especialistas com análises completas e recomendações exclusivas. Acesse ativos TOP TRIM e TOP DY com insights detalhados.
+                    Acesse os melhores ativos globais recomendados por Especialistas.
                   </p>
-                  <div className="flex flex-wrap gap-3 justify-center pt-4">
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      🏆 Ativos TOP TRIM
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      💎 Ativos TOP DY
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      📊 Análises Completas
-                    </Badge>
-                    <Badge variant="outline" className="px-4 py-2 text-sm">
-                      🎯 Recomendações Exclusivas
-                    </Badge>
+                  <div className="flex flex-col items-center gap-2 pt-4">
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP ANO
+                    </span>
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP TRIM
+                    </span>
+                    <span className="text-sm text-foreground flex items-center gap-2">
+                      ✓ Ativos TOP GANHOS
+                    </span>
                   </div>
                   <div className="pt-6">
-                    <Button size="lg" className="gradient-cta text-accent-foreground font-bold text-base md:text-lg px-6 md:px-8 hover-scale shadow-lg whitespace-normal h-auto py-3 flex-col" onClick={() => navigate("/assinatura")}>
-                      <span>🚀 Fazer Upgrade para ver</span>
-                      <span>ativos em destaque</span>
+                    <Button size="lg" className="gradient-cta text-accent-foreground font-bold text-base md:text-lg px-6 md:px-8 hover-scale shadow-lg" onClick={() => navigate("/assinatura")}>
+                      🚀 Fazer upgrade plano
                     </Button>
                     <p className="text-xs text-muted-foreground mt-3">
                       A partir de R$ 49,90/mês • Acesso ilimitado a todos os ativos
@@ -804,37 +800,6 @@ const MercadoApp = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>}
-
-        {/* Seção de Ativos TOP em Destaque - Apenas para usuários não FREE e sem filtros ativos */}
-        {userPlan !== "FREE" && topAssets && topAssets.length > 0 && !hasActiveFilters && <div className="mb-12">
-            <div className="mb-6">
-              <div>
-                <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                  <span className="text-2xl">⭐</span>
-                  Ativos em Destaque
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Os melhores ativos selecionados pelos nossos especialistas
-                </p>
-              </div>
-            </div>
-            
-            {isLoadingTopAssets ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {[...Array(3)].map((_, i) => <AssetCardSkeleton key={i} />)}
-              </div> : <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 rounded-xl -z-10" />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 p-3 md:p-6 rounded-xl border-2 border-primary/10">
-                  {topAssets.map((asset: any) => <div key={asset.id} className="relative bg-gray-50 dark:bg-gray-800/30 md:bg-transparent md:dark:bg-transparent rounded-lg p-2 md:p-0">
-                      <div className="absolute -top-2 -right-2 z-10">
-                        <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-0 shadow-lg">
-                          {asset.nota_especialista === "Ativo TOP TRIM" ? "🏆 TOP TRIM" : "💎 TOP DY"}
-                        </Badge>
-                      </div>
-                      <AssetCard assetId={asset.id} codigo={asset.codigo_b3} nome={asset.nome} tipo={asset.tipo} setor={asset.setor} perfilInvestidor={asset.perfilInvestidor} recomendacao={asset.recomendacao} tendencia={asset.tendencia} taxaSemanal={asset.taxaSemanal} carteira={asset.carteira} nota={asset.nota_especialista} notaEspecialista={asset.nota_especialista} resumo={asset.resumo} valor={asset.valor} roi2026={asset.roi2026} roi2023a2025={asset.roi2023a2025} roitrim={asset.roitrim} roi2025={asset.roi2025} dy2025={asset.dy2025} roi24={asset.roi24} fatorMc={asset.fatorMc} userPlan={userPlan} />
-                    </div>)}
-                </div>
-              </div>}
           </div>}
 
         {/* Results */}
