@@ -1,29 +1,34 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { getDailyViewLimit } from "@/utils/planHelpers";
 
 export const useViewLimit = () => {
   const { userPlan } = useAuth();
   const [viewsToday, setViewsToday] = useState(0);
   const [loading, setLoading] = useState(true);
   const [limitReached, setLimitReached] = useState(false);
-  
-  const FREE_PLAN_LIMIT = 3;
+
+  // Nenhum dos 4 planos comerciais atuais (START/PRO/SPECIALIST/WEALTH) tem
+  // limite diário de visualizações — START já dá acesso à lista completa de
+  // ativos, apenas com campos premium bloqueados (ver fieldVisibility.ts).
+  // getDailyViewLimit normaliza códigos legados (ex.: "FREE") e sempre retorna
+  // null hoje; a estrutura fica pronta caso um limite volte a ser necessário
+  // para algum plano no futuro.
+  const dailyLimit = getDailyViewLimit(userPlan);
+  const hasLimit = dailyLimit !== null;
 
   useEffect(() => {
-    console.log("[VIEW-LIMIT] User plan:", userPlan);
-    if (userPlan !== "FREE") {
-      console.log("[VIEW-LIMIT] User is not FREE, skipping view limit");
+    if (!hasLimit) {
       setLoading(false);
       setLimitReached(false);
       setViewsToday(0);
       return;
     }
-    
-    if (userPlan === "FREE") {
-      loadViewsCount();
-    }
-  }, [userPlan]);
+
+    loadViewsCount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userPlan, hasLimit]);
 
   const loadViewsCount = async () => {
     try {
@@ -39,7 +44,7 @@ export const useViewLimit = () => {
         .eq("view_date", today);
 
       setViewsToday(count || 0);
-      setLimitReached((count || 0) >= FREE_PLAN_LIMIT);
+      setLimitReached(dailyLimit !== null && (count || 0) >= dailyLimit);
     } catch (error) {
       console.error("Erro ao carregar contagem:", error);
     } finally {
@@ -48,9 +53,7 @@ export const useViewLimit = () => {
   };
 
   const recordView = async (assetId: string): Promise<boolean> => {
-    console.log("[VIEW-LIMIT] Recording view for asset:", assetId, "User plan:", userPlan);
-    if (userPlan !== "FREE") {
-      console.log("[VIEW-LIMIT] User is not FREE, view allowed without recording");
+    if (!hasLimit) {
       return true;
     }
     
@@ -81,7 +84,7 @@ export const useViewLimit = () => {
     }
   };
 
-  const remainingViews = Math.max(0, FREE_PLAN_LIMIT - viewsToday);
+  const remainingViews = dailyLimit === null ? Infinity : Math.max(0, dailyLimit - viewsToday);
 
   return {
     viewsToday,
@@ -89,6 +92,6 @@ export const useViewLimit = () => {
     limitReached,
     loading,
     recordView,
-    isFreeUser: userPlan === "FREE",
+    isFreeUser: hasLimit,
   };
 };

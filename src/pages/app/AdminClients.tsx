@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { SELECTABLE_PLANS, normalizePlanCode, getPlanInfo } from "@/utils/planHelpers";
 import { AppLayout } from "@/components/AppLayout";
 import {
   Table,
@@ -52,7 +53,9 @@ interface ClientData {
   created_at: string;
 }
 
-const PLAN_ORDER = ["FREE", "START", "PRO", "SPECIALIST", "FALE_C_ESPECIALISTA"];
+// Ordem inclui os 4 planos canônicos + o valor legado FALE_C_ESPECIALISTA
+// (mantido só para exibir clientes históricos, não é ofertado para novos).
+const PLAN_ORDER = [...SELECTABLE_PLANS, "FALE_C_ESPECIALISTA"];
 
 const AdminClients = () => {
   const { isAdmin, loading: adminLoading } = useAdminCheck();
@@ -250,26 +253,27 @@ const AdminClients = () => {
   };
 
   const getStatusBadge = (plan: string, endDate: string | null) => {
-    if (plan === "FREE") {
+    if (getPlanInfo(normalizePlanCode(plan)).isFree) {
       return <Badge className="bg-green-500">Ativo</Badge>;
     }
-    
+
     if (!endDate || new Date(endDate) < new Date()) {
       return <Badge variant="destructive">Inativo</Badge>;
     }
-    
+
     return <Badge className="bg-green-500">Ativo</Badge>;
   };
 
   const getPlanBadge = (plan: string) => {
-    const colors = {
-      FREE: "bg-gray-500",
+    const colors: Record<string, string> = {
       START: "bg-green-500",
       PRO: "bg-blue-500",
       SPECIALIST: "bg-purple-500",
+      WEALTH: "bg-amber-500",
+      FALE_C_ESPECIALISTA: "bg-gray-500",
     };
-    
-    return <Badge className={colors[plan as keyof typeof colors]}>{plan}</Badge>;
+
+    return <Badge className={colors[plan] ?? "bg-gray-500"}>{plan}</Badge>;
   };
 
   return (
@@ -314,10 +318,9 @@ const AdminClients = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos os planos</SelectItem>
-                    <SelectItem value="FREE">FREE</SelectItem>
-                    <SelectItem value="START">START</SelectItem>
-                    <SelectItem value="PRO">PRO</SelectItem>
-                    <SelectItem value="SPECIALIST">SPECIALIST</SelectItem>
+                    {SELECTABLE_PLANS.map((plan) => (
+                      <SelectItem key={plan} value={plan}>{plan}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -356,8 +359,8 @@ const AdminClients = () => {
                         {format(new Date(client.created_at), "dd/MM/yyyy", { locale: ptBR })}
                       </TableCell>
                       <TableCell>
-                        {client.plan === "FREE" 
-                          ? "Não expira" 
+                        {getPlanInfo(normalizePlanCode(client.plan)).isFree
+                          ? "Não expira"
                           : client.plan_end_at 
                             ? format(new Date(client.plan_end_at), "dd/MM/yyyy", { locale: ptBR })
                             : "N/A"

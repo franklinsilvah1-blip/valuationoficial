@@ -16,21 +16,24 @@ interface PlanCardProps {
   isCurrentPlan?: boolean;
   onSubscribe?: () => void;
   loading?: boolean;
+  /** Rótulo do CTA. Se omitido, usa um padrão baseado em consultOnly/name. */
+  ctaLabel?: string;
 }
 
-const PlanCard = ({ 
-  name, 
-  description, 
-  price, 
-  period, 
-  features, 
-  highlighted = false, 
-  comingSoon = false, 
+const PlanCard = ({
+  name,
+  description,
+  price,
+  period,
+  features,
+  highlighted = false,
+  comingSoon = false,
   consultOnly = false,
   billingNote,
   isCurrentPlan = false,
-  onSubscribe, 
-  loading = false 
+  onSubscribe,
+  loading = false,
+  ctaLabel,
 }: PlanCardProps) => {
   return (
     <Card
@@ -100,13 +103,9 @@ const PlanCard = ({
             }`}
             size="lg"
           >
-            {loading 
-              ? "Processando..." 
-              : name === "WEALTH"
-              ? "Falar com Especialista" 
-              : name === "FREE"
-              ? "Experimente grátis!"
-              : "Assinar"}
+            {loading
+              ? "Processando..."
+              : ctaLabel || (consultOnly ? "Falar com Especialista" : "Assinar")}
           </Button>
         )}
       </CardContent>

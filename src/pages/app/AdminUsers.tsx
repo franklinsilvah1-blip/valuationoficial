@@ -327,10 +327,11 @@ const AdminUsers = () => {
   const getPlanBadgeVariant = (plan: string) => {
     switch (plan) {
       case "FREE":
-        return "secondary";
       case "START":
+        return "secondary";
       case "PRO":
       case "SPECIALIST":
+      case "WEALTH":
         return "default";
       default:
         return "secondary";

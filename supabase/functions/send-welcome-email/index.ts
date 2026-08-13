@@ -69,7 +69,8 @@ Deno.serve(async (req) => {
       START: "Plano Start",
       PRO: "Plano Pro",
       SPECIALIST: "Plano Especialista",
-      FREE: "Plano Free",
+      WEALTH: "Plano Wealth",
+      FREE: "Plano Start", // valor legado — mesmo rótulo do nível gratuito atual
     };
 
     const planName = planNames[plan] || plan;
@@ -120,7 +121,7 @@ Deno.serve(async (req) => {
                   <li>Explorar análises completas de ativos</li>
                   <li>Acessar carteiras recomendadas</li>
                   <li>Responder o questionário de perfil de investidor</li>
-                  ${plan !== "FREE" ? "<li>Acessar conteúdos exclusivos</li>" : ""}
+                  ${plan !== "FREE" && plan !== "START" ? "<li>Acessar conteúdos exclusivos</li>" : ""}
                 </ul>
 
                 <p>Se tiver alguma dúvida, nossa equipe está à disposição para ajudar!</p>

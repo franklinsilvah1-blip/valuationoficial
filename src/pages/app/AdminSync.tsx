@@ -442,6 +442,12 @@ const AdminSync = () => {
   }
 
   const handleShowCronSetup = () => {
+    // URL derivada de VITE_SUPABASE_URL — nunca hardcoded. Achado real: o
+    // template anterior apontava para um project ref diferente do de
+    // produção (mbnjjbtllzgatkjtsvrg), uma referência obsoleta que, se
+    // copiada literalmente, criaria o cron job apontando para o projeto
+    // Supabase errado.
+    const functionsBaseUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1`;
     const sql = `-- Configurar Cron Job para Processar Fila
 -- Execute este SQL no banco de dados (Tab SQL Editor no Backend)
 
@@ -454,7 +460,7 @@ SELECT cron.schedule(
   '* * * * *', -- A cada minuto
   $$
   SELECT net.http_post(
-    url:='https://yoazkdmzjibogpxkjseh.supabase.co/functions/v1/process-sync-queue',
+    url:='${functionsBaseUrl}/process-sync-queue',
     headers:=jsonb_build_object(
       'Content-Type', 'application/json',
       'Authorization', concat('Bearer ', current_setting('app.settings.service_role_key', true)),

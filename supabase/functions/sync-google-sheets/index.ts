@@ -84,21 +84,29 @@ const logStep = (step: string, details?: any) => {
   console.log(`[SYNC-SHEETS] ${step}${detailsStr}`);
 };
 
+// IMPORTANTE: WEALTH é um plano de ASSINATURA do usuário (profiles.plan),
+// não uma classificação de conteúdo de ativo. A coluna "CARTEIRA TRIM" da
+// planilha (mapeada para asset_analyses.carteira) classifica ATIVOS, não
+// assinantes — os dois campos só compartilham o mesmo enum de banco por
+// herança histórica (dívida técnica documentada na migration
+// 20260415120000_plan_model_v2.sql, seção 11). Por isso "WEALTH" nunca deve
+// ser reconhecido aqui como valor de carteira: normalizePlanType() abaixo
+// permanece deliberadamente sem essa branch.
 type PlanType = "START" | "PRO" | "SPECIALIST" | "FALE_C_ESPECIALISTA";
 type AssetType = "FII" | "ACAO" | "BDR" | "CRIPTO" | "ETF" | "INDICE" | "RFIXA";
 
 const normalizePlanType = (value: string | null | undefined): PlanType => {
   if (!value) return "START";
   const normalized = value.toUpperCase().trim();
-  
+
   // NOVO: Reconhecer "Não Recomendado" → FALE_C_ESPECIALISTA
   if (normalized.includes("NÃO RECOMENDADO") || normalized.includes("NAO RECOMENDADO") || normalized === "NÃO RECOMENDADO") {
     return "FALE_C_ESPECIALISTA";
   }
-  
+
   // Manter compatibilidade com valor antigo "Fale com Especialista"
   if (normalized.includes("FALE") && normalized.includes("ESPECIALISTA")) return "FALE_C_ESPECIALISTA";
-  
+
   if (normalized.includes("SPECIALIST") || normalized === "SPECIALIST") return "SPECIALIST";
   if (normalized.includes("PRO") || normalized === "PRO") return "PRO";
   return "START";
@@ -243,6 +251,14 @@ async function populateQueueFromSheet(
   // Detect new vs old sheet format for ROI/DY column names
   const isNewSheetFormat = columnMap["ROI 2026"] !== undefined;
   logStep("Sheet format detection", { isNewSheetFormat });
+
+  // NOTA (não é um bug, é uma constatação): não existe coluna "DY 2026" na
+  // planilha nem no schema de asset_analyses hoje — apenas "DY 2025" (formato
+  // novo) / "DY 2024" (formato antigo), ambas mapeadas para a coluna de banco
+  // dy2025. Se a coluna "DY 2026" for adicionada futuramente à planilha, será
+  // necessário: nova coluna no banco (migration), novo campo no Zod schema
+  // acima, e mapeamento explícito aqui — não derive/estime esse valor a
+  // partir de outros campos.
 
   const requiredColumns = ["CD B3", "NOME", "TIPO", "CARTEIRA TRIM"];
   const missingColumns = requiredColumns.filter(col => columnMap[col] === undefined);

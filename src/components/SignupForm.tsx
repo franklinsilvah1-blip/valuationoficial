@@ -172,7 +172,7 @@ const SignupForm = ({
       // Track CompleteRegistration event (Meta Pixel)
       if (typeof window !== 'undefined' && (window as any).fbq) {
         (window as any).fbq('track', 'CompleteRegistration', {
-          content_name: effectivePlan || 'FREE',
+          content_name: effectivePlan || 'START',
           content_category: 'Account'
         });
       }
@@ -192,7 +192,7 @@ const SignupForm = ({
         const val = searchParams.get(key);
         if (val) utmParams.set(key, val);
       });
-      utmParams.set('plan', effectivePlan || 'FREE');
+      utmParams.set('plan', effectivePlan || 'START');
       const thankYouUrl = `/cadastro/obrigado?${utmParams.toString()}`;
 
       // If custom onSuccess callback, use it
@@ -210,7 +210,7 @@ const SignupForm = ({
         description: "Redirecionando...",
       });
 
-      if (effectivePlan && effectivePlan !== "FREE") {
+      if (effectivePlan && effectivePlan !== "FREE" && effectivePlan !== "START") {
         // Paid plan: redirect to checkout after brief thank-you
         setTimeout(async () => {
           try {

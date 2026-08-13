@@ -71,18 +71,20 @@ export default function AdminSubscriptionsPanel() {
     const lastMonth = startOfMonth(subMonths(now, 1));
     const endLastMonth = endOfMonth(subMonths(now, 1));
 
-    // Active subscribers (non-FREE plans)
-    const activeSubscribers = profiles.filter(p => p.plan !== "FREE");
-    
-    // Free users
-    const freeUsers = profiles.filter(p => p.plan === "FREE");
+    // Assinantes ativos = planos pagos (PRO/SPECIALIST/WEALTH). START (e o
+    // valor legado FREE) são gratuitos e não contam como assinatura ativa.
+    const isFreeTier = (plan: string) => plan === "FREE" || plan === "START";
+    const activeSubscribers = profiles.filter(p => !isFreeTier(p.plan));
+
+    // Free users (inclui o valor legado FREE, normalizado para START)
+    const freeUsers = profiles.filter(p => isFreeTier(p.plan));
 
     // Plan breakdown
     const planCounts = {
-      START: profiles.filter(p => p.plan === "START").length,
-      PRO: profiles.filter(p => p.plan === "PRO").length,
-      SPECIALIST: profiles.filter(p => p.plan === "SPECIALIST").length,
-      FREE: profiles.filter(p => p.plan === "FREE").length,
+      START: profiles.filter(p => isFreeTier(p.plan)).length,
+      PRO: profiles.filter(p => p.plan === "PRO" || p.plan === "TESTE").length,
+      SPECIALIST: profiles.filter(p => p.plan === "SPECIALIST" || p.plan === "FALE_C_ESPECIALISTA").length,
+      WEALTH: profiles.filter(p => p.plan === "WEALTH").length,
     };
 
     // New subscribers this month
@@ -142,12 +144,14 @@ export default function AdminSubscriptionsPanel() {
     }).format(value);
   };
 
-  // Estimated MRR based on plan prices (monthly values)
+  // Estimated MRR based on plan prices (monthly values). START é grátis e
+  // WEALTH é sob consulta (não recorrente via Stripe), por isso não entram
+  // no MRR estimado.
   const planPrices = {
-    START: 49,
-    PRO: 99,
-    SPECIALIST: 199,
-    FALE_C_ESPECIALISTA: 0, // Consultation, not recurring
+    START: 0,
+    PRO: 29.9,
+    SPECIALIST: 249.9,
+    WEALTH: 0,
   };
 
   const estimatedMRR = useMemo(() => {
@@ -276,14 +280,10 @@ export default function AdminSubscriptionsPanel() {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="p-4 rounded-lg bg-muted/50 text-center">
-                  <p className="text-2xl font-bold">{metrics.freeUsers}</p>
-                  <p className="text-sm text-muted-foreground">FREE</p>
-                </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="p-4 rounded-lg bg-blue-500/10 text-center">
                   <p className="text-2xl font-bold text-blue-600">{metrics.planCounts.START}</p>
-                  <p className="text-sm text-muted-foreground">START</p>
+                  <p className="text-sm text-muted-foreground">START (grátis)</p>
                 </div>
                 <div className="p-4 rounded-lg bg-purple-500/10 text-center">
                   <p className="text-2xl font-bold text-purple-600">{metrics.planCounts.PRO}</p>
@@ -293,9 +293,9 @@ export default function AdminSubscriptionsPanel() {
                   <p className="text-2xl font-bold text-amber-600">{metrics.planCounts.SPECIALIST}</p>
                   <p className="text-sm text-muted-foreground">SPECIALIST</p>
                 </div>
-                <div className="p-4 rounded-lg bg-green-500/10 text-center">
-                  <p className="text-2xl font-bold text-green-600">{metrics.planCounts.FREE}</p>
-                  <p className="text-sm text-muted-foreground">FREE</p>
+                <div className="p-4 rounded-lg bg-rose-500/10 text-center">
+                  <p className="text-2xl font-bold text-rose-600">{metrics.planCounts.WEALTH}</p>
+                  <p className="text-sm text-muted-foreground">WEALTH</p>
                 </div>
               </div>
             )}

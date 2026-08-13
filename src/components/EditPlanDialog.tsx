@@ -45,12 +45,17 @@ interface EditPlanDialogProps {
   onSuccess: () => void;
 }
 
-const PLAN_LABELS = {
-  FREE: "Plano Grátis",
-  START: "Plano Start",
-  PRO: "Plano Pro",
-  SPECIALIST: "Plano Especialista",
+const PLAN_LABELS: Record<string, string> = {
+  START: "START (grátis)",
+  PRO: "PRO",
+  SPECIALIST: "SPECIALIST",
+  WEALTH: "WEALTH (sob consulta)",
+  // Valores legados — só para exibir clientes com esse valor histórico.
+  FREE: "FREE (legado)",
+  FALE_C_ESPECIALISTA: "Consultoria (legado)",
 };
+
+const isFreePlanCode = (plan: string) => plan === "FREE" || plan === "START";
 
 export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPlanDialogProps) {
   const [newPlan, setNewPlan] = useState(client.plan);
@@ -78,13 +83,18 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
     setIsSubmitting(true);
     try {
       if (isAdminChange) {
-        // Alteração administrativa - apenas atualiza o banco local
+        // Alteração administrativa - apenas atualiza o banco local.
+        // plan_start_at é evidência de plano pago para o backfill de
+        // grandfathering (20260415120000_plan_model_v2.sql) — nunca carimba
+        // data nova ao rebaixar para START (grátis), e limpa qualquer valor
+        // anterior para não deixar evidência de um plano pago sobrevivendo à
+        // mudança para o nível grátis.
         const updateData: any = {
           plan: newPlan,
-          plan_start_at: new Date().toISOString(),
+          plan_start_at: isFreePlanCode(newPlan) ? null : new Date().toISOString(),
         };
 
-        if (newPlan === "FREE") {
+        if (isFreePlanCode(newPlan)) {
           updateData.plan_end_at = null;
         } else if (newEndDate) {
           updateData.plan_end_at = new Date(newEndDate).toISOString();
@@ -122,7 +132,7 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
         });
       } else {
         // Atualizar também na Stripe
-        const { error } = await supabase.functions.invoke("update-client-plan", {
+        const { data, error } = await supabase.functions.invoke("update-client-plan", {
           body: {
             userId: client.id,
             newPlan,
@@ -132,10 +142,18 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
 
         if (error) throw error;
 
-        toast({
-          title: "Plano atualizado",
-          description: `Plano alterado para ${PLAN_LABELS[newPlan as keyof typeof PLAN_LABELS]} e atualizado na Stripe`,
-        });
+        if (data?.warning) {
+          toast({
+            title: "Atenção",
+            description: data.warning,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Plano atualizado",
+            description: `Plano alterado para ${PLAN_LABELS[newPlan as keyof typeof PLAN_LABELS]} e atualizado na Stripe`,
+          });
+        }
       }
 
       onSuccess();
@@ -186,15 +204,15 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
                   <SelectValue placeholder="Selecione o novo plano" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="FREE">Plano Grátis</SelectItem>
-                  <SelectItem value="START">Plano Start</SelectItem>
-                  <SelectItem value="PRO">Plano Pro</SelectItem>
-                  <SelectItem value="SPECIALIST">Plano Especialista</SelectItem>
+                  <SelectItem value="START">START (grátis)</SelectItem>
+                  <SelectItem value="PRO">PRO</SelectItem>
+                  <SelectItem value="SPECIALIST">SPECIALIST</SelectItem>
+                  <SelectItem value="WEALTH">WEALTH (sob consulta)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {newPlan !== "FREE" && (
+            {!isFreePlanCode(newPlan) && (
               <div className="space-y-2">
                 <Label htmlFor="end-date">Nova Data de Expiração (opcional)</Label>
                 <Input
@@ -286,7 +304,7 @@ export function EditPlanDialog({ open, onOpenChange, client, onSuccess }: EditPl
                   <strong>Tipo de alteração:</strong>{" "}
                   {isAdminChange ? "Administrativa (sem cobrança)" : "Atualização Stripe (com cobrança)"}
                 </p>
-                {newEndDate && newPlan !== "FREE" && (
+                {newEndDate && !isFreePlanCode(newPlan) && (
                   <p>
                     <strong>Nova data de expiração:</strong>{" "}
                     {new Date(newEndDate).toLocaleDateString("pt-BR")}

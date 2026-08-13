@@ -67,7 +67,7 @@ const AssetCard = ({
   fatorMc,
   roitrim,
   assetId,
-  userPlan = "FREE",
+  userPlan = "START",
   hideAddToCartButton = false,
   notaEspecialista,
   showRemoveButton = false,

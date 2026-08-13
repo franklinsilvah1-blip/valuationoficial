@@ -9,6 +9,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { trackSubscriptionSuccess } from "@/utils/gtmTracking";
 import SEOHead from "@/components/SEOHead";
 import logo from "@/assets/logo.webp";
+import { normalizePlanCode, getPlanInfo, hasFullMarketAccess } from "@/utils/planHelpers";
+
+/** Preço de referência para tracking (analytics) — usa o valor mensal atual do plano. */
+const trackingPriceFor = (plan: string): number => getPlanInfo(normalizePlanCode(plan)).priceMonthly ?? 0;
 
 interface ConfirmationItemProps {
   icon: React.ReactNode;
@@ -68,22 +72,22 @@ const AssinaturaSucesso = () => {
         console.log("[AssinaturaSucesso] Calling check-subscription to sync with Stripe");
         const { data, error } = await supabase.functions.invoke("check-subscription");
         
-        if (!error && data?.subscribed && data?.plan !== "FREE") {
+        if (!error && data?.subscribed && hasFullMarketAccess(data?.plan)) {
           console.log("[AssinaturaSucesso] Subscription verified via check-subscription", data);
-          
+
           // Track subscription success (GTM)
-          const planPrice = data.plan === 'START' ? 'R$ 147' : data.plan === 'PRO' ? 'R$ 297' : 'R$ 0';
+          const planPrice = `R$ ${trackingPriceFor(data.plan).toFixed(2)}`;
           trackSubscriptionSuccess(data.plan, planPrice);
-          
+
           // Update local state
           await refreshSubscription();
-          
+
           // Track Purchase event
           if (typeof window !== 'undefined' && (window as any).fbq) {
             (window as any).fbq('track', 'Purchase', {
               content_name: data.plan,
               content_category: 'Subscription',
-              value: data.plan === 'START' ? 147 : data.plan === 'PRO' ? 297 : 0,
+              value: trackingPriceFor(data.plan),
               currency: 'BRL'
             });
             console.log('✅ Facebook Pixel: Purchase tracked for', data.plan);
@@ -108,7 +112,7 @@ const AssinaturaSucesso = () => {
         
         const { data: retryData, error: retryError } = await supabase.functions.invoke("check-subscription");
         
-        if (!retryError && retryData?.subscribed && retryData?.plan !== "FREE") {
+        if (!retryError && retryData?.subscribed && hasFullMarketAccess(retryData?.plan)) {
           console.log("[AssinaturaSucesso] Subscription verified on retry", retryData);
           
           await refreshSubscription();
@@ -118,7 +122,7 @@ const AssinaturaSucesso = () => {
             (window as any).fbq('track', 'Purchase', {
               content_name: retryData.plan,
               content_category: 'Subscription',
-              value: retryData.plan === 'START' ? 147 : retryData.plan === 'PRO' ? 297 : 0,
+              value: trackingPriceFor(retryData.plan),
               currency: 'BRL'
             });
             console.log('✅ Facebook Pixel: Purchase tracked for', retryData.plan);

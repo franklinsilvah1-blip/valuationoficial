@@ -94,7 +94,7 @@ export default function AdminSubscribers() {
 
   // Helper to check subscription status
   const getSubscriptionStatus = (subscriber: Subscriber) => {
-    if (subscriber.plan === "FREE") return "free";
+    if (subscriber.plan === "FREE" || subscriber.plan === "START") return "free";
     if (!subscriber.plan_end_at) return "active";
     
     const now = new Date();
@@ -155,8 +155,10 @@ export default function AdminSubscribers() {
         return <Badge className="bg-purple-500/10 text-purple-600 border-purple-500/30">PRO</Badge>;
       case "SPECIALIST":
         return <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/30">SPECIALIST</Badge>;
+      case "WEALTH":
+        return <Badge className="bg-rose-500/10 text-rose-600 border-rose-500/30">WEALTH</Badge>;
       case "FALE_C_ESPECIALISTA":
-        return <Badge className="bg-green-500/10 text-green-600 border-green-500/30">CONSULTORIA</Badge>;
+        return <Badge className="bg-green-500/10 text-green-600 border-green-500/30">CONSULTORIA (legado)</Badge>;
       default:
         return <Badge variant="outline">{plan}</Badge>;
     }
@@ -231,11 +233,10 @@ export default function AdminSubscribers() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Todos</SelectItem>
-                    <SelectItem value="FREE">FREE</SelectItem>
                     <SelectItem value="START">START</SelectItem>
                     <SelectItem value="PRO">PRO</SelectItem>
                     <SelectItem value="SPECIALIST">SPECIALIST</SelectItem>
-                    <SelectItem value="FALE_C_ESPECIALISTA">CONSULTORIA</SelectItem>
+                    <SelectItem value="WEALTH">WEALTH</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>

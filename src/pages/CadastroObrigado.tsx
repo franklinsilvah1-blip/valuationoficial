@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 const CadastroObrigado = () => {
   const [searchParams] = useSearchParams();
 
-  const plan = useMemo(() => searchParams.get("plan") || "FREE", [searchParams]);
+  const plan = useMemo(() => searchParams.get("plan") || "START", [searchParams]);
   const utmSource = searchParams.get("utm_source");
 
   // Fire conversion events once on mount

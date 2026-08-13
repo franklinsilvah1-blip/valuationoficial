@@ -1,140 +1,265 @@
-// Helper functions for plan management
+// Fonte central de verdade para planos comerciais da ValuationIT.
+// Qualquer checagem de plano/permissão em componentes deve passar por aqui —
+// não compare `profile.plan === "PRO"` diretamente nos componentes.
 
-export type PlanType = "FREE" | "START" | "PRO" | "SPECIALIST" | "WEALTH";
+// Planos canônicos (os 4 planos comerciais atuais).
+export type PlanType = "START" | "PRO" | "SPECIALIST" | "WEALTH";
+
+// Códigos legados que ainda podem existir em `profiles.plan` para usuários antigos.
+// Nunca são gravados para novos usuários, mas continuam sendo lidos/normalizados
+// para não rebaixar ninguém. Ver RELATORIO_IMPLEMENTACAO_PLANOS.md para o
+// levantamento completo de onde cada um foi encontrado.
+export type LegacyPlanCode = "FREE" | "TESTE" | "FALE_C_ESPECIALISTA";
+
+export type AnyPlanCode = PlanType | LegacyPlanCode;
+
+export type BillingCycle = "monthly" | "quarterly";
+
+/**
+ * Normaliza qualquer código de plano (canônico, legado, nulo ou desconhecido)
+ * para um dos 4 planos canônicos usados em toda a lógica de acesso/entitlements.
+ *
+ * Mapeamento (matriz de migração, ver RELATORIO_IMPLEMENTACAO_PLANOS.md item 4):
+ * - FREE            -> START        (usuário gratuito antigo = novo nível de entrada gratuito)
+ * - TESTE            -> PRO          (plano de teste interno tinha acesso completo aos dados;
+ *                                      normalizar para START seria um rebaixamento)
+ * - FALE_C_ESPECIALISTA -> SPECIALIST (única opção manual de "consultoria" que já existia;
+ *                                      é o nível mínimo que dá acesso a especialista — nunca
+ *                                      normalizado para WEALTH, que não tem evidência de
+ *                                      equivalência real; ver relatório)
+ * - valor desconhecido/nulo -> START (fail-safe: nunca retorna undefined)
+ *
+ * IMPORTANTE — por que START/PRO/SPECIALIST são identidade aqui: no sistema
+ * ANTERIOR a esta migração, `profiles.plan = 'START'` já significava
+ * "assinante pago com acesso completo aos dados" (o controle de acesso era
+ * binário `plan !== 'FREE'`, não hierárquico) e `profiles.plan = 'PRO'` já
+ * incluía benefício de especialista. Mapear esses valores 1:1 para os novos
+ * START/PRO teria rebaixado assinantes pagantes. Por isso a migration SQL
+ * (supabase/migrations/20260415120000_plan_model_v2.sql, seção "backfill de
+ * grandfathering") converteu fisicamente e uma única vez, ANTES desta
+ * normalização entrar em vigor: START antigo -> PRO, PRO antigo ->
+ * SPECIALIST, SPECIALIST antigo permanece SPECIALIST. Depois desse backfill,
+ * qualquer 'START'/'PRO'/'SPECIALIST' armazenado já usa o significado NOVO,
+ * e esta função pode tratá-los como identidade com segurança. O mesmo
+ * grandfathering é aplicado a eventos futuros do Stripe para produtos
+ * antigos em supabase/functions/_shared/planResolution.ts
+ * (LEGACY_PRODUCT_TO_PLAN).
+ */
+export const normalizePlanCode = (raw: AnyPlanCode | string | null | undefined): PlanType => {
+  if (!raw) return "START";
+  const code = raw.toUpperCase();
+
+  switch (code) {
+    case "START":
+    case "PRO":
+    case "SPECIALIST":
+    case "WEALTH":
+      return code;
+    case "FREE":
+      return "START";
+    case "TESTE":
+      return "PRO";
+    case "FALE_C_ESPECIALISTA":
+      return "SPECIALIST";
+    default:
+      return "START";
+  }
+};
+
+export interface PlanEntitlements {
+  /** Vê todos os campos de análise (não apenas os básicos). */
+  hasFullMarketAccess: boolean;
+  /** Tem acesso ao benefício comercial "falar com especialista" / carteira personalizada. */
+  canAccessSpecialist: boolean;
+  /** Pode iniciar um checkout Stripe para este plano (START e WEALTH não podem). */
+  canCheckout: boolean;
+  /** Plano é "sob consulta" — CTA deve ser contato comercial, nunca checkout. */
+  isContactOnlyPlan: boolean;
+  /** Limite diário de visualizações, ou null se ilimitado. */
+  dailyViewLimit: number | null;
+}
+
+const ENTITLEMENTS: Record<PlanType, PlanEntitlements> = {
+  START: {
+    hasFullMarketAccess: false,
+    canAccessSpecialist: false,
+    canCheckout: false,
+    isContactOnlyPlan: false,
+    dailyViewLimit: null,
+  },
+  PRO: {
+    hasFullMarketAccess: true,
+    canAccessSpecialist: false,
+    canCheckout: true,
+    isContactOnlyPlan: false,
+    dailyViewLimit: null,
+  },
+  SPECIALIST: {
+    hasFullMarketAccess: true,
+    canAccessSpecialist: true,
+    canCheckout: true,
+    isContactOnlyPlan: false,
+    dailyViewLimit: null,
+  },
+  WEALTH: {
+    hasFullMarketAccess: true,
+    canAccessSpecialist: true,
+    canCheckout: false,
+    isContactOnlyPlan: true,
+    dailyViewLimit: null,
+  },
+};
+
+/** Retorna a matriz completa de direitos de um plano (já normalizado). */
+export const getPlanEntitlements = (plan: AnyPlanCode | string | null | undefined): PlanEntitlements => {
+  return ENTITLEMENTS[normalizePlanCode(plan)];
+};
+
+/** O usuário vê valores reais (não bloqueados) nos campos de análise premium. */
+export const hasFullMarketAccess = (plan: AnyPlanCode | string | null | undefined): boolean =>
+  getPlanEntitlements(plan).hasFullMarketAccess;
+
+/** O usuário tem acesso ao benefício de especialista / carteira personalizada. */
+export const canAccessSpecialist = (plan: AnyPlanCode | string | null | undefined): boolean =>
+  getPlanEntitlements(plan).canAccessSpecialist;
+
+/** O plano é "sob consulta" (WEALTH) — nunca deve oferecer checkout Stripe. */
+export const isContactOnlyPlan = (plan: AnyPlanCode | string | null | undefined): boolean =>
+  getPlanEntitlements(plan).isContactOnlyPlan;
+
+/** Alias mantido por compatibilidade semântica com fieldVisibility.ts. */
+export const canViewPremiumAssetFields = hasFullMarketAccess;
 
 export interface PlanInfo {
   code: PlanType;
   displayName: string;
   description: string;
-  price: number;
+  /** Preço mensal em R$, ou null se não há cobrança mensal avulsa (START grátis, WEALTH sob consulta). */
+  priceMonthly: number | null;
+  /** Preço trimestral total em R$, ou null (START grátis, WEALTH sob consulta). */
+  priceQuarterly: number | null;
+  priceNote: string;
   features: string[];
-  dailyViewLimit?: number;
-  hasCommunityAccess: boolean;
-  isActive: boolean;
+  ctaLabel: string;
+  isContactOnly: boolean;
+  isFree: boolean;
 }
 
 // Map internal plan codes to display names (simple - for ASSINATURA page)
-export const getPlanDisplayNameSimple = (plan: PlanType | string): string => {
-  const planNames: Record<string, string> = {
-    FREE: "FREE",
-    START: "START",
-    PRO: "PRO",
-    SPECIALIST: "SPECIALIST",
-    WEALTH: "WEALTH",
-  };
-  return planNames[plan] || plan;
+export const getPlanDisplayNameSimple = (plan: AnyPlanCode | string): string => {
+  return normalizePlanCode(plan);
 };
 
 // Map internal plan codes to display names (full - for CONSULTORIA page)
-export const getPlanDisplayNameFull = (plan: PlanType | string): string => {
-  const planNames: Record<string, string> = {
-    FREE: "FREE",
+export const getPlanDisplayNameFull = (plan: AnyPlanCode | string): string => {
+  const planNames: Record<PlanType, string> = {
     START: "Valuation START",
     PRO: "Valuation PRO",
     SPECIALIST: "Valuation SPECIALIST",
     WEALTH: "Valuation WEALTH",
   };
-  return planNames[plan] || plan;
+  return planNames[normalizePlanCode(plan)];
 };
 
 // Legacy function - kept for backward compatibility
 export const getPlanDisplayName = getPlanDisplayNameFull;
 
-// Get plan information
+/**
+ * Informação comercial dos 4 planos, conforme especificação de negócio vigente.
+ * Os `stripe_price_id` reais não vivem aqui — vivem em `subscription_plans` no banco
+ * (fonte de verdade lida pelas Edge Functions). Este objeto é só para exibição.
+ */
 export const getPlanInfo = (plan: PlanType): PlanInfo => {
   const plans: Record<PlanType, PlanInfo> = {
-    FREE: {
-      code: "FREE",
-      displayName: "Plano Free",
-      description: "Acesso limitado para conhecer a plataforma",
-      price: 0,
-      features: [
-        "Visualização de até 3 ativos por dia",
-        "Acesso básico ao mercado",
-        "Sem acesso à comunidade exclusiva",
-      ],
-      dailyViewLimit: 3,
-      hasCommunityAccess: false,
-      isActive: true,
-    },
     START: {
       code: "START",
-      displayName: "Valuation START",
-      description: "Para quem está começando a investir",
-      price: 147,
+      displayName: "START",
+      description: "Para começar a comparar investimentos.",
+      priceMonthly: 0,
+      priceQuarterly: 0,
+      priceNote: "Grátis",
       features: [
-        "Visualizações ilimitadas",
-        "Acesso completo à plataforma",
-        "Acesso à comunidade exclusiva",
-        "Análises detalhadas de ativos",
-        "Carteira recomendada START",
+        "Acesso à lista completa de ativos após cadastro",
+        "Indicadores básicos dos ativos",
+        "Busca e filtros",
+        "Acesso limitado aos indicadores premium",
       ],
-      hasCommunityAccess: true,
-      isActive: true,
+      ctaLabel: "Começar grátis",
+      isContactOnly: false,
+      isFree: true,
     },
     PRO: {
       code: "PRO",
-      displayName: "Valuation PRO",
-      description: "Para investidores experientes",
-      price: 297,
+      displayName: "PRO",
+      description: "Acesso completo aos dados e indicadores de todos os ativos.",
+      priceMonthly: 29.9,
+      priceQuarterly: 89.7,
+      priceNote: "R$ 29,90/mês ou R$ 89,70/trimestre",
       features: [
-        "Todos os benefícios do START",
-        "Visualizações ilimitadas",
-        "Acesso antecipado a novos conteúdos",
-        "Análises avançadas",
-        "Carteira recomendada PRO",
-        "Relatórios exclusivos",
-        "Acesso à comunidade exclusiva",
+        "Todos os ativos",
+        "Todos os indicadores",
+        "Tendência TRIM",
+        "Carteira TRIM",
+        "Recomendação TRIM",
+        "Nota Especialista",
       ],
-      hasCommunityAccess: true,
-      isActive: true,
+      ctaLabel: "Assinar",
+      isContactOnly: false,
+      isFree: false,
     },
     SPECIALIST: {
       code: "SPECIALIST",
-      displayName: "Valuation SPECIALIST",
-      description: "Plano para investidores profissionais",
-      price: 1497,
+      displayName: "SPECIALIST",
+      description: "Todos os benefícios do PRO, com acesso a especialista.",
+      priceMonthly: 249.9,
+      priceQuarterly: 749.7,
+      priceNote: "R$ 249,90/mês ou R$ 749,70/trimestre",
       features: [
         "Todos os benefícios do PRO",
-        "Visualizações ilimitadas",
-        "Relatórios e insights exclusivos",
-        "Análises personalizadas",
-        "Carteira recomendada SPECIALIST",
-        "Suporte prioritário",
-        "Acesso à comunidade exclusiva",
-        "Mentoria X Valuation",
-        "Ganhos Excepcionais TRIM",
+        "Acesso a especialista",
+        "Carteira personalizada",
       ],
-      hasCommunityAccess: true,
-      isActive: true,
+      ctaLabel: "Assinar",
+      isContactOnly: false,
+      isFree: false,
     },
     WEALTH: {
       code: "WEALTH",
-      displayName: "Valuation WEALTH",
-      description: "Mentoria exclusiva para investidores e empresários",
-      price: 0, // Consulte
+      displayName: "WEALTH",
+      description: "Atendimento personalizado para investidores com maior capacidade de investimento.",
+      priceMonthly: null,
+      priceQuarterly: null,
+      priceNote: "Sob consulta",
       features: [
-        "Todos os benefícios do SPECIALIST",
-        "Estratégia personalizada",
-        "Ampliação inteligente de patrimônio",
-        "Blindagem estratégica da riqueza",
-        "Mentoria exclusiva | Gestão de ativos e Planejamento Patrimonial",
+        "Todos os dados e indicadores",
+        "Acesso a especialista",
+        "Atendimento personalizado",
+        "Modelo comercial baseado em percentual sobre o total investido",
       ],
-      hasCommunityAccess: true,
-      isActive: true,
+      ctaLabel: "Falar com Especialista",
+      isContactOnly: true,
+      isFree: false,
     },
   };
 
   return plans[plan];
 };
 
+/** Os 4 planos comerciais selecionáveis, na ordem de exibição. */
+export const SELECTABLE_PLANS: PlanType[] = ["START", "PRO", "SPECIALIST", "WEALTH"];
+
+/** Preço exibido de acordo com o ciclo escolhido (só relevante para PRO/SPECIALIST). */
+export const getDisplayPrice = (plan: PlanType, cycle: BillingCycle): number | null => {
+  const info = getPlanInfo(plan);
+  return cycle === "monthly" ? info.priceMonthly : info.priceQuarterly;
+};
+
 // Check if user has access to specific features
 export const hasFeatureAccess = (
-  userPlan: PlanType | string,
+  userPlan: AnyPlanCode | string,
   feature: "unlimited_views" | "community" | "advanced_analysis" | "early_access" | "priority_support"
 ): boolean => {
-  const plan = userPlan as PlanType;
-  
+  const plan = normalizePlanCode(userPlan);
   const featureMatrix: Record<string, PlanType[]> = {
     unlimited_views: ["START", "PRO", "SPECIALIST", "WEALTH"],
     community: ["START", "PRO", "SPECIALIST", "WEALTH"],
@@ -142,32 +267,30 @@ export const hasFeatureAccess = (
     early_access: ["PRO", "SPECIALIST", "WEALTH"],
     priority_support: ["SPECIALIST", "WEALTH"],
   };
-
   return featureMatrix[feature]?.includes(plan) || false;
 };
 
 // Get daily view limit for plan
-export const getDailyViewLimit = (plan: PlanType | string): number | null => {
-  if (plan === "FREE") return 3;
-  return null; // Unlimited for paid plans
+export const getDailyViewLimit = (plan: AnyPlanCode | string): number | null => {
+  return getPlanEntitlements(plan).dailyViewLimit;
 };
 
 // Format expiration date
 export const formatExpirationDate = (
-  plan: PlanType | string,
+  plan: AnyPlanCode | string,
   expirationDate: string | null
 ): string => {
-  if (plan === "FREE") {
+  if (getPlanInfo(normalizePlanCode(plan)).isFree) {
     return "Não expira";
   }
-  
+
   if (!expirationDate) {
     return "Não expira";
   }
 
   const date = new Date(expirationDate);
   const now = new Date();
-  
+
   if (date < now) {
     return "Expirado";
   }
@@ -181,10 +304,10 @@ export const formatExpirationDate = (
 
 // Get plan status
 export const getPlanStatus = (
-  plan: PlanType | string,
+  plan: AnyPlanCode | string,
   expirationDate: string | null
 ): "active" | "expired" | "expiring_soon" => {
-  if (plan === "FREE") {
+  if (getPlanInfo(normalizePlanCode(plan)).isFree) {
     return "active";
   }
 
@@ -194,7 +317,7 @@ export const getPlanStatus = (
 
   const date = new Date(expirationDate);
   const now = new Date();
-  
+
   if (date < now) {
     return "expired";
   }
@@ -209,29 +332,23 @@ export const getPlanStatus = (
 };
 
 // Get plan badge color
-export const getPlanBadgeVariant = (plan: PlanType | string): "default" | "secondary" | "destructive" | "outline" => {
-  const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-    FREE: "outline",
-    START: "secondary",
-    PRO: "default",
+export const getPlanBadgeVariant = (plan: AnyPlanCode | string): "default" | "secondary" | "destructive" | "outline" => {
+  const variants: Record<PlanType, "default" | "secondary" | "destructive" | "outline"> = {
+    START: "outline",
+    PRO: "secondary",
     SPECIALIST: "default",
+    WEALTH: "default",
   };
-
-  return variants[plan] || "outline";
+  return variants[normalizePlanCode(plan)];
 };
 
 // Compare plans (returns true if planA is higher than planB)
-export const isHigherPlan = (planA: PlanType | string, planB: PlanType | string): boolean => {
-  const hierarchy = ["FREE", "START", "PRO", "SPECIALIST", "WEALTH"];
-  return hierarchy.indexOf(planA) > hierarchy.indexOf(planB);
+export const isHigherPlan = (planA: AnyPlanCode | string, planB: AnyPlanCode | string): boolean => {
+  const hierarchy: PlanType[] = ["START", "PRO", "SPECIALIST", "WEALTH"];
+  return hierarchy.indexOf(normalizePlanCode(planA)) > hierarchy.indexOf(normalizePlanCode(planB));
 };
 
-// Get all available plans for purchase
+// Get all available plans for purchase, in display order
 export const getAvailablePlans = (): PlanInfo[] => {
-  return [
-    getPlanInfo("START"),
-    getPlanInfo("PRO"),
-    getPlanInfo("SPECIALIST"),
-    getPlanInfo("WEALTH"),
-  ];
+  return SELECTABLE_PLANS.map(getPlanInfo);
 };

@@ -3,19 +3,11 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { checkRateLimit } from "../_shared/rate-limit.ts";
 import { mapErrorToUserMessage } from "../_shared/errors.ts";
+import { resolvePlanFromStripe } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
-};
-
-// Mapeamento dos product IDs para planos
-const PRODUCT_TO_PLAN: Record<string, string> = {
-  prod_TMWTUVuAcCM1Qg: "START",
-  prod_TMWWN3NKrAoZYe: "PRO",
-  prod_TdJ7Clh2GRzchP: "SPECIALIST",
-  prod_TnV2XDNVvq4DPq: "TESTE", // Plano de teste antigo R$ 2/dia
-  prod_TpKS0xmSbMgIq6: "TESTE", // Plano de teste novo R$ 2/semana
 };
 
 // Helper function to check if user is admin
@@ -91,14 +83,15 @@ Deno.serve(async (req) => {
       }
       
       logStep("No customer found, updating unsubscribed state");
-      
-      // Atualizar perfil para FREE
+
+      // Sem assinatura Stripe: usuário volta ao nível gratuito de entrada
+      // (START), nunca ao valor legado FREE.
       await supabaseClient
         .from("profiles")
-        .update({ plan: "FREE", plan_start_at: null, plan_end_at: null })
+        .update({ plan: "START", plan_start_at: null, plan_end_at: null })
         .eq("id", user.id);
-      
-      return new Response(JSON.stringify({ subscribed: false, plan: "FREE" }), {
+
+      return new Response(JSON.stringify({ subscribed: false, plan: "START" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
@@ -139,22 +132,22 @@ Deno.serve(async (req) => {
     }
 
     let hasActiveSub = !!subscription;
-    let plan = "FREE";
+    let plan = "START";
     let subscriptionEnd = null;
 
     if (hasActiveSub && subscription) {
-      // Validate timestamps before converting - treat invalid as FREE instead of error
+      // Validate timestamps before converting - treat invalid as START instead of error
       const periodEnd = subscription.current_period_end;
       const periodStart = subscription.current_period_start;
-      
+
       if (!periodEnd || typeof periodEnd !== 'number' || periodEnd <= 0) {
-        logStep("Invalid period_end, treating as FREE", { periodEnd });
+        logStep("Invalid period_end, treating as START", { periodEnd });
         hasActiveSub = false;
-        plan = "FREE";
+        plan = "START";
       } else if (!periodStart || typeof periodStart !== 'number' || periodStart <= 0) {
-        logStep("Invalid period_start, treating as FREE", { periodStart });
+        logStep("Invalid period_start, treating as START", { periodStart });
         hasActiveSub = false;
-        plan = "FREE";
+        plan = "START";
       } else {
         subscriptionEnd = new Date(periodEnd * 1000).toISOString();
         const subscriptionStart = new Date(periodStart * 1000).toISOString();
@@ -168,8 +161,7 @@ Deno.serve(async (req) => {
         
         const priceProduct = subscription.items.data[0].price.product;
         const productId = typeof priceProduct === 'string' ? priceProduct : priceProduct?.id;
-        plan = PRODUCT_TO_PLAN[productId] || "FREE";
-        logStep("Determined subscription plan", { productId, plan });
+        const priceId = subscription.items.data[0].price.id;
 
         const { data: currentProfile } = await supabaseClient
           .from("profiles")
@@ -177,7 +169,12 @@ Deno.serve(async (req) => {
           .eq("id", user.id)
           .single();
 
-        const wasFreeBefore = !currentProfile || currentProfile.plan === "FREE";
+        // Nunca rebaixa: price/product não reconhecido mantém o plano atual
+        // do usuário (nunca "START" só porque o evento não bateu com nada).
+        plan = resolvePlanFromStripe({ priceId, productId }) || currentProfile?.plan || "START";
+        logStep("Determined subscription plan", { productId, priceId, plan });
+
+        const wasFreeBefore = !currentProfile || currentProfile.plan === "FREE" || currentProfile.plan === "START";
 
         if (!(await isUserAdmin(supabaseClient, user.id))) {
           await supabaseClient
@@ -195,7 +192,7 @@ Deno.serve(async (req) => {
           logStep("User is admin, skipping plan update");
         }
 
-        if (wasFreeBefore && plan !== "FREE") {
+        if (wasFreeBefore && plan !== "FREE" && plan !== "START") {
           logStep("Sending welcome email for new paid subscription");
           const sendEmail = async () => {
             try {
@@ -237,24 +234,24 @@ Deno.serve(async (req) => {
         if (existingProfile && existingProfile.plan_end_at) {
           const planEndDate = new Date(existingProfile.plan_end_at);
           if (planEndDate > new Date()) {
-            logStep("Plan still valid per plan_end_at, NOT resetting to FREE", {
+            logStep("Plan still valid per plan_end_at, NOT resetting to START", {
               plan: existingProfile.plan,
               plan_end_at: existingProfile.plan_end_at,
             });
             plan = existingProfile.plan;
             subscriptionEnd = existingProfile.plan_end_at;
           } else {
-            logStep("Plan expired, resetting to FREE");
+            logStep("Plan expired, resetting to START");
             await supabaseClient
               .from("profiles")
-              .update({ plan: "FREE", plan_start_at: null, plan_end_at: null })
+              .update({ plan: "START", plan_start_at: null, plan_end_at: null })
               .eq("id", user.id);
           }
         } else {
-          logStep("No plan_end_at, resetting to FREE");
+          logStep("No plan_end_at, resetting to START");
           await supabaseClient
             .from("profiles")
-            .update({ plan: "FREE", plan_start_at: null, plan_end_at: null })
+            .update({ plan: "START", plan_start_at: null, plan_end_at: null })
             .eq("id", user.id);
         }
       }

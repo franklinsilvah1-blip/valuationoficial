@@ -262,7 +262,7 @@ const LandingPage = () => {
               </p>
             </div>
             <SignupForm
-              plan="FREE"
+              plan="START"
               onSuccess={() => navigate("/app/dashboard")}
               buttonText="Quero Conhecer Grátis"
               buttonClassName="bg-accent text-accent-foreground hover:bg-accent/90 font-bold text-lg py-6"

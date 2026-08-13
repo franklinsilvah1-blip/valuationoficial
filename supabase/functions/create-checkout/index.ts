@@ -4,19 +4,36 @@ import { corsHeaders } from "../_shared/cors.ts";
 import { checkRateLimit } from "../_shared/rate-limit.ts";
 import { mapErrorToUserMessage } from "../_shared/errors.ts";
 import { APP_URL } from "../_shared/constants.ts";
+import { getCheckoutPriceId, LEGACY_PLAN_PRICE_IDS, type CheckoutPlan } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
 };
 
-// Mapeamento dos planos para price IDs (trimestrais)
-const PLAN_PRICE_IDS: Record<string, string> = {
-  START: "price_1SPnQvRyKGDht1PjOco1Y4vh", // R$ 147,00 trimestral
-  PRO: "price_1SPnT8RyKGDht1PjyyTAXXaQ", // R$ 297,00 trimestral
-  SPECIALIST: "price_1Sg2VXRyKGDht1Pj2cow0LgQ", // R$ 597,00 trimestral
-  TESTE: "price_1SrfnLRyKGDht1PjDfuxru7e", // R$ 2,00 semanal - plano de teste
-};
+const CHECKOUT_PLANS: CheckoutPlan[] = ["PRO", "SPECIALIST"];
+
+/**
+ * Resolve o price ID para o checkout. START é grátis e WEALTH é sob consulta
+ * — nenhum dos dois chega aqui (o frontend não oferece checkout para eles).
+ * TESTE continua funcionando via o price ID legado (não exposto na nova UI,
+ * mantido só para não quebrar links antigos).
+ */
+function resolveCheckoutPriceId(plan: string, cycle: unknown): string {
+  if (plan === "TESTE") {
+    return LEGACY_PLAN_PRICE_IDS.TESTE;
+  }
+  if (!CHECKOUT_PLANS.includes(plan as CheckoutPlan)) {
+    throw new Error(`Invalid plan: ${plan}`);
+  }
+  // Nunca cair silenciosamente em "quarterly" para um cycle ausente/inválido
+  // — um valor não reconhecido deve rejeitar o checkout, nunca escolher um
+  // preço diferente do que o cliente pediu.
+  if (cycle !== "monthly" && cycle !== "quarterly") {
+    throw new Error(`Invalid billing cycle: ${String(cycle)}`);
+  }
+  return getCheckoutPriceId(plan as CheckoutPlan, cycle);
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -46,14 +63,10 @@ Deno.serve(async (req) => {
     await checkRateLimit(user.id, "create-checkout", 5, 60);
     logStep("Rate limit check passed");
 
-    const { plan, affiliateCode } = await req.json();
-    const priceId = PLAN_PRICE_IDS[plan];
-    
-    if (!priceId) {
-      throw new Error(`Invalid plan: ${plan}`);
-    }
-    
-    logStep("Plan selected", { plan, priceId, affiliateCode: affiliateCode || 'none' });
+    const { plan, cycle, affiliateCode } = await req.json();
+    const priceId = resolveCheckoutPriceId(plan, cycle);
+
+    logStep("Plan selected", { plan, cycle, priceId, affiliateCode: affiliateCode || 'none' });
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", { 
       apiVersion: "2025-08-27.basil" 
@@ -76,6 +89,7 @@ Deno.serve(async (req) => {
     const metadata: Record<string, string> = {
       user_id: user.id,
       plan: plan,
+      cycle: cycle === "monthly" ? "monthly" : "quarterly",
     };
     
     if (affiliateCode) {

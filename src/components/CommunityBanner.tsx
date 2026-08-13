@@ -37,8 +37,8 @@ const CommunityBanner = () => {
   };
 
   const loadBannerStatus = async () => {
-    // Admin or FREE users never see the banner
-    if (isAdmin || userPlan === "FREE") {
+    // Admin or usuários no nível gratuito (START, ou o valor legado FREE) nunca veem o banner
+    if (isAdmin || userPlan === "FREE" || userPlan === "START") {
       setShowBanner(false);
       return;
     }

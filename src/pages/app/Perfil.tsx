@@ -17,7 +17,8 @@ import ContactSpecialistDialog from "@/components/ContactSpecialistDialog";
 import { TwoFactorSettings } from "@/components/TwoFactorSettings";
 import NotificationSettings from "@/components/NotificationSettings";
 import { Check, RefreshCw } from "lucide-react";
-import { getPlanDisplayName } from "@/utils/planHelpers";
+import { getPlanDisplayName, SELECTABLE_PLANS, getPlanInfo, type PlanType } from "@/utils/planHelpers";
+import { getPlanByCode } from "@/hooks/useSubscriptionPlans";
 import { format, differenceInDays } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { User, CreditCard, Shield, AlertTriangle } from "lucide-react";
@@ -78,139 +79,57 @@ const Perfil = () => {
     consultOnly?: boolean;
   }
 
+  // Mesma fonte central usada em /assinatura (src/pages/Assinatura.tsx):
+  // subscription_plans (banco, quando disponível) sobreposto ao texto/preço
+  // estático de src/utils/planHelpers.ts — nunca planos/preços hardcoded
+  // divergentes daqui. Exibição trimestral por padrão (igual ao histórico
+  // desta tela); sem card "FREE" separado (START já é o nível gratuito).
   const plans = useMemo((): PlanUI[] => {
-    // Default FREE plan (not in database)
-    const freePlan: PlanUI = {
-      name: "FREE",
-      description: "",
-      price: "Experimente grátis!",
-      period: "",
-      features: [
-        "Visualização de até 3 ativos por dia",
-        "Acesso básico ao Mercado",
-        "Análises resumidas de ativos",
-        "Análise de perfil investidor"
-      ],
-      highlighted: false
-    };
+    const basePlans: PlanUI[] = SELECTABLE_PLANS.map((code) => {
+      const staticInfo = getPlanInfo(code);
+      const dbPlan = getPlanByCode(dbPlans, code);
+      const isContactOnly = dbPlan ? dbPlan.is_contact_only : staticInfo.isContactOnly;
+      const isFree = dbPlan ? (dbPlan.price_monthly ?? 0) === 0 && !isContactOnly : staticInfo.isFree;
 
-    if (!dbPlans || dbPlans.length === 0) {
-      // Fallback to hardcoded plans if database is empty
-      const basePlans: PlanUI[] = [
-        freePlan,
-        {
-          name: "START",
-          description: "Para investidores iniciantes",
-          price: "R$ 49",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 147,00 a cada 3 meses)",
-          features: [
-            "Acesso completo a plataforma",
-            "Análises detalhadas de ativos",
-            "Carteiras recomendadas START",
-            "Acesso à Conteúdos exclusivos",
-            "Suporte por email"
-          ],
-          highlighted: false
-        },
-        {
-          name: "PRO",
-          description: "Para investidores intermediários",
-          price: "R$ 99",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 297,00 a cada 3 meses)",
-          features: [
-            "Todos os benefícios do START",
-            "Análises avançadas de ativos",
-            "Carteiras recomendadas PRO",
-            "Suporte por chat",
-            "Consultoria com Especialista"
-          ],
-          highlighted: true
-        },
-        {
-          name: "SPECIALIST",
-          description: "Para investidores Profissionais",
-          price: "R$ 199",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 597,00 a cada 3 meses)",
-          features: [
-            "Todos os benefícios do PRO",
-            "Análises personalizadas de ativos",
-            "Carteiras recomendadas SPECIALIST",
-            "Suporte prioritário",
-            "Método X Valuation",
-            "Mentoria THE SPECIALISTS"
-          ],
-          highlighted: false
-        },
-        {
-          name: "WEALTH",
-          description: "Para investidores e empresários",
-          price: "Consulte",
-          period: "",
-          features: [
-            "Todos os benefícios do SPECIALIST",
-            "Estratégia personalizada",
-            "Ampliação inteligente de patrimônio",
-            "Blindagem estratégica da riqueza",
-            "Mentoria exclusiva para investidores e empresas"
-          ],
-          highlighted: false,
-          consultOnly: true
-        }
-      ];
-      
-      if (isTestUser) {
-        basePlans.push({
-          name: "TESTE",
-          description: "Plano de teste - apenas para desenvolvimento",
-          price: "R$ 2",
-          period: "dia",
-          billingNote: "Cobrança diária para testes",
-          features: ["Acesso de teste", "Cobrança diária de R$ 2,00", "Apenas para validação"],
-          highlighted: false
-        });
+      let price: string;
+      let period: string;
+      if (isFree) {
+        price = "Grátis";
+        period = "";
+      } else if (isContactOnly) {
+        price = "Sob consulta";
+        period = "";
+      } else {
+        const amount = dbPlan?.price_quarterly ?? staticInfo.priceQuarterly;
+        price = amount != null ? `R$ ${amount.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : "—";
+        period = "trimestre";
       }
-      
-      return basePlans;
-    }
 
-    // Transform database plans (exclude FREE since we add it manually)
-    const transformedPlans = dbPlans
-      .filter((dbPlan) => dbPlan.plan_code !== "FREE")
-      .map((dbPlan) => {
-        const monthlyPrice = Math.round(dbPlan.price_quarterly / 3);
-        const isWealth = dbPlan.plan_code === "WEALTH";
-        
-        return {
-          name: dbPlan.plan_code,
-          description: dbPlan.description || "",
-          price: isWealth ? "Consulte" : `R$ ${monthlyPrice}`,
-          period: isWealth ? "" : "mês",
-          billingNote: dbPlan.price_note || undefined,
-          features: dbPlan.features || [],
-          highlighted: dbPlan.plan_code === "PRO",
-          consultOnly: isWealth
-        };
-      });
+      return {
+        name: code,
+        description: dbPlan?.description || staticInfo.description,
+        price,
+        period,
+        billingNote: dbPlan?.price_note || staticInfo.priceNote,
+        features: dbPlan?.features?.length ? dbPlan.features : staticInfo.features,
+        highlighted: code === "PRO",
+        consultOnly: isContactOnly,
+      };
+    });
 
-    const allPlans = [freePlan, ...transformedPlans];
-    
-    // Adicionar plano TESTE para usuários de teste
     if (isTestUser) {
-      allPlans.push({
+      basePlans.push({
         name: "TESTE",
         description: "Plano de teste - apenas para desenvolvimento",
         price: "R$ 2",
         period: "dia",
         billingNote: "Cobrança diária para testes",
         features: ["Acesso de teste", "Cobrança diária de R$ 2,00", "Apenas para validação"],
-        highlighted: false
+        highlighted: false,
       });
     }
 
-    return allPlans;
+    return basePlans;
   }, [dbPlans, isTestUser]);
 
   useEffect(() => {
@@ -414,9 +333,14 @@ const Perfil = () => {
       return; // Já está no plano atual
     }
 
-    // WEALTH abre diálogo de contato
+    // WEALTH abre diálogo de contato — nunca cria checkout
     if (planName === "WEALTH") {
       setShowContactDialog(true);
+      return;
+    }
+
+    // START é gratuito — não tem checkout
+    if (planName === "START") {
       return;
     }
 
@@ -628,7 +552,7 @@ const Perfil = () => {
             <PaymentHistory />
 
             {/* Gerenciamento de Pagamento */}
-            {userPlan && userPlan !== "FREE" && (
+            {userPlan && userPlan !== "FREE" && userPlan !== "START" && (
               <Card>
                 <CardHeader>
                   <CardTitle>Gerenciamento de Pagamento</CardTitle>

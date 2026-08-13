@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Check, Crown, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { normalizePlanCode, isHigherPlan, hasFullMarketAccess } from "@/utils/planHelpers";
 
 interface UpgradeModalProps {
   open: boolean;
@@ -55,11 +56,11 @@ const UpgradeModal = ({ open, onOpenChange, targetPlan }: UpgradeModalProps) => 
       };
     }
 
-    // Fallback para usuários FREE (modal genérico)
+    // Fallback para usuários sem acesso completo (plano START, modal genérico)
     return {
       icon: <Crown className="h-10 w-10 text-primary" />,
-      title: "Limite de Visualizações Atingido",
-      description: "Você atingiu o limite de 3 visualizações diárias do plano FREE. Faça upgrade para ter acesso ilimitado!",
+      title: "Recurso Bloqueado",
+      description: "Este recurso é exclusivo para assinantes. Faça upgrade para ter acesso ilimitado!",
       benefits: [
         "Visualizações ilimitadas de ativos",
         "Acesso a análises completas",
@@ -74,16 +75,15 @@ const UpgradeModal = ({ open, onOpenChange, targetPlan }: UpgradeModalProps) => 
   const content = getModalContent();
 
   // Se tem targetPlan e o usuário já tem esse plano ou superior, não mostrar
-  if (targetPlan && userPlan !== "FREE") {
-    const planHierarchy = { FREE: 0, START: 1, PRO: 2, SPECIALIST: 3 };
-    const currentLevel = planHierarchy[userPlan as keyof typeof planHierarchy] || 0;
-    const targetLevel = planHierarchy[targetPlan] || 0;
-    
-    if (currentLevel >= targetLevel) return null;
+  const normalizedUserPlan = normalizePlanCode(userPlan);
+  if (targetPlan) {
+    if (normalizedUserPlan === targetPlan || isHigherPlan(normalizedUserPlan, targetPlan)) {
+      return null;
+    }
+  } else if (hasFullMarketAccess(userPlan)) {
+    // Só mostrar o modal genérico para quem não tem acesso completo (START)
+    return null;
   }
-
-  // Só mostrar para FREE se não tiver targetPlan
-  if (!targetPlan && userPlan !== "FREE") return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

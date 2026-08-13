@@ -79,10 +79,10 @@ interface NotificationGroup {
 }
 
 const PLAN_OPTIONS = [
-  { value: "FREE", label: "Free" },
   { value: "START", label: "Start" },
   { value: "PRO", label: "Pro" },
   { value: "SPECIALIST", label: "Specialist" },
+  { value: "WEALTH", label: "Wealth" },
 ];
 
 const AUDIENCE_OPTIONS = [

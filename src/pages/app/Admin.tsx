@@ -31,6 +31,8 @@ const Admin = () => {
   const [backingUp, setBackingUp] = useState(false);
   const [communityLink, setCommunityLink] = useState("");
   const [savingLink, setSavingLink] = useState(false);
+  const [salesWhatsappNumber, setSalesWhatsappNumber] = useState("");
+  const [savingSalesWhatsapp, setSavingSalesWhatsapp] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
   const [savingEmail, setSavingEmail] = useState(false);
   const [chartPeriod, setChartPeriod] = useState<ChartPeriod>("6months");
@@ -45,7 +47,8 @@ const Admin = () => {
       const { count, error } = await supabase
         .from("profiles")
         .select("*", { count: "exact", head: true })
-        .neq("plan", "FREE");
+        .neq("plan", "FREE")
+        .neq("plan", "START");
 
       if (error) {
         console.error("Error fetching active clients:", error);
@@ -287,6 +290,7 @@ const Admin = () => {
     if (isAdmin) {
       loadCommunityLink();
       loadAdminEmail();
+      loadSalesWhatsappNumber();
     }
   }, [isAdmin]);
 
@@ -296,8 +300,86 @@ const Admin = () => {
       .select("value")
       .eq("key", "community_whatsapp_link")
       .maybeSingle();
-    
+
     if (data) setCommunityLink(data.value);
+  };
+
+  const loadSalesWhatsappNumber = async () => {
+    const { data } = await supabase
+      .from("app_config")
+      .select("value")
+      .eq("key", "sales_whatsapp_number")
+      .maybeSingle();
+
+    if (data) setSalesWhatsappNumber(data.value);
+  };
+
+  const handleSaveSalesWhatsappNumber = async () => {
+    // Normaliza para formato internacional: só dígitos, sem espaços,
+    // parênteses, traços ou "+". Tamanho plausível de E.164 (DDI+DDD+número).
+    const digitsOnly = salesWhatsappNumber.replace(/\D/g, "");
+    if (!digitsOnly || digitsOnly.length < 10 || digitsOnly.length > 15) {
+      toast({
+        title: "Número inválido",
+        description: "Informe o número com DDI e DDD, só dígitos, entre 10 e 15 dígitos (ex: 5511999999999)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setSavingSalesWhatsapp(true);
+
+      const { error } = await supabase
+        .from("app_config")
+        .upsert({
+          key: "sales_whatsapp_number",
+          value: digitsOnly,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "key" });
+
+      if (error) throw error;
+
+      setSalesWhatsappNumber(digitsOnly);
+      toast({
+        title: "Número atualizado",
+        description: "O número de WhatsApp comercial (CTA \"Falar com Especialista\") foi salvo com sucesso",
+      });
+    } catch (error: unknown) {
+      toast({
+        title: "Erro ao salvar",
+        description: error instanceof Error ? error.message : "Erro desconhecido",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingSalesWhatsapp(false);
+    }
+  };
+
+  const handleClearSalesWhatsappNumber = async () => {
+    try {
+      setSavingSalesWhatsapp(true);
+      const { error } = await supabase
+        .from("app_config")
+        .delete()
+        .eq("key", "sales_whatsapp_number");
+
+      if (error) throw error;
+
+      setSalesWhatsappNumber("");
+      toast({
+        title: "Número removido",
+        description: "O CTA \"Falar com Especialista\" voltará a usar o formulário de contato até um novo número ser configurado.",
+      });
+    } catch (error: unknown) {
+      toast({
+        title: "Erro ao remover",
+        description: error instanceof Error ? error.message : "Erro desconhecido",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingSalesWhatsapp(false);
+    }
   };
 
   const loadAdminEmail = async () => {
@@ -942,6 +1024,49 @@ const Admin = () => {
                   <Save className="h-4 w-4 mr-2" />
                   {savingLink ? "Salvando..." : "Salvar"}
                 </Button>
+              </CardContent>
+            </Card>
+
+            {/* Card para editar número de WhatsApp comercial (CTA "Falar com Especialista" / WEALTH) */}
+            <Card className="shadow-card hover:shadow-elevated transition-all duration-300 col-span-1 md:col-span-2 lg:col-span-1">
+              <CardHeader className="pb-2">
+                <div className="mb-2">
+                  <MessageCircle className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-base">WhatsApp Comercial (WEALTH)</CardTitle>
+                <CardDescription className="text-xs">
+                  Número usado no CTA "Falar com Especialista". Sem número configurado, o botão leva ao formulário de contato.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 space-y-3">
+                <Input
+                  value={salesWhatsappNumber}
+                  onChange={(e) => setSalesWhatsappNumber(e.target.value)}
+                  placeholder="5511999999999 (DDI+DDD+número)"
+                  className="text-xs"
+                />
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleSaveSalesWhatsappNumber}
+                    disabled={savingSalesWhatsapp}
+                    variant="default"
+                    size="sm"
+                    className="flex-1"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    {savingSalesWhatsapp ? "Salvando..." : "Salvar"}
+                  </Button>
+                  {salesWhatsappNumber && (
+                    <Button
+                      onClick={handleClearSalesWhatsappNumber}
+                      disabled={savingSalesWhatsapp}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Limpar
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
 

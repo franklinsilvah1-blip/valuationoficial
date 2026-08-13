@@ -1,5 +1,4 @@
-type PlanType = "FREE" | "START" | "PRO" | "SPECIALIST";
-type CarteiraType = "START" | "PRO" | "SPECIALIST" | "FALE_C_ESPECIALISTA";
+import { normalizePlanCode, hasFullMarketAccess, type AnyPlanCode, type PlanType } from "@/utils/planHelpers";
 
 export interface FieldVisibilityConfig {
   // Campos sempre visíveis
@@ -7,7 +6,7 @@ export interface FieldVisibilityConfig {
   nome: boolean;
   tipo: boolean;
   setor: boolean;
-  
+
   // Campos com visibilidade controlada
   valor: boolean;
   perfil_investidor: boolean;
@@ -34,7 +33,7 @@ export interface FieldHighlightConfig {
   carteira: boolean;
 }
 
-// Configuração básica para cards resumidos (FREE)
+// Configuração básica: apenas os indicadores básicos definidos para o plano START.
 const BASIC_VISIBILITY: FieldVisibilityConfig = {
   codigo_b3: true,
   nome: true,
@@ -56,7 +55,7 @@ const BASIC_VISIBILITY: FieldVisibilityConfig = {
   nota_especialista: false,
 };
 
-// Configuração completa para planos pagos
+// Configuração completa: PRO, SPECIALIST e WEALTH veem todos os campos.
 const FULL_VISIBILITY: FieldVisibilityConfig = {
   codigo_b3: true,
   nome: true,
@@ -78,33 +77,35 @@ const FULL_VISIBILITY: FieldVisibilityConfig = {
   nota_especialista: true,
 };
 
+/** Os 4 campos considerados premium/bloqueados para o plano START. */
+export const PREMIUM_FIELD_KEYS: (keyof FieldVisibilityConfig)[] = [
+  "tendencia",
+  "carteira",
+  "recomendacao",
+  "nota_especialista",
+];
+
 /**
  * Determina quais campos são visíveis baseado no plano do usuário.
- * 
- * Regras simplificadas:
- * - FREE: Campos básicos
- * - START / PRO / SPECIALIST: Todos os campos
+ *
+ * IMPORTANTE: esta função só controla o que a UI RENDERIZA. A proteção real dos
+ * valores premium acontece no backend (view `asset_analyses_gated` — ver
+ * supabase/migrations). Usuários START nunca devem receber os valores reais de
+ * PREMIUM_FIELD_KEYS no payload de rede; esta função apenas decide como o
+ * componente exibe o que já veio (null) do backend para esse plano.
  */
 export const getFieldVisibility = (
-  userPlan: PlanType | string,
+  userPlan: AnyPlanCode | string,
   _assetPerfilInvestidor?: string
 ): FieldVisibilityConfig => {
-  const plan = userPlan.toUpperCase() as PlanType;
-
-  if (plan === "FREE") {
-    return BASIC_VISIBILITY;
-  }
-
-  return FULL_VISIBILITY;
+  return hasFullMarketAccess(userPlan) ? FULL_VISIBILITY : BASIC_VISIBILITY;
 };
 
 /**
  * Determina quais campos devem ser destacados (highlight) baseado no plano
  */
-export const getFieldHighlights = (userPlan: PlanType | string): FieldHighlightConfig => {
-  const plan = userPlan.toUpperCase() as PlanType;
-
-  if (plan === "FREE") {
+export const getFieldHighlights = (userPlan: AnyPlanCode | string): FieldHighlightConfig => {
+  if (!hasFullMarketAccess(userPlan)) {
     return {
       perfil_investidor: true,
       recomendacao: false,
@@ -126,24 +127,29 @@ export const getFieldHighlights = (userPlan: PlanType | string): FieldHighlightC
 };
 
 /**
- * Verifica se o usuário tem acesso completo ao ativo.
- * Qualquer plano pago tem acesso completo.
+ * Verifica se o usuário tem acesso completo ao ativo (todos os campos, não
+ * apenas os básicos). Equivalente a `hasFullMarketAccess` de planHelpers.ts,
+ * mantido aqui por compatibilidade com os componentes que já importam daqui.
  */
 export const hasFullAccessToAsset = (
-  userPlan: PlanType | string,
+  userPlan: AnyPlanCode | string,
   _assetPerfilInvestidor?: string
-): boolean => {
-  const plan = userPlan.toUpperCase() as PlanType;
-  return plan !== "FREE";
-};
+): boolean => hasFullMarketAccess(userPlan);
 
 /**
- * Retorna o plano mínimo necessário para acessar um ativo específico
+ * Retorna o plano mínimo necessário para acessar os campos completos de um
+ * ativo classificado em uma determinada carteira/tier de conteúdo.
+ *
+ * Nota: `carteira` é um campo de CONTEÚDO do ativo (de onde vem a análise),
+ * não o plano do usuário — os dois usam o mesmo enum no banco por herança
+ * histórica, mas são conceitos diferentes. "FALE_C_ESPECIALISTA" aqui
+ * significa "ativo não recomendado pelo especialista", e exige o mesmo nível
+ * mínimo (SPECIALIST) que o tier "SPECIALIST" para ser visto por completo.
  */
 export const getRequiredPlanForAsset = (
-  assetCarteira: CarteiraType | string | undefined
+  assetCarteira: string | undefined
 ): PlanType => {
-  const carteira = assetCarteira?.toUpperCase() as CarteiraType;
+  const carteira = assetCarteira?.toUpperCase();
 
   if (carteira === "FALE_C_ESPECIALISTA" || carteira === "SPECIALIST") {
     return "SPECIALIST";

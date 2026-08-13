@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
+import { AdminAssetHighlightsPanel } from "@/components/AdminAssetHighlightsPanel";
 
 interface AnalysisSample {
   id: string;
@@ -285,7 +286,12 @@ const AdminDebug = () => {
         <TabsList>
           <TabsTrigger value="stats">Estatísticas</TabsTrigger>
           <TabsTrigger value="validator">Validador de CSV</TabsTrigger>
+          <TabsTrigger value="highlights">Top 20 (Home)</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="highlights" className="space-y-6">
+          <AdminAssetHighlightsPanel />
+        </TabsContent>
 
         <TabsContent value="stats" className="space-y-6">
           {stats && (

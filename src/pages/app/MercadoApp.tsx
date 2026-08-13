@@ -2,20 +2,19 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AppLayout } from "@/components/AppLayout";
 import SearchFilters from "@/components/SearchFilters";
-import AssetCard from "@/components/AssetCard";
+import { AssetsTable, type AssetsTableColumn } from "@/components/AssetsTable";
 import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useViewLimit } from "@/hooks/useViewLimit";
 import { useAuth } from "@/contexts/AuthContext";
-import { hasFullAccessToAsset, getRequiredPlanForAsset } from "@/utils/fieldVisibility";
+import { hasFullMarketAccess } from "@/utils/planHelpers";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { X, Loader2 } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import AssetCardSkeleton from "@/components/AssetCardSkeleton";
-import { 
+import {
   RECOMENDACAO_GROUPS, 
   TENDENCIA_GROUPS,
   PERFIL_INVESTIDOR_OPTIONS, 
@@ -32,6 +31,29 @@ const parseNumericText = (val: any): number => {
   const n = parseFloat(str);
   return isNaN(n) ? -Infinity : n;
 };
+
+// Colunas exibidas em /app/mercado. Os 4 campos premium (tendencia, carteira,
+// recomendacao, nota_especialista) vêm da view `assets_market_view`, que já
+// retorna null para eles quando o usuário não tem plano PRO+ — o AssetsTable
+// mostra o indicador de bloqueio automaticamente para esses campos.
+const MERCADO_COLUMNS: AssetsTableColumn[] = [
+  { key: "codigo_b3", label: "Código B3", sticky: true },
+  { key: "nome", label: "Nome" },
+  { key: "tipo", label: "Tipo" },
+  { key: "setor", label: "Setor" },
+  { key: "perfil_investidor", label: "Perfil do ativo" },
+  { key: "valor", label: "Valor", align: "right" },
+  { key: "roi2026", label: "ROI 2026", align: "right" },
+  { key: "dy2025", label: "DY 2025", align: "right" },
+  { key: "roitrim", label: "ROI Trim (R)", align: "right" },
+  { key: "roi2025", label: "ROI 2025", align: "right" },
+  { key: "fator_mc", label: "Mult. Capital", align: "right" },
+  { key: "roi2023a2025", label: "ROI 2023 a 2025", align: "right" },
+  { key: "tendencia", label: "Tendência Trim", align: "right" },
+  { key: "carteira", label: "Carteira Trim", align: "right" },
+  { key: "recomendacao", label: "Recomendação Trim", align: "right" },
+  { key: "nota_especialista", label: "Nota Especialista", align: "right" },
+];
 
 const sortResultsClientSide = (items: any[], sortKey: string): any[] => {
   const fieldMap: Record<string, string> = {
@@ -55,6 +77,7 @@ const MercadoApp = () => {
   const {
     userPlan
   } = useAuth();
+  const hasFullAccess = hasFullMarketAccess(userPlan);
   const {
     limitReached,
     recordView,
@@ -94,10 +117,9 @@ const MercadoApp = () => {
     staleTime: 5 * 60 * 1000, // 5 minutos
     gcTime: 10 * 60 * 1000, // 10 minutos
     queryFn: async () => {
-      // @ts-ignore - Supabase type inference issue with deep chaining
       let query = supabase
-        .from("assets")
-        .select("id, asset_analyses!inner(id)", { count: "exact", head: true })
+        .from("assets_market_view")
+        .select("id", { count: "exact", head: true })
         .eq("is_active", true); // Only count active assets from spreadsheet
       if (filters.codigo) {
         query = query.or(`codigo_b3.ilike.%${filters.codigo}%,nome.ilike.%${filters.codigo}%`);
@@ -109,31 +131,31 @@ const MercadoApp = () => {
         query = query.eq("setor", filters.setor);
       }
 
-      // Filtros de análise - MESMOS da query principal
+      // Filtros de análise - MESMOS da query principal (colunas achatadas na view)
       if (filters.perfil_investidor && filters.perfil_investidor !== "all") {
-        query = query.eq("asset_analyses.perfil_investidor", filters.perfil_investidor);
+        query = query.eq("perfil_investidor", filters.perfil_investidor);
       }
       if (filters.recomendacao && filters.recomendacao !== "all") {
         const recomendacaoValues = RECOMENDACAO_GROUPS[filters.recomendacao];
         if (recomendacaoValues && recomendacaoValues.length > 0) {
-          query = query.in("asset_analyses.recomendacao", recomendacaoValues as any);
+          query = query.in("recomendacao", recomendacaoValues as any);
         } else {
-          query = query.eq("asset_analyses.recomendacao", filters.recomendacao as any);
+          query = query.eq("recomendacao", filters.recomendacao as any);
         }
       }
       if (filters.tendencia && filters.tendencia !== "all") {
         const tendenciaValues = TENDENCIA_GROUPS[filters.tendencia];
         if (tendenciaValues && tendenciaValues.length > 0) {
-          query = query.in("asset_analyses.tendencia", tendenciaValues as any);
+          query = query.in("tendencia", tendenciaValues as any);
         } else {
-          query = query.eq("asset_analyses.tendencia", filters.tendencia as any);
+          query = query.eq("tendencia", filters.tendencia as any);
         }
       }
       if (filters.carteira && filters.carteira !== "all") {
-        query = query.eq("asset_analyses.carteira", filters.carteira as any);
+        query = query.eq("carteira", filters.carteira as any);
       }
       if (filters.nota_especialista && filters.nota_especialista !== "all") {
-        query = query.eq("asset_analyses.nota_especialista", filters.nota_especialista);
+        query = query.eq("nota_especialista", filters.nota_especialista);
       }
       const {
         count,
@@ -156,29 +178,14 @@ const MercadoApp = () => {
     gcTime: 10 * 60 * 1000, // 10 minutos
     placeholderData: (previousData) => previousData, // Mantém dados anteriores durante navegação
     queryFn: async () => {
-      // Build query
-      // @ts-ignore - Supabase type inference issue with deep chaining
-      let query = supabase.from("assets").select(`
-          *,
-          asset_analyses!inner(
-            perfil_investidor,
-            recomendacao,
-            tendencia,
-            taxa_semanal,
-            roi2026,
-            carteira,
-            nota_especialista,
-            valor,
-            roitrim,
-            roi2025,
-            dy2025,
-            roi2024,
-            fator_mc,
-            roi2023a2025
-          )
-        `)
+      // Fonte: view assets_market_view, que já mascara (null) os 4 campos
+      // premium para quem não tem plano PRO+ — nenhum select "*" na tabela
+      // crua de análises acontece aqui (ver supabase/migrations).
+      let query = supabase
+        .from("assets_market_view")
+        .select("*")
         .eq("is_active", true); // Only fetch active assets from spreadsheet
-      
+
       if (filters.codigo) {
         query = query.or(`codigo_b3.ilike.%${filters.codigo}%,nome.ilike.%${filters.codigo}%`);
       }
@@ -189,31 +196,30 @@ const MercadoApp = () => {
         query = query.eq("setor", filters.setor);
       }
 
-      // Filtros de análise (agora há apenas uma análise por ativo)
       if (filters.perfil_investidor && filters.perfil_investidor !== "all") {
-        query = query.eq("asset_analyses.perfil_investidor", filters.perfil_investidor);
+        query = query.eq("perfil_investidor", filters.perfil_investidor);
       }
       if (filters.recomendacao && filters.recomendacao !== "all") {
         const recomendacaoValues = RECOMENDACAO_GROUPS[filters.recomendacao];
         if (recomendacaoValues && recomendacaoValues.length > 0) {
-          query = query.in("asset_analyses.recomendacao", recomendacaoValues as any);
+          query = query.in("recomendacao", recomendacaoValues as any);
         } else {
-          query = query.eq("asset_analyses.recomendacao", filters.recomendacao as any);
+          query = query.eq("recomendacao", filters.recomendacao as any);
         }
       }
       if (filters.tendencia && filters.tendencia !== "all") {
         const tendenciaValues = TENDENCIA_GROUPS[filters.tendencia];
         if (tendenciaValues && tendenciaValues.length > 0) {
-          query = query.in("asset_analyses.tendencia", tendenciaValues as any);
+          query = query.in("tendencia", tendenciaValues as any);
         } else {
-          query = query.eq("asset_analyses.tendencia", filters.tendencia as any);
+          query = query.eq("tendencia", filters.tendencia as any);
         }
       }
       if (filters.carteira && filters.carteira !== "all") {
-        query = query.eq("asset_analyses.carteira", filters.carteira as any);
+        query = query.eq("carteira", filters.carteira as any);
       }
       if (filters.nota_especialista && filters.nota_especialista !== "all") {
-        query = query.eq("asset_analyses.nota_especialista", filters.nota_especialista);
+        query = query.eq("nota_especialista", filters.nota_especialista);
       }
 
       // Aplicar ordenação base (código como fallback)
@@ -232,46 +238,7 @@ const MercadoApp = () => {
       } = await query.range(from, to);
       if (error) throw error;
 
-      // Processar resultados - agora cada ativo tem UMA análise
-      const mapped = data?.map((asset: any) => {
-        const analysis = Array.isArray(asset.asset_analyses) ? asset.asset_analyses[0] : asset.asset_analyses || {};
-        if (!analysis || Object.keys(analysis).length === 0) return null;
-
-        // Determinar nível de acesso e plano necessário
-        const hasFullAccess = hasFullAccessToAsset(userPlan, analysis.carteira);
-        const requiredPlan = getRequiredPlanForAsset(analysis.carteira);
-
-        // Definir accessLevel para compatibilidade com AssetCard
-        let accessLevel: "full" | "limited" | "upgrade_to_pro" | "upgrade_to_specialist";
-        if (hasFullAccess) {
-          accessLevel = "full";
-        } else if (userPlan === "FREE") {
-          accessLevel = "limited";
-        } else if (requiredPlan === "SPECIALIST") {
-          accessLevel = "upgrade_to_specialist";
-        } else {
-          accessLevel = "upgrade_to_pro";
-        }
-        return {
-          ...asset,
-          perfilInvestidor: analysis.perfil_investidor,
-          recomendacao: analysis.recomendacao,
-          tendencia: analysis.tendencia,
-          taxaSemanal: analysis.taxa_semanal,
-          roi2026: analysis.roi2026,
-          carteira: analysis.carteira,
-          nota_especialista: analysis.nota_especialista,
-          valor: analysis.valor,
-          roi2023a2025: analysis.roi2023a2025,
-          roitrim: analysis.roitrim,
-          roi2025: analysis.roi2025,
-          dy2025: analysis.dy2025,
-          roi2024: analysis.roi2024,
-          fatorMc: analysis.fator_mc,
-          accessLevel
-        };
-      }).filter(Boolean) || [];
-      return sortResultsClientSide(mapped, sortBy);
+      return sortResultsClientSide(data ?? [], sortBy);
     }
   });
   const handleSearch = (newFilters: any) => {
@@ -311,7 +278,7 @@ const MercadoApp = () => {
   // Get active filters for display
   const activeFilters = Object.entries(filters).filter(([key, value]) => {
     // Remover filtros avançados para usuários FREE (exceto nota_especialista que é para todos)
-    if (userPlan === "FREE" && ["perfil_investidor", "recomendacao", "tendencia", "carteira"].includes(key)) {
+    if (!hasFullAccess && ["perfil_investidor", "recomendacao", "tendencia", "carteira"].includes(key)) {
       return false;
     }
     if (key === "codigo") return value !== "";
@@ -331,11 +298,11 @@ const MercadoApp = () => {
 
         {/* Busca por código - disponível para plano FREE */}
         <div className="mb-8">
-          <SearchFilters onSearch={handleSearch} showAllFilters={userPlan !== "FREE"} isFreeUser={userPlan === "FREE"} />
+          <SearchFilters onSearch={handleSearch} showAllFilters={hasFullAccess} isFreeUser={!hasFullAccess} />
         </div>
 
-        {/* Filtros avançados - apenas para usuários não FREE */}
-        {userPlan !== "FREE" && <div className="space-y-4 mb-8">
+        {/* Filtros avançados - apenas para planos com acesso completo */}
+        {hasFullAccess && <div className="space-y-4 mb-8">
             {/* Active Filters Badges */}
             <div className={`flex flex-wrap items-center gap-2 p-4 bg-muted/50 rounded-lg border border-border transition-all duration-300 overflow-hidden ${hasActiveFilters ? 'opacity-100 max-h-40 scale-100' : 'opacity-0 max-h-0 p-0 border-0 scale-95'}`}>
                 <span className="text-sm font-medium text-muted-foreground mr-2">
@@ -367,8 +334,8 @@ const MercadoApp = () => {
                 </Button>
               </div>
 
-            {/* Filtros avançados - apenas para planos pagos */}
-            {userPlan !== "FREE" && <div className="space-y-4">
+            {/* Filtros avançados - apenas para planos com acesso completo */}
+            {hasFullAccess && <div className="space-y-4">
                 {/* Linha 1: Tipo, Setor, Perfil Investidor */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
@@ -643,8 +610,8 @@ const MercadoApp = () => {
             </div>
           </div>}
 
-        {/* Card explicativo para usuários FREE */}
-        {userPlan === "FREE" && <div className="mb-12">
+        {/* Card explicativo para usuários sem acesso completo (plano START) */}
+        {!hasFullAccess && <div className="mb-12">
             <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 shadow-lg">
               <CardContent className="pt-6">
                 <div className="text-center space-y-4">
@@ -671,7 +638,7 @@ const MercadoApp = () => {
                       🚀 Fazer upgrade plano
                     </Button>
                     <p className="text-xs text-muted-foreground mt-3">
-                      A partir de R$ 49,90/mês • Acesso ilimitado a todos os ativos
+                      A partir de R$ 29,90/mês • Acesso ilimitado a todos os ativos
                     </p>
                   </div>
                 </div>
@@ -681,91 +648,55 @@ const MercadoApp = () => {
 
         {/* Results */}
         <div id="assets-list">
-        {isLoading || isFetching ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(12)].map((_, i) => <AssetCardSkeleton key={i} />)}
-          </div>
-        ) : assetsWithAnalyses && assetsWithAnalyses.length > 0 ? <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {assetsWithAnalyses.map((asset: any, index: number) => (
-                <div 
-                  key={asset.id} 
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${Math.min(index * 30, 300)}ms` }}
-                >
-                  <AssetCard 
-                    assetId={asset.id} 
-                    codigo={asset.codigo_b3} 
-                    nome={asset.nome} 
-                    tipo={asset.tipo} 
-                    setor={asset.setor} 
-                    perfilInvestidor={asset.perfilInvestidor} 
-                    recomendacao={asset.recomendacao} 
-                    tendencia={asset.tendencia} 
-                    taxaSemanal={asset.taxaSemanal} 
-                    carteira={asset.carteira} 
-                    nota={asset.nota_especialista} 
-                    notaEspecialista={asset.nota_especialista} 
-                    resumo={asset.resumo} 
-                    valor={asset.valor} 
-                    roi2026={asset.roi2026} 
-                    roi2023a2025={asset.roi2023a2025} 
-                    roitrim={asset.roitrim} 
-                    roi2025={asset.roi2025} 
-                    dy2025={asset.dy2025} 
-                    roi24={asset.roi24} 
-                    fatorMc={asset.fatorMc} 
-                    userPlan={userPlan} 
-                  />
-                </div>
-              ))}
-            </div>
+          <AssetsTable
+            columns={MERCADO_COLUMNS}
+            rows={assetsWithAnalyses ?? []}
+            isLoading={isLoading || isFetching}
+            hasFullMarketAccess={hasFullAccess}
+          />
 
           {/* Pagination */}
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => setCurrentPage(1)} 
-              disabled={currentPage === 1 || totalPages <= 1}
-              className="hidden sm:flex"
-            >
-              Primeira
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} 
-              disabled={currentPage === 1 || totalPages <= 1}
-            >
-              ◀ Anterior
-            </Button>
-            <div className="text-sm font-medium px-4 py-2 bg-muted rounded-md">
-              Página {currentPage} de {totalPages}
+          {!isLoading && !isFetching && (assetsWithAnalyses?.length ?? 0) > 0 && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1 || totalPages <= 1}
+                className="hidden sm:flex"
+              >
+                Primeira
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1 || totalPages <= 1}
+              >
+                ◀ Anterior
+              </Button>
+              <div className="text-sm font-medium px-4 py-2 bg-muted rounded-md">
+                Página {currentPage} de {totalPages}
+              </div>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages || totalPages <= 1}
+              >
+                Próxima ▶
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages || totalPages <= 1}
+                className="hidden sm:flex"
+              >
+                Última
+              </Button>
             </div>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))} 
-              disabled={currentPage === totalPages || totalPages <= 1}
-            >
-              Próxima ▶
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => setCurrentPage(totalPages)} 
-              disabled={currentPage === totalPages || totalPages <= 1}
-              className="hidden sm:flex"
-            >
-              Última
-            </Button>
-          </div>
-          </> : <div className="text-center py-12">
-            <p className="text-muted-foreground">
-              Nenhum ativo encontrado com os filtros selecionados. Tente outros critérios.
-            </p>
-          </div>}
+          )}
         </div>
       </div>
     </AppLayout>;

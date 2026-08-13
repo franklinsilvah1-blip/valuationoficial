@@ -74,10 +74,19 @@ const ResourceHints = () => {
       }
     });
 
-    // Preconnect para APIs externas usadas na rota
-    const preconnectOrigins = [
-      'https://yoazkdmzjibogpxkjseh.supabase.co', // Supabase API
-    ];
+    // Preconnect para APIs externas usadas na rota. Derivado de
+    // VITE_SUPABASE_URL (nunca hardcoded) — achado real: o valor anterior
+    // referenciava um project ref diferente do de produção
+    // (mbnjjbtllzgatkjtsvrg), uma referência obsoleta que nunca correspondia
+    // ao projeto Supabase real do ValuationIT.
+    const supabaseOrigin = (() => {
+      try {
+        return new URL(import.meta.env.VITE_SUPABASE_URL).origin;
+      } catch {
+        return null;
+      }
+    })();
+    const preconnectOrigins = supabaseOrigin ? [supabaseOrigin] : [];
 
     preconnectOrigins.forEach(origin => {
       if (!document.querySelector(`link[rel="preconnect"][href="${origin}"]`)) {

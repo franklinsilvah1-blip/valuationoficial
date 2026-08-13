@@ -83,7 +83,7 @@ const UserHeader = () => {
     queryKey: ["community-status", user?.id, userPlan],
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000,
-    enabled: !!user?.id && !isAdmin && userPlan !== "FREE",
+    enabled: !!user?.id && !isAdmin && userPlan !== "FREE" && userPlan !== "START",
     queryFn: async () => {
       const { data: profile } = await supabase
         .from("profiles")
@@ -200,7 +200,7 @@ const UserHeader = () => {
   };
 
   const getExpirationInfo = () => {
-    if (userPlan === "FREE") return { text: "Plano gratuito", isExpiring: false };
+    if (userPlan === "FREE" || userPlan === "START") return { text: "Plano gratuito", isExpiring: false };
     if (userPlan === "SPECIALIST") return { text: "Não expira", isExpiring: false };
     
     if (subscriptionData?.subscription_end) {

@@ -59,6 +59,7 @@ Deno.serve(async (req) => {
       .from("profiles")
       .select("id, name, plan, plan_end_at")
       .neq("plan", "FREE")
+      .neq("plan", "START")
       .gte("plan_end_at", fiveDaysFromNow.toISOString())
       .lte("plan_end_at", fiveDaysFromNowEnd.toISOString());
 

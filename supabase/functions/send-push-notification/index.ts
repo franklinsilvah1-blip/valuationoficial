@@ -258,9 +258,11 @@ serve(async (req) => {
       filteredSubscriptions = eligibleLoggedInSubs.filter(sub => {
         const profile = profilesMap.get(sub.user_id!);
         if (!profile) return false;
-        if (notification.target_audience === "free") return profile.plan === "FREE";
-        if (notification.target_audience === "paid") return profile.plan !== "FREE";
-        if (notification.target_audience === "specific_plan") return profile.plan === notification.target_plan;
+        // "FREE" é o valor legado do nível gratuito — tratado como equivalente a "START".
+        const normalizedPlan = profile.plan === "FREE" ? "START" : profile.plan;
+        if (notification.target_audience === "free") return normalizedPlan === "START";
+        if (notification.target_audience === "paid") return normalizedPlan !== "START";
+        if (notification.target_audience === "specific_plan") return normalizedPlan === notification.target_plan;
         return true;
       });
     }

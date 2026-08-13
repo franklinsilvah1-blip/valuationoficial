@@ -47,12 +47,17 @@ interface EditClientDialogProps {
 }
 
 const PLAN_LABELS: Record<string, string> = {
-  FREE: "Plano Grátis",
-  START: "Plano Start",
-  PRO: "Plano Pro",
-  SPECIALIST: "Plano Especialista",
-  FALE_C_ESPECIALISTA: "Consultoria",
+  START: "START (grátis)",
+  PRO: "PRO",
+  SPECIALIST: "SPECIALIST",
+  WEALTH: "WEALTH (sob consulta)",
+  // Valores legados — só para exibir clientes que já têm esse valor
+  // histórico; nunca oferecidos como opção nova (ver dropdown abaixo).
+  FREE: "FREE (legado)",
+  FALE_C_ESPECIALISTA: "Consultoria (legado)",
 };
+
+const isFreePlanCode = (plan: string) => plan === "FREE" || plan === "START";
 
 export function EditClientDialog({ open, onOpenChange, client, onSuccess }: EditClientDialogProps) {
   const [name, setName] = useState(client.name || "");
@@ -117,11 +122,17 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
       if (planChanged || endDateChanged) {
         profileUpdate.plan = newPlan;
         
+        // plan_start_at é usada como evidência de plano pago (ver migration
+        // 20260415120000_plan_model_v2.sql). Ao rebaixar para START (grátis),
+        // limpa explicitamente em vez de deixar um valor antigo "pendurado"
+        // (ex.: usuário que já foi PRO antes) — nunca carimba data nova para
+        // um rebaixamento gratuito, e nunca deixa evidência de um plano pago
+        // anterior sobrevivendo à mudança para o nível grátis.
         if (planChanged) {
-          profileUpdate.plan_start_at = new Date().toISOString();
+          profileUpdate.plan_start_at = isFreePlanCode(newPlan) ? null : new Date().toISOString();
         }
 
-        if (newPlan === "FREE") {
+        if (isFreePlanCode(newPlan)) {
           profileUpdate.plan_end_at = null;
         } else if (newEndDate) {
           profileUpdate.plan_end_at = new Date(newEndDate).toISOString();
@@ -154,7 +165,7 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
 
         // If not admin change, also update Stripe
         if (!isAdminChange) {
-          const { error: stripeError } = await supabase.functions.invoke("update-client-plan", {
+          const { data: stripeData, error: stripeError } = await supabase.functions.invoke("update-client-plan", {
             body: {
               userId: client.id,
               newPlan,
@@ -167,6 +178,13 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
             toast({
               title: "Aviso",
               description: "Dados atualizados localmente, mas houve erro ao sincronizar com Stripe.",
+              variant: "destructive",
+            });
+          } else if (stripeData?.warning) {
+            // Ex.: WEALTH concedido manualmente sobre assinatura Stripe ainda ativa.
+            toast({
+              title: "Atenção",
+              description: stripeData.warning,
               variant: "destructive",
             });
           }
@@ -264,16 +282,15 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
                     <SelectValue placeholder="Selecione o plano" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="FREE">Plano Grátis</SelectItem>
-                    <SelectItem value="START">Plano Start</SelectItem>
-                    <SelectItem value="PRO">Plano Pro</SelectItem>
-                    <SelectItem value="SPECIALIST">Plano Especialista</SelectItem>
-                    <SelectItem value="FALE_C_ESPECIALISTA">Consultoria</SelectItem>
+                    <SelectItem value="START">START (grátis)</SelectItem>
+                    <SelectItem value="PRO">PRO</SelectItem>
+                    <SelectItem value="SPECIALIST">SPECIALIST</SelectItem>
+                    <SelectItem value="WEALTH">WEALTH (sob consulta)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {newPlan !== "FREE" && (
+              {!isFreePlanCode(newPlan) && (
                 <div className="space-y-2">
                   <Label htmlFor="end-date">Data de Expiração</Label>
                   <Input
@@ -369,7 +386,7 @@ export function EditClientDialog({ open, onOpenChange, client, onSuccess }: Edit
                   </>
                 )}
 
-                {newEndDate && newPlan !== "FREE" && newEndDate !== (client.plan_end_at ? new Date(client.plan_end_at).toISOString().split("T")[0] : "") && (
+                {newEndDate && !isFreePlanCode(newPlan) && newEndDate !== (client.plan_end_at ? new Date(client.plan_end_at).toISOString().split("T")[0] : "") && (
                   <p>
                     <strong>Nova data de expiração:</strong> {new Date(newEndDate).toLocaleDateString("pt-BR")}
                   </p>

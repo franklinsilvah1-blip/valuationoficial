@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchFilters from "@/components/SearchFilters";
 import Testimonials from "@/components/Testimonials";
 import HomeBlogSection from "@/components/HomeBlogSection";
-import SEOHead, { 
-  createOrganizationSchema, 
+import { AssetsTable } from "@/components/AssetsTable";
+import { PUBLIC_ASSET_COLUMNS } from "@/utils/assetsTableColumns";
+import { supabase } from "@/integrations/supabase/client";
+import SEOHead, {
+  createOrganizationSchema,
   createWebSiteSchema,
   createLocalBusinessSchema,
   createAggregateRatingSchema,
@@ -18,16 +21,63 @@ import { ArrowRight, Shield, BarChart3, Users, TrendingUp } from "lucide-react";
 import heroBackground from "@/assets/hero-background.webp";
 
 const Index = () => {
-  const [searchFilters, setSearchFilters] = useState({});
-  
-  const handleSearch = (filters: any) => {
-    setSearchFilters(filters);
-    // Navigate to mercado with filters
-    if (Object.keys(filters).length > 0) {
-      window.location.href = `/mercado?${new URLSearchParams(filters).toString()}`;
+  const navigate = useNavigate();
+
+  const handleSearch = (filters: { codigo?: string }) => {
+    const term = filters?.codigo?.trim();
+    if (term) {
+      navigate(`/mercado?q=${encodeURIComponent(term)}`);
     }
   };
-  
+
+  // Ativos em destaque da home: usa a curadoria manual de asset_highlights
+  // (ver supabase/migrations e o painel Admin → Debug de Importação → "Top
+  // 20 (Home)") quando existir. Não há critério financeiro automático de
+  // "melhores ativos" (auditoria confirmou: sem coluna de ranking/posição
+  // curada pré-existente) — por isso, quando NÃO há curadoria, a seção usa
+  // rótulo neutro ("Ativos em Destaque", nunca "Top 20"/"melhores") com
+  // ordem alfabética apenas como fallback de exibição, não como afirmação de
+  // desempenho. Quando há curadoria parcial (menos de 20 itens), mostra
+  // somente os itens curados — nunca completa o restante com ativos
+  // alfabéticos sob esse rótulo. Reflete automaticamente qualquer
+  // atualização feita pela sincronização da planilha, pois consulta a mesma
+  // RPC/view usadas em /mercado.
+  const { data: topAssetsResult, isLoading: isLoadingTop } = useQuery({
+    queryKey: ["home-top-assets"],
+    queryFn: async (): Promise<{ items: any[]; isCurated: boolean }> => {
+      const { data: highlights, error: highlightsError } = await supabase
+        .from("asset_highlights")
+        .select("asset_id, position")
+        .order("position", { ascending: true })
+        .limit(20);
+      if (highlightsError) throw highlightsError;
+
+      if (highlights && highlights.length > 0) {
+        const assetIds = highlights.map((h) => h.asset_id);
+        // Curadoria pode referenciar ativos fora do "top 20 alfabético" da
+        // RPC pública — busca direta na view garante que a ordem curada seja
+        // respeitada mesmo assim, sem preencher vagas com outros ativos.
+        const { data: curated, error: curatedError } = await supabase
+          .from("assets_market_view")
+          .select("id, codigo_b3, nome, tipo, setor, perfil_investidor, valor, roi2026, dy2025, roitrim, roi2025, fator_mc, roi2023a2025")
+          .in("id", assetIds);
+        if (curatedError) throw curatedError;
+        const curatedById = new Map((curated ?? []).map((a: any) => [a.id, a]));
+        const orderedIds = highlights.map((h) => h.asset_id);
+        return {
+          items: orderedIds.map((id) => curatedById.get(id)).filter(Boolean),
+          isCurated: true,
+        };
+      }
+
+      const { data, error } = await supabase.rpc("get_public_assets", { p_search: null });
+      if (error) throw error;
+      return { items: data ?? [], isCurated: false };
+    },
+  });
+  const topAssets = topAssetsResult?.items ?? [];
+  const isTopCurated = topAssetsResult?.isCurated ?? false;
+
   const benefits = [{
     icon: <BarChart3 className="h-8 w-8 text-primary" />,
     title: "Análises profissionais",
@@ -100,11 +150,10 @@ const Index = () => {
         <div className="container relative z-10">
           <div className="max-w-[800px] mx-auto text-center animate-fade-in">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6" data-speakable="hero-title">
-              <span className="block">Consultoria de Investimentos</span>
-              <span className="block text-[hsl(45,100%,51%)]">Inteligente e personalizada</span>
+              Compare e encontre os melhores investimentos!
             </h1>
             <p className="text-lg md:text-xl text-primary-foreground/90 mb-8" data-speakable="hero-description">
-              Acesse análises completas de ações, FIIs, BDRs, ETFs e Criptomoedas. Recomendações de especialistas para todos os tipos de perfis de investidor.
+              Aprenda a investir como Especialistas!
             </p>
 
             {/* Free Search */}
@@ -116,6 +165,26 @@ const Index = () => {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Ativos em destaque */}
+      <section className="py-12 md:py-16 bg-background">
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">Ativos em Destaque</h2>
+            <p className="text-muted-foreground">
+              {isTopCurated
+                ? "Seleção de ativos do nosso catálogo. Cadastre-se grátis para ver a lista completa e indicadores básicos."
+                : "Ativos do nosso catálogo em ordem alfabética. Cadastre-se grátis para ver a lista completa e indicadores básicos."}
+            </p>
+          </div>
+          <AssetsTable
+            columns={PUBLIC_ASSET_COLUMNS}
+            rows={topAssets}
+            isLoading={isLoadingTop}
+            emptyMessage="Nenhum ativo disponível no momento."
+          />
         </div>
       </section>
 

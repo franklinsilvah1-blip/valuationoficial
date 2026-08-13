@@ -81,7 +81,7 @@ const ModeratorDashboard = () => {
       if (error) throw error;
 
       const total = profiles?.length || 0;
-      const free = profiles?.filter(p => p.plan === "FREE").length || 0;
+      const free = profiles?.filter(p => p.plan === "FREE" || p.plan === "START").length || 0;
       const paid = total - free;
       const thisMonth = profiles?.filter(p => {
         const createdAt = new Date(p.created_at);
@@ -140,6 +140,7 @@ const ModeratorDashboard = () => {
         .from("profiles")
         .select("id, name, email, plan, plan_start_at, created_at")
         .neq("plan", "FREE")
+        .neq("plan", "START")
         .not("plan_start_at", "is", null)
         .order("plan_start_at", { ascending: false })
         .limit(8);

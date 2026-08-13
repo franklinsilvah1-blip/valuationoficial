@@ -1,19 +1,11 @@
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
+import { resolvePlanFromStripe } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[FORCE-SYNC] ${step}${detailsStr}`);
-};
-
-// Mapeamento dos product IDs para planos
-const PRODUCT_TO_PLAN: Record<string, string> = {
-  prod_TMWTUVuAcCM1Qg: "START",
-  prod_TMWWN3NKrAoZYe: "PRO",
-  prod_TdJ7Clh2GRzchP: "SPECIALIST",
-  prod_TnV2XDNVvq4DPq: "TESTE", // Plano de teste antigo R$ 2/dia
-  prod_TpKS0xmSbMgIq6: "TESTE", // Plano de teste novo R$ 2/semana
 };
 
 Deno.serve(async (req) => {
@@ -86,22 +78,23 @@ Deno.serve(async (req) => {
     
     if (customers.data.length === 0) {
       logStep("No Stripe customer found");
-      
-      // Update to FREE
+
+      // Sem cliente Stripe: usuário volta ao nível gratuito de entrada
+      // (START), nunca ao valor legado FREE.
       await supabaseClient
         .from("profiles")
-        .update({ 
-          plan: "FREE", 
-          plan_start_at: null, 
+        .update({
+          plan: "START",
+          plan_start_at: null,
           plan_end_at: null,
           stripe_customer_id: null
         })
         .eq("id", targetUserId);
-      
-      return new Response(JSON.stringify({ 
+
+      return new Response(JSON.stringify({
         success: true,
         message: "No active subscription found",
-        plan: "FREE",
+        plan: "START",
         logs: [`No Stripe customer for ${targetEmail}`]
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -146,21 +139,21 @@ Deno.serve(async (req) => {
     }
 
     if (!subscription) {
-      // No valid subscription at all
+      // No valid subscription at all — volta para START, nunca FREE.
       await supabaseClient
         .from("profiles")
-        .update({ 
-          plan: "FREE", 
-          plan_start_at: null, 
+        .update({
+          plan: "START",
+          plan_start_at: null,
           plan_end_at: null,
           stripe_customer_id: customerId
         })
         .eq("id", targetUserId);
-      
-      return new Response(JSON.stringify({ 
+
+      return new Response(JSON.stringify({
         success: true,
         message: "No active or valid canceled subscription",
-        plan: "FREE",
+        plan: "START",
         customerId,
         logs: [`Customer ${customerId} has no valid subscriptions`]
       }), {
@@ -168,8 +161,17 @@ Deno.serve(async (req) => {
         status: 200,
       });
     }
+    const priceId = subscription.items.data[0].price.id;
     const productId = subscription.items.data[0].price.product as string;
-    const plan = PRODUCT_TO_PLAN[productId] || "FREE";
+
+    // Busca o plano atual antes de resolver, para nunca rebaixar caso o
+    // price/product não seja reconhecido.
+    const { data: currentProfileRow } = await supabaseClient
+      .from("profiles")
+      .select("plan")
+      .eq("id", targetUserId)
+      .single();
+    const plan = resolvePlanFromStripe({ priceId, productId }) || currentProfileRow?.plan || "START";
     const subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
     const subscriptionStart = new Date(subscription.current_period_start * 1000).toISOString();
 

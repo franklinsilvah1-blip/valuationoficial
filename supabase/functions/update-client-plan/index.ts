@@ -1,5 +1,6 @@
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
+import { getCheckoutPriceId, type BillingCycle, type CheckoutPlan } from "../_shared/planResolution.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,8 +52,8 @@ Deno.serve(async (req) => {
     logStep("Admin verified", { adminId: adminUser.id });
 
     // Get request body
-    const { userId, newPlan, newEndDate, action, role, roleId } = await req.json();
-    logStep("Request data", { userId, newPlan, newEndDate, action, role, roleId });
+    const { userId, newPlan, newEndDate, cycle, action, role, roleId } = await req.json();
+    logStep("Request data", { userId, newPlan, newEndDate, cycle, action, role, roleId });
 
     // Handle remove_role action
     if (action === "remove_role") {
@@ -229,18 +230,37 @@ Deno.serve(async (req) => {
       limit: 1,
     });
 
-    // Map plan to Stripe price (you'll need to configure these in your Stripe dashboard)
-    const planPriceMap: Record<string, string> = {
-      START: Deno.env.get("STRIPE_PRICE_START") || "",
-      PRO: Deno.env.get("STRIPE_PRICE_PRO") || "",
-      SPECIALIST: Deno.env.get("STRIPE_PRICE_SPECIALIST") || "",
-    };
+// START é gratuito e WEALTH é sob consulta — nenhum dos dois tem cobrança
+    // Stripe automática. START/FREE (legado) cancelam qualquer assinatura
+    // ativa; WEALTH não mexe na assinatura Stripe existente (é uma decisão
+    // comercial separada, o admin cancela manualmente se for o caso).
+    const isNoCheckoutPlan = newPlan === "FREE" || newPlan === "START";
+    const isWealthPlan = newPlan === "WEALTH";
 
-    if (newPlan !== "FREE") {
-      const priceId = planPriceMap[newPlan];
-      if (!priceId) {
-        throw new Error(`Price ID not configured for plan: ${newPlan}`);
+    /**
+     * Resolve o price ID para PRO/SPECIALIST no ciclo pedido (default
+     * trimestral, para não quebrar chamadas antigas do admin sem `cycle`).
+     * Tenta primeiro o par de env vars novo (mensal/trimestral); se não
+     * estiver configurado, cai para a env var legada única (compatibilidade
+     * com o painel admin anterior a esta migração).
+     */
+    function resolveAdminPriceId(plan: string, billingCycle: BillingCycle): string {
+      if (plan === "PRO" || plan === "SPECIALIST") {
+        try {
+          return getCheckoutPriceId(plan as CheckoutPlan, billingCycle);
+        } catch {
+          const legacyEnvVar = plan === "PRO" ? "STRIPE_PRICE_PRO" : "STRIPE_PRICE_SPECIALIST";
+          const legacyPriceId = Deno.env.get(legacyEnvVar);
+          if (legacyPriceId) return legacyPriceId;
+          throw new Error(`Price ID not configured for plan: ${plan}/${billingCycle}`);
+        }
       }
+      throw new Error(`Plan ${plan} does not use Stripe checkout`);
+    }
+
+    if (!isNoCheckoutPlan && !isWealthPlan) {
+      const resolvedCycle: BillingCycle = cycle === "monthly" ? "monthly" : "quarterly";
+      const priceId = resolveAdminPriceId(newPlan, resolvedCycle);
 
       if (subscriptions.data.length > 0) {
         // Update existing subscription
@@ -267,22 +287,50 @@ Deno.serve(async (req) => {
 
         logStep("New subscription created in Stripe");
       }
-    } else {
-      // Cancel any active subscriptions if downgrading to FREE
+    } else if (isNoCheckoutPlan) {
+      // Cancela qualquer assinatura ativa ao rebaixar para START/FREE
       if (subscriptions.data.length > 0) {
-        logStep("Canceling subscription for FREE plan");
+        logStep("Canceling subscription for START/FREE plan");
         await stripe.subscriptions.cancel(subscriptions.data[0].id);
       }
+    } else {
+      logStep("WEALTH plan: skipping Stripe subscription changes (billing is off-platform)", {
+        hadExistingActiveSubscription: subscriptions.data.length > 0,
+        existingSubscriptionId: subscriptions.data[0]?.id || null,
+      });
     }
 
-    // Update local database
+    // Concessão manual de WEALTH sobre uma assinatura Stripe ainda ativa: não
+    // é um erro (a assinatura antiga continua cobrando normalmente até o
+    // admin decidir cancelá-la separadamente), mas precisa ficar visível —
+    // nunca uma troca silenciosa entre duas fontes de verdade conflitantes.
+    const wealthOverStripeWarning =
+      isWealthPlan && subscriptions.data.length > 0
+        ? `Atenção: o usuário recebeu o plano WEALTH administrativamente, mas ainda possui uma assinatura Stripe ativa (${subscriptions.data[0].id}) que continuará sendo cobrada normalmente. Cancele-a manualmente no Stripe se isso não for desejado — esta ação não cancela assinaturas automaticamente.`
+        : null;
+
+    // Update local database.
+    // plan_start_at é evidência de plano pago para o backfill de
+    // grandfathering (20260415120000_plan_model_v2.sql). Ao rebaixar para
+    // START/FREE (isNoCheckoutPlan — sem cobrança), nunca carimba data nova
+    // e limpa qualquer valor anterior — um usuário genuinamente movido para
+    // o nível grátis não deve parecer "assinante legado pago".
+    //
+    // stripe_customer_id é diferente: representa o Customer do usuário no
+    // Stripe, que continua existindo (e deve continuar existindo) mesmo após
+    // a assinatura ser cancelada ou o plano virar START — é reutilizado pelo
+    // checkout de uma futura reassinatura, pelo customer-portal e pelo
+    // histórico de pagamentos (ver auditoria completa no relatório). Nunca é
+    // apagado por um downgrade nem substituído por um Customer novo aqui —
+    // só é atualizado quando muda de verdade (era null e agora foi
+    // encontrado/criado um Customer real).
     const updateData: any = {
       plan: newPlan,
-      plan_start_at: new Date().toISOString(),
+      plan_start_at: isNoCheckoutPlan ? null : new Date().toISOString(),
       stripe_customer_id: customerId,
     };
 
-    if (newPlan === "FREE") {
+    if (isNoCheckoutPlan) {
       updateData.plan_end_at = null;
     } else if (newEndDate) {
       updateData.plan_end_at = new Date(newEndDate).toISOString();
@@ -312,9 +360,15 @@ Deno.serve(async (req) => {
         old_plan: profile.plan,
         new_plan: newPlan,
         metadata: {
-          change_type: "stripe",
+          change_type: isWealthPlan
+            ? "administrative_wealth_grant"
+            : isNoCheckoutPlan
+              ? "administrative_downgrade_to_free"
+              : "stripe",
           new_end_date: newEndDate || null,
           customer_id: customerId,
+          had_existing_active_stripe_subscription: subscriptions.data.length > 0,
+          existing_stripe_subscription_id: subscriptions.data[0]?.id || null,
           timestamp: new Date().toISOString(),
         },
       });
@@ -346,6 +400,7 @@ Deno.serve(async (req) => {
         success: true,
         message: "Plan updated successfully",
         newPlan,
+        warning: wealthOverStripeWarning,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

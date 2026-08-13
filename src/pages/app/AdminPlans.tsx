@@ -24,22 +24,19 @@ const AdminPlans = () => {
   const [formData, setFormData] = useState<Partial<SubscriptionPlan>>({});
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Planos que não precisam de stripe_price_id (gratuitos ou consultoria)
+  // Planos que não precisam de stripe_price_id (gratuito ou sob consulta).
+  // "START" é o código do plano gratuito atual (não mais "FREE" — ver
+  // RELATORIO_IMPLEMENTACAO_PLANOS.md).
   const isFreePlan = (planCode: string | undefined) => {
-    return planCode === "FREE" || planCode === "WEALTH";
+    return planCode === "START" || planCode === "WEALTH";
   };
 
   const validateForm = (): boolean => {
     setValidationError(null);
-    
-    // Verifica se é um plano pago que precisa de stripe_price_id
-    const isPaidPlan = !isFreePlan(editingPlan?.plan_code) && (formData.price_quarterly || 0) > 0;
-    
-    if (isPaidPlan && !formData.stripe_price_id?.trim()) {
-      setValidationError("Planos pagos precisam ter um Stripe Price ID configurado para processar pagamentos.");
-      return false;
-    }
-    
+    // Sem validação obrigatória de stripe_price_id: este campo é só
+    // informativo/legado aqui (ver nota no formulário) — o checkout de
+    // PRO/SPECIALIST usa as variáveis de ambiente STRIPE_PRICE_* (ver
+    // supabase/functions/_shared/planResolution.ts), não este valor.
     return true;
   };
 
@@ -137,9 +134,12 @@ const AdminPlans = () => {
               <div>
                 <p className="font-medium text-amber-800 dark:text-amber-200">Importante sobre preços</p>
                 <p className="text-sm text-amber-700 dark:text-amber-300">
-                  Os preços exibidos aqui são para referência na interface. O valor real cobrado é definido no Stripe 
-                  através do <code className="bg-amber-200/50 px-1 rounded">stripe_price_id</code>. 
-                  Para alterar o preço real, você precisa criar um novo preço no Stripe.
+                  Os preços e o campo <code className="bg-amber-200/50 px-1 rounded">stripe_price_id</code> aqui são
+                  apenas para exibição/referência. O checkout de PRO e SPECIALIST usa as variáveis de ambiente
+                  <code className="bg-amber-200/50 px-1 rounded">STRIPE_PRICE_PRO_MONTHLY/QUARTERLY</code> e
+                  <code className="bg-amber-200/50 px-1 rounded">STRIPE_PRICE_SPECIALIST_MONTHLY/QUARTERLY</code>
+                  (configuradas como secret da Edge Function), não este campo. Editar aqui não altera o que é
+                  cobrado — para isso, configure as variáveis de ambiente.
                 </p>
               </div>
             </div>
@@ -288,9 +288,7 @@ const AdminPlans = () => {
               <div className="space-y-2">
                 <Label htmlFor="stripe_price_id" className="flex items-center gap-2">
                   Stripe Price ID
-                  {!isFreePlan(editingPlan?.plan_code) && (formData.price_quarterly || 0) > 0 && (
-                    <Badge variant="outline" className="text-xs">Obrigatório</Badge>
-                  )}
+                  <Badge variant="outline" className="text-xs">Somente referência</Badge>
                 </Label>
                 <Input
                   id="stripe_price_id"
@@ -300,13 +298,11 @@ const AdminPlans = () => {
                     setValidationError(null);
                   }}
                   placeholder="price_xxx"
-                  className={`font-mono ${validationError ? "border-destructive" : ""}`}
+                  className="font-mono"
                 />
-                {!isFreePlan(editingPlan?.plan_code) && (formData.price_quarterly || 0) > 0 && !formData.stripe_price_id?.trim() && (
-                  <p className="text-xs text-amber-600 dark:text-amber-400">
-                    Este plano é pago e precisa de um Stripe Price ID para funcionar
-                  </p>
-                )}
+                <p className="text-xs text-muted-foreground">
+                  Não usado pelo checkout — apenas anotação. O price ID real vem de variáveis de ambiente (ver aviso acima).
+                </p>
               </div>
             </div>
 

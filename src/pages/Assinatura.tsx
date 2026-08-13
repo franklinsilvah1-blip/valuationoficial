@@ -3,148 +3,121 @@ import Footer from "@/components/Footer";
 import PlanCard from "@/components/PlanCard";
 import ContactSpecialistDialog from "@/components/ContactSpecialistDialog";
 import SEOHead, { createFAQSchema, createBreadcrumbSchema, createProductSchema, createFinancialServiceSchema, createSpeakableSchema } from "@/components/SEOHead";
-import { Shield, HelpCircle, Check } from "lucide-react";
+import { Shield, HelpCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { getPlanDisplayNameSimple } from "@/utils/planHelpers";
+import { SELECTABLE_PLANS, getPlanInfo, type BillingCycle, type PlanType } from "@/utils/planHelpers";
 import { getStoredAffiliateCode } from "@/hooks/useAffiliateTracking";
-import { useSubscriptionPlans, formatPlanPrice } from "@/hooks/useSubscriptionPlans";
+import { useSubscriptionPlans } from "@/hooks/useSubscriptionPlans";
+import { getPlanByCode } from "@/hooks/useSubscriptionPlans";
+
+const formatMoney = (value: number) =>
+  `R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+interface DisplayPlan {
+  code: PlanType;
+  name: string;
+  description: string;
+  price: string;
+  period: string;
+  billingNote?: string;
+  features: string[];
+  highlighted: boolean;
+  consultOnly: boolean;
+  isFree: boolean;
+}
 
 const Assinatura = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, subscriptionData } = useAuth();
+  const { user } = useAuth();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [showContactDialog, setShowContactDialog] = useState(false);
-  
-  const { data: dbPlans, isLoading: loadingPlans } = useSubscriptionPlans();
-  
-  // Mostrar plano de teste apenas para usuários específicos
-  const TEST_USERS = ["contato@dradigital.com.br", "franklinsilvah1@gmail.com"];
-  const isTestUser = user?.email && TEST_USERS.includes(user.email);
+  const [cycle, setCycle] = useState<BillingCycle>("quarterly");
 
-  const plans = useMemo(() => {
-    if (!dbPlans || dbPlans.length === 0) {
-      // Fallback para dados hardcoded
-      return [
-        {
-          name: "FREE",
-          description: "",
-          price: "Experimente grátis!",
-          period: "",
-          features: ["Visualização de até 3 ativos por dia", "Acesso básico ao Mercado", "Análises resumidas de ativos", "Análise de perfil investidor"],
-          highlighted: false
-        },
-        {
-          name: "START",
-          description: "Para investidores iniciantes",
-          price: "R$ 49",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 147,00 a cada 3 meses)",
-          features: ["Acesso completo a plataforma", "Análises detalhadas de ativos", "Carteiras recomendadas START", "Acesso à Conteúdos exclusivos", "Suporte por email"],
-          highlighted: false
-        },
-        {
-          name: "PRO",
-          description: "Para investidores intermediários",
-          price: "R$ 99",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 297,00 a cada 3 meses)",
-          features: ["Todos os benefícios do START", "Análises avançadas de ativos", "Carteiras recomendadas PRO", "Suporte por chat", "Consultoria com Especialista"],
-          highlighted: true
-        },
-        {
-          name: "SPECIALIST",
-          description: "Para investidores Profissionais",
-          price: "R$ 199",
-          period: "mês",
-          billingNote: "Cobrado trimestralmente (R$ 597,00 a cada 3 meses)",
-          features: ["Todos os benefícios do PRO", "Análises personalizadas de ativos", "Carteiras recomendadas SPECIALIST", "Suporte prioritário", "Método X Valuation", "Mentoria THE SPECIALISTS"],
-          highlighted: false
-        },
-        {
-          name: "WEALTH",
-          description: "Para investidores e empresários",
-          price: "Consulte",
-          period: "",
-          features: ["Todos os benefícios do SPECIALIST", "Estratégia personalizada", "Ampliação inteligente de patrimônio", "Blindagem estratégica da riqueza", "Mentoria exclusiva para investidores e empresas"],
-          highlighted: false,
-          consultOnly: true
-        }
-      ];
-    }
+  const { data: dbPlans } = useSubscriptionPlans();
 
-    const mappedPlans = dbPlans.map(plan => ({
-      name: plan.plan_code,
-      description: plan.description || "",
-      price: plan.plan_code === "FREE" ? "Experimente grátis!" : 
-             plan.plan_code === "WEALTH" ? "Consulte" : 
-             formatPlanPrice(plan.price_quarterly),
-      period: plan.plan_code !== "FREE" && plan.plan_code !== "WEALTH" ? "mês" : "",
-      billingNote: plan.price_note || undefined,
-      features: plan.features || [],
-      highlighted: plan.plan_code === "PRO",
-      consultOnly: plan.plan_code === "WEALTH",
-      isTestPlan: false,
-    }));
+  // Os 4 planos comerciais atuais, nesta ordem. Preço/texto vêm de
+  // subscription_plans quando disponível (fonte de verdade editável pelo
+  // admin), com fallback para o texto estático de planHelpers.ts caso a
+  // tabela ainda não tenha sido migrada/populada no ambiente.
+  const plans: DisplayPlan[] = useMemo(() => {
+    return SELECTABLE_PLANS.map((code) => {
+      const staticInfo = getPlanInfo(code);
+      const dbPlan = getPlanByCode(dbPlans, code);
 
-    // Adicionar plano de teste apenas para usuário específico
-    if (isTestUser) {
-      mappedPlans.push({
-        name: "TESTE",
-        description: "Plano de teste - apenas para desenvolvimento",
-        price: "R$ 2",
-        period: "dia",
-        billingNote: "Cobrança diária para testes",
-        features: ["Acesso de teste", "Cobrança diária de R$ 2,00", "Apenas para validação"],
-        highlighted: false,
-        consultOnly: false,
-        isTestPlan: true,
-      });
-    }
+      const isFree = dbPlan ? (dbPlan.price_monthly ?? 0) === 0 && !dbPlan.is_contact_only : staticInfo.isFree;
+      const isContactOnly = dbPlan ? dbPlan.is_contact_only : staticInfo.isContactOnly;
 
-    return mappedPlans;
-  }, [dbPlans, isTestUser]);
+      let price: string;
+      let period: string;
+      if (isFree) {
+        price = "Grátis";
+        period = "";
+      } else if (isContactOnly) {
+        price = "Sob consulta";
+        period = "";
+      } else {
+        const amount =
+          cycle === "monthly"
+            ? dbPlan?.price_monthly ?? staticInfo.priceMonthly
+            : dbPlan?.price_quarterly ?? staticInfo.priceQuarterly;
+        price = amount != null ? formatMoney(amount) : "—";
+        period = cycle === "monthly" ? "mês" : "trimestre";
+      }
 
-  const handleSubscribe = async (planName: string) => {
+      return {
+        code,
+        name: dbPlan?.display_name || staticInfo.displayName,
+        description: dbPlan?.description || staticInfo.description,
+        price,
+        period,
+        billingNote: !isFree && !isContactOnly ? undefined : dbPlan?.price_note || staticInfo.priceNote,
+        features: dbPlan?.features?.length ? dbPlan.features : staticInfo.features,
+        highlighted: code === "PRO",
+        consultOnly: isContactOnly,
+        isFree,
+      };
+    });
+  }, [dbPlans, cycle]);
+
+  const handleSubscribe = async (planCode: PlanType) => {
     if (!user) {
-      navigate(`/auth?plan=${planName}&mode=signup`);
+      navigate(`/auth?plan=${planCode}&mode=signup`);
       return;
     }
-    if (planName === "FREE") {
+    if (planCode === "START") {
       navigate("/app/dashboard");
       return;
     }
-    if (planName === "WEALTH") {
+    if (planCode === "WEALTH") {
       setShowContactDialog(true);
       return;
     }
-    setLoadingPlan(planName);
+    setLoadingPlan(planCode);
     try {
-      // Track InitiateCheckout event
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'InitiateCheckout', {
-          content_name: planName,
-          content_category: 'Subscription',
-          value: planName === 'START' ? 49 : planName === 'PRO' ? 99 : 0,
-          currency: 'BRL'
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        const staticInfo = getPlanInfo(planCode);
+        (window as any).fbq("track", "InitiateCheckout", {
+          content_name: planCode,
+          content_category: "Subscription",
+          value: cycle === "monthly" ? staticInfo.priceMonthly : staticInfo.priceQuarterly,
+          currency: "BRL",
         });
-        console.log('✅ Facebook Pixel: InitiateCheckout tracked for', planName);
       }
 
-      // Get affiliate code from localStorage if available
       const affiliateCode = getStoredAffiliateCode();
-      
+
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: {
-          plan: planName,
-          affiliateCode: affiliateCode || undefined
-        }
+          plan: planCode,
+          cycle,
+          affiliateCode: affiliateCode || undefined,
+        },
       });
       if (error) throw error;
       if (data?.url) {
@@ -155,31 +128,37 @@ const Assinatura = () => {
       toast({
         title: "Erro ao processar",
         description: error.message || "Não foi possível iniciar o processo de assinatura. Tente novamente.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setLoadingPlan(null);
     }
   };
-  const faqs = [{
-    question: "Como funciona a cobrança trimestral?",
-    answer: "Os planos START, PRO e SPECIALIST são cobrados a cada 3 meses (trimestralmente). A cobrança trimestral facilita o planejamento financeiro e oferece praticidade."
-  }, {
-    question: "Como funciona o período de teste?",
-    answer: "Oferecemos 7 dias de teste gratuito para novos assinantes. Você pode cancelar a qualquer momento sem custos."
-  }, {
-    question: "Posso mudar de plano depois?",
-    answer: "Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças entram em vigor no próximo ciclo de cobrança."
-  }, {
-    question: "Como funciona o plano SPECIALIST e WEALTH?",
-    answer: "Os planos SPECIALIST e WEALTH são personalizados de acordo com suas necessidades. O SPECIALIST foca em estratégias de médio prazo com multiplicação de capital, enquanto o WEALTH oferece mentoria exclusiva para investidores e empresários."
-  }, {
-    question: "Quais formas de pagamento são aceitas?",
-    answer: "Aceitamos cartão de crédito (Visa, Mastercard, Amex, Elo) e PIX. As cobranças são trimestrais e recorrentes."
-  }, {
-    question: "Posso cancelar minha assinatura?",
-    answer: "Sim, você pode cancelar sua assinatura a qualquer momento. Você continuará tendo acesso até o fim do período já pago."
-  }];
+
+  const faqs = [
+    {
+      question: "Como funciona a cobrança dos planos PRO e SPECIALIST?",
+      answer:
+        "Os planos PRO e SPECIALIST podem ser assinados mensalmente ou trimestralmente — escolha o ciclo que preferir na página de planos. START é sempre gratuito e WEALTH é sob consulta comercial.",
+    },
+    {
+      question: "Posso mudar de plano depois?",
+      answer: "Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças entram em vigor no próximo ciclo de cobrança.",
+    },
+    {
+      question: "Como funcionam os planos SPECIALIST e WEALTH?",
+      answer:
+        "O SPECIALIST inclui todos os benefícios do PRO, com acesso a especialista e carteira personalizada. O WEALTH é sob consulta, com cobrança comercial baseada em percentual sobre o valor investido, voltado a investidores com maior capacidade de investimento.",
+    },
+    {
+      question: "Quais formas de pagamento são aceitas?",
+      answer: "Aceitamos cartão de crédito (Visa, Mastercard, Amex, Elo) e PIX.",
+    },
+    {
+      question: "Posso cancelar minha assinatura?",
+      answer: "Sim, você pode cancelar sua assinatura a qualquer momento. Você continuará tendo acesso até o fim do período já pago.",
+    },
+  ];
 
   const faqSchema = createFAQSchema(faqs);
   const breadcrumbSchema = createBreadcrumbSchema([
@@ -187,25 +166,20 @@ const Assinatura = () => {
     { name: "Planos e Preços", url: "https://valuationit.com.br/assinatura" },
   ]);
 
-  // Product schemas for each paid plan
   const productSchemas = [
-    createProductSchema("START", "Para investidores iniciantes - Análises detalhadas de ativos, carteiras recomendadas START e suporte por email", 49),
-    createProductSchema("PRO", "Para investidores intermediários - Análises avançadas, carteiras PRO, suporte por chat e consultoria com especialista", 99),
-    createProductSchema("SPECIALIST", "Para investidores profissionais - Análises personalizadas, método X Valuation e mentoria THE SPECIALISTS", 199),
+    createProductSchema("PRO", "Acesso completo aos dados e indicadores de todos os ativos", 29.9),
+    createProductSchema("SPECIALIST", "Todos os benefícios do PRO, com acesso a especialista e carteira personalizada", 249.9),
   ];
 
-  // Financial service schema
   const financialServiceSchema = createFinancialServiceSchema(
     "Consultoria de Investimentos VALUATION",
     "Análises profissionais de ações, FIIs, BDRs e criptomoedas com carteiras personalizadas e suporte especializado",
     [
-      { price: 49, priceCurrency: "BRL" },
-      { price: 99, priceCurrency: "BRL" },
-      { price: 199, priceCurrency: "BRL" },
+      { price: 29.9, priceCurrency: "BRL" },
+      { price: 249.9, priceCurrency: "BRL" },
     ]
   );
 
-  // Speakable schema for voice search
   const speakableSchema = createSpeakableSchema("https://valuationit.com.br/assinatura", [
     "[data-speakable='assinatura-title']",
     "[data-speakable='assinatura-description']",
@@ -213,71 +187,62 @@ const Assinatura = () => {
     "[data-speakable='faq-title']",
   ]);
 
-  return <div className="min-h-screen bg-background">
+  return (
+    <div className="min-h-screen bg-background">
       <SEOHead
         title="Planos e Preços - Assinatura de Consultoria de Investimentos"
-        description="Escolha o plano ideal para seu perfil de investidor. Planos START, PRO e SPECIALIST com análises profissionais, carteiras recomendadas e suporte especializado. Garantia de 7 dias."
+        description="Escolha o plano ideal para seu perfil de investidor: START, PRO, SPECIALIST ou WEALTH."
         canonical="https://valuationit.com.br/assinatura"
         keywords={["planos de investimento", "assinatura", "consultoria financeira", "carteira recomendada", "análise de ativos"]}
         jsonLd={[faqSchema, breadcrumbSchema, ...productSchemas, financialServiceSchema, speakableSchema]}
       />
       <Navbar />
-      <ContactSpecialistDialog open={showContactDialog} onOpenChange={setShowContactDialog} planName="SPECIALIST" />
+      <ContactSpecialistDialog open={showContactDialog} onOpenChange={setShowContactDialog} planName="WEALTH" />
 
       {/* Hero */}
       <section className="gradient-hero py-16">
         <div className="container text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4" data-speakable="assinatura-title">Escolha o plano ideal para o seu perfil</h1>
-          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto" data-speakable="assinatura-description">Análises profissionais e personalizadas de investimentos.</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4" data-speakable="assinatura-title">
+            Escolha o plano ideal para o seu perfil
+          </h1>
+          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto" data-speakable="assinatura-description">
+            Análises profissionais e personalizadas de investimentos.
+          </p>
         </div>
       </section>
 
       {/* Plans */}
       <section className="py-20">
         <div className="container">
-          {/* Plano FREE - Card padronizado como os demais */}
-          <div className="bg-card border border-border rounded-xl p-8 mb-12 max-w-5xl mx-auto shadow-card">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              {/* Coluna 1: Título - centralizado em mobile, esquerda em desktop */}
-              <div className="text-center md:text-left">
-                <h3 className="text-2xl font-bold text-foreground">FREE</h3>
-                <p className="text-3xl font-bold text-primary mt-2">Experimente grátis!</p>
-              </div>
-
-              {/* Coluna 2: Features - alinhado à esquerda */}
-              <div className="text-left">
-                <ul className="space-y-2">
-                  {plans[0].features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
-                      <span className="text-sm text-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Coluna 3: CTA - centralizado */}
-              <div className="text-center md:text-right flex flex-col items-center md:items-end justify-center">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Comece agora sem compromisso
-                </p>
-                <Button
-                  onClick={() => handleSubscribe("FREE")}
-                  size="lg"
-                  className="px-8"
-                >
-                  {loadingPlan === "FREE" ? "Carregando..." : "Começar Grátis"}
-                </Button>
-              </div>
+          {/* Seletor de ciclo — afeta apenas PRO e SPECIALIST */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex rounded-lg border border-border bg-muted p-1">
+              <button
+                type="button"
+                onClick={() => setCycle("monthly")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  cycle === "monthly" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                Mensal
+              </button>
+              <button
+                type="button"
+                onClick={() => setCycle("quarterly")}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  cycle === "quarterly" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                Trimestral
+              </button>
             </div>
           </div>
 
-          {/* Planos Pagos - Grid de 4 colunas */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {plans.slice(1).map((plan, index) => (
+            {plans.map((plan) => (
               <PlanCard
-                key={index}
-                name={getPlanDisplayNameSimple(plan.name)}
+                key={plan.code}
+                name={plan.name}
                 description={plan.description}
                 price={plan.price}
                 period={plan.period}
@@ -285,8 +250,9 @@ const Assinatura = () => {
                 features={plan.features}
                 highlighted={plan.highlighted}
                 consultOnly={plan.consultOnly}
-                onSubscribe={() => handleSubscribe(plan.name)}
-                loading={loadingPlan === plan.name}
+                ctaLabel={getPlanInfo(plan.code).ctaLabel}
+                onSubscribe={() => handleSubscribe(plan.code)}
+                loading={loadingPlan === plan.code}
               />
             ))}
           </div>
@@ -300,10 +266,12 @@ const Assinatura = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10 mb-4">
               <Shield className="h-8 w-8 text-secondary" />
             </div>
-            <h2 className="text-2xl font-bold mb-4" data-speakable="garantia-title">Garantia de 7 Dias</h2>
+            <h2 className="text-2xl font-bold mb-4" data-speakable="garantia-title">
+              Garantia de 7 Dias
+            </h2>
             <p className="text-muted-foreground">
-              Teste nossa plataforma sem riscos. Se não estiver satisfeito nos primeiros 7 dias, devolvemos 100% do
-              seu dinheiro.
+              Teste nossa plataforma sem riscos. Se não estiver satisfeito nos primeiros 7 dias, devolvemos 100% do seu
+              dinheiro.
             </p>
           </div>
         </div>
@@ -316,19 +284,24 @@ const Assinatura = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
               <HelpCircle className="h-8 w-8 text-primary" />
             </div>
-            <h2 className="text-3xl font-bold" data-speakable="faq-title">Perguntas Frequentes</h2>
+            <h2 className="text-3xl font-bold" data-speakable="faq-title">
+              Perguntas Frequentes
+            </h2>
           </div>
 
           <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => <AccordionItem key={index} value={`item-${index}`}>
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
-              </AccordionItem>)}
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
       </section>
-      
+
       <Footer />
-    </div>;
+    </div>
+  );
 };
 export default Assinatura;

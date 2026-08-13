@@ -50,59 +50,45 @@ export const useWalletSimulator = () => {
       const assetIds = (favoriteRows?.map((fav: any) => fav.asset_id) || []).filter(Boolean);
       if (assetIds.length === 0) return [];
 
-      // Buscar dados completos dos ativos com análises, igual à página Mercado
+      // Fonte: view assets_market_view (mesma usada em /app/mercado), que já
+      // mascara (null) os 4 campos premium — tendencia, carteira,
+      // recomendacao, nota_especialista — para quem não tem plano PRO+. Não
+      // consulta mais a tabela crua asset_analyses (ver
+      // supabase/migrations/20260415120000_plan_model_v2.sql).
       const { data: assetsData, error: assetsError } = await supabase
-        .from("assets")
-        .select(`
-          *,
-          asset_analyses(*)
-        `)
+        .from("assets_market_view")
+        .select("*")
         .in("id", assetIds);
 
       if (assetsError) throw assetsError;
 
       // Manter a ordem original dos favoritos
-      const assetsById = new Map(assetsData.map((asset: any) => [asset.id, asset]));
+      const assetsById = new Map((assetsData ?? []).map((asset: any) => [asset.id, asset]));
       const orderedAssets = assetIds
         .map(id => assetsById.get(id))
         .filter(Boolean);
 
-      return orderedAssets.map((asset: any) => {
-        const analysis = Array.isArray(asset.asset_analyses)
-          ? asset.asset_analyses[0]
-          : asset.asset_analyses || {};
-        
-        // Log de depuração detalhado, igual ao Mercado
-        console.log('[WALLET-FAVORITE-RAW]', {
-          codigo: asset.codigo_b3,
-          has_asset_analyses: !!asset.asset_analyses,
-          asset_analyses_length: asset.asset_analyses?.length,
-          first_analysis: asset.asset_analyses?.[0],
-          analysis_object: analysis,
-        });
-
-        return {
-          id: asset.id,
-          codigo_b3: asset.codigo_b3,
-          nome: asset.nome,
-          tipo: asset.tipo,
-          setor: asset.setor,
-          valor: analysis.valor,
-          roitrim: analysis.roitrim,
-          dy2025: analysis.dy2025,
-          roi2025: analysis.roi2025,
-          perfilInvestidor: analysis.perfil_investidor,
-          tendencia: analysis.tendencia,
-          taxaSemanal: analysis.taxa_semanal,
-          roi2026: analysis.roi2026,
-          roi2023a2025: analysis.roi2023a2025,
-          fatorMc: analysis.fator_mc,
-          carteira: analysis.carteira,
-          recomendacao: analysis.recomendacao,
-          nota: analysis.nota_especialista,
-          resumo: analysis.resumo,
-        };
-      });
+      return orderedAssets.map((asset: any) => ({
+        id: asset.id,
+        codigo_b3: asset.codigo_b3,
+        nome: asset.nome,
+        tipo: asset.tipo,
+        setor: asset.setor,
+        valor: asset.valor,
+        roitrim: asset.roitrim,
+        dy2025: asset.dy2025,
+        roi2025: asset.roi2025,
+        perfilInvestidor: asset.perfil_investidor,
+        tendencia: asset.tendencia,
+        taxaSemanal: asset.analysis_taxa_semanal,
+        roi2026: asset.roi2026,
+        roi2023a2025: asset.roi2023a2025,
+        fatorMc: asset.fator_mc,
+        carteira: asset.carteira,
+        recomendacao: asset.recomendacao,
+        nota: asset.nota_especialista,
+        resumo: asset.resumo,
+      }));
     },
   });
 
@@ -139,46 +125,23 @@ export const useWalletSimulator = () => {
       if (validItems.length === 0) return [];
       const assetIds = [...new Set(validItems.map(item => item.asset_id))];
 
-      // Buscar assets com suas análises separadamente
+      // Buscar assets via assets_market_view (colunas achatadas, mesma fonte
+      // gated usada em /app/mercado) — nenhum dos campos usados aqui
+      // (valor, roitrim, dy2025, roi2025) é premium, mas a tabela crua
+      // asset_analyses não é mais consultada diretamente por este hook.
       const { data: assetsData, error: assetsError } = await supabase
-        .from("assets")
-        .select(`
-          id,
-          codigo_b3,
-          nome,
-          tipo,
-          setor,
-          asset_analyses(
-            valor,
-            roitrim,
-            dy2025,
-            roi2025
-          )
-        `)
+        .from("assets_market_view")
+        .select("id, codigo_b3, nome, tipo, setor, valor, roitrim, dy2025, roi2025")
         .in("id", assetIds);
 
       if (assetsError) throw assetsError;
 
       // Criar mapa de assets
-      const assetsMap = new Map(assetsData?.map(asset => [asset.id, asset]) || []);
+      const assetsMap = new Map((assetsData ?? []).map(asset => [asset.id, asset]));
 
       return validItems.map((item: any) => {
         const asset = assetsMap.get(item.asset_id);
-        
-        // Tratar asset_analyses como array OU objeto único
-        const analyses = asset?.asset_analyses;
-        const assetAnalysis = Array.isArray(analyses) 
-          ? analyses[0] 
-          : analyses;
-        
-        const precoAtual = Number(assetAnalysis?.valor) || 0;
-        
-        console.log('[WALLET-ITEM-LOAD]', {
-          codigo: asset?.codigo_b3,
-          asset_analyses_type: Array.isArray(analyses) ? 'array' : typeof analyses,
-          asset_analyses: analyses,
-          preco_atual_resolved: precoAtual,
-        });
+        const precoAtual = Number(asset?.valor) || 0;
 
         return {
           ...item,
@@ -187,9 +150,9 @@ export const useWalletSimulator = () => {
           tipo: asset?.tipo || '',
           setor: asset?.setor || '',
           preco_atual: precoAtual,
-          roitrim: Number(assetAnalysis?.roitrim) || 0,
-          dy2025: assetAnalysis?.dy2025 ? Number(assetAnalysis.dy2025) : undefined,
-          roi2025: assetAnalysis?.roi2025 ? Number(assetAnalysis.roi2025) : undefined,
+          roitrim: Number(asset?.roitrim) || 0,
+          dy2025: asset?.dy2025 ? Number(asset.dy2025) : undefined,
+          roi2025: asset?.roi2025 ? Number(asset.roi2025) : undefined,
           proventos: item.proventos || 0,
         };
       });

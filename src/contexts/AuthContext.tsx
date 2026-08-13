@@ -121,30 +121,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (profile) {
         console.log("[AuthContext] Profile data from database:", profile);
         
-        let effectivePlan = profile.plan || "FREE";
-        
-        // Check plan expiration: if plan_end_at is in the past, force FREE
-        if (effectivePlan !== "FREE" && profile.plan_end_at) {
+        let effectivePlan = profile.plan || "START";
+
+        // Assinatura paga (nunca START/FREE, que não expiram) com
+        // plan_end_at vencido volta ao nível gratuito de entrada — sempre
+        // START, nunca o valor legado FREE (ver RELATORIO_IMPLEMENTACAO_PLANOS.md).
+        if (effectivePlan !== "FREE" && effectivePlan !== "START" && profile.plan_end_at) {
           const endDate = new Date(profile.plan_end_at);
           if (endDate < new Date()) {
-            console.warn("[AuthContext] Plan expired on", profile.plan_end_at, "- forcing FREE");
-            effectivePlan = "FREE";
-            
+            console.warn("[AuthContext] Plan expired on", profile.plan_end_at, "- forcing START");
+            effectivePlan = "START";
+
             // Update database silently (non-blocking)
             supabase
               .from("profiles")
-              .update({ plan: "FREE", plan_end_at: null, plan_start_at: null })
+              .update({ plan: "START", plan_end_at: null, plan_start_at: null })
               .eq("id", user.id)
               .then(({ error }) => {
                 if (error) console.error("[AuthContext] Failed to reset expired plan:", error);
-                else console.log("[AuthContext] Expired plan reset to FREE in database");
+                else console.log("[AuthContext] Expired plan reset to START in database");
               });
           }
         }
-        
+
         setUserPlan(effectivePlan);
         setSubscriptionData({
-          subscribed: effectivePlan !== "FREE",
+          subscribed: effectivePlan !== "FREE" && effectivePlan !== "START",
           product_id: null,
           subscription_end: profile.plan_end_at
         });
@@ -183,7 +185,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (session?.user) {
         refreshSubscription();
       } else {
-        setUserPlan("FREE");
+        setUserPlan("START");
         setIsAdmin(false);
         setUserRole(null);
         setLoading(false);

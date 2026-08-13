@@ -30,6 +30,7 @@ interface PlanCount {
   pro: number;
   specialist: number;
   free: number;
+  wealth: number;
 }
 
 interface Metrics {
@@ -45,6 +46,7 @@ const COLORS = {
   pro: "#10b981",        // Verde
   specialist: "#f59e0b", // Laranja
   free: "#94a3b8",       // Cinza
+  wealth: "#e11d48",     // Rosa/vermelho
 };
 
 const AdminReports = () => {
@@ -52,7 +54,7 @@ const AdminReports = () => {
   const [monthlyData, setMonthlyData] = useState<MonthlyRevenue[]>([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [activeCustomers, setActiveCustomers] = useState(0);
-  const [planCounts, setPlanCounts] = useState<PlanCount>({ start: 0, pro: 0, specialist: 0, free: 0 });
+  const [planCounts, setPlanCounts] = useState<PlanCount>({ start: 0, pro: 0, specialist: 0, free: 0, wealth: 0 });
   const [metrics, setMetrics] = useState<Metrics>({ upgrades: 0, downgrades: 0, cancellations: 0, churnRate: 0, mrr: 0 });
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -128,10 +130,10 @@ const AdminReports = () => {
         "Resumo",
         `Total Faturamento Mês Atual,${totalRevenue.toFixed(2)}`,
         `Total Clientes Ativos,${activeCustomers}`,
-        `Clientes START,${planCounts.start}`,
         `Clientes PRO,${planCounts.pro}`,
         `Clientes SPECIALIST,${planCounts.specialist}`,
-        `Clientes FREE,${planCounts.free}`,
+        `Clientes WEALTH,${planCounts.wealth}`,
+        `Clientes Gratuitos (START),${planCounts.free}`,
         "",
         "Métricas Consolidadas (Últimos 30 Dias)",
         `MRR,${metrics.mrr.toFixed(2)}`,
@@ -240,12 +242,8 @@ const AdminReports = () => {
               <th>Clientes</th>
             </tr>
             <tr>
-              <td>FREE</td>
+              <td>START (grátis)</td>
               <td>${planCounts.free}</td>
-            </tr>
-            <tr>
-              <td>START</td>
-              <td>${planCounts.start}</td>
             </tr>
             <tr>
               <td>PRO</td>
@@ -254,6 +252,10 @@ const AdminReports = () => {
             <tr>
               <td>SPECIALIST</td>
               <td>${planCounts.specialist}</td>
+            </tr>
+            <tr>
+              <td>WEALTH</td>
+              <td>${planCounts.wealth}</td>
             </tr>
           </table>
 
@@ -484,10 +486,10 @@ const AdminReports = () => {
                       <PieChart>
                         <Pie
                           data={[
-                            { name: "FREE", value: planCounts.free, color: COLORS.free },
-                            { name: "START", value: planCounts.start, color: COLORS.start },
+                            { name: "START (grátis)", value: planCounts.free, color: COLORS.free },
                             { name: "PRO", value: planCounts.pro, color: COLORS.pro },
                             { name: "SPECIALIST", value: planCounts.specialist, color: COLORS.specialist },
+                            { name: "WEALTH", value: planCounts.wealth, color: COLORS.wealth },
                           ]}
                           cx="50%"
                           cy="50%"
@@ -497,8 +499,8 @@ const AdminReports = () => {
                           fill="#8884d8"
                           dataKey="value"
                         >
-                          {[planCounts.free, planCounts.start, planCounts.pro, planCounts.specialist].map((_, index) => (
-                            <Cell key={`cell-${index}`} fill={Object.values(COLORS)[index]} />
+                          {[planCounts.free, planCounts.pro, planCounts.specialist, planCounts.wealth].map((_, index) => (
+                            <Cell key={`cell-${index}`} fill={[COLORS.free, COLORS.pro, COLORS.specialist, COLORS.wealth][index]} />
                           ))}
                         </Pie>
                         <Tooltip />
@@ -516,12 +518,12 @@ const AdminReports = () => {
                       </TableHeader>
                       <TableBody>
                         {[
-                          { name: "FREE", count: planCounts.free, color: COLORS.free },
-                          { name: "START", count: planCounts.start, color: COLORS.start },
+                          { name: "START (grátis)", count: planCounts.free, color: COLORS.free },
                           { name: "PRO", count: planCounts.pro, color: COLORS.pro },
                           { name: "SPECIALIST", count: planCounts.specialist, color: COLORS.specialist },
+                          { name: "WEALTH", count: planCounts.wealth, color: COLORS.wealth },
                         ].map((plan) => {
-                          const total = planCounts.free + planCounts.start + planCounts.pro + planCounts.specialist;
+                          const total = planCounts.free + planCounts.pro + planCounts.specialist + planCounts.wealth;
                           const percentage = total > 0 ? (plan.count / total) * 100 : 0;
                           return (
                             <TableRow key={plan.name}>

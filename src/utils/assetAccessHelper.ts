@@ -1,4 +1,4 @@
-type PlanType = "FREE" | "START" | "PRO" | "SPECIALIST";
+import { hasFullMarketAccess, type AnyPlanCode } from "@/utils/planHelpers";
 
 // Tipo de resultado da verificação de acesso
 export type AccessResult = {
@@ -9,26 +9,22 @@ export type AccessResult = {
 
 /**
  * Determina o nível de acesso ao ativo baseado no PLANO do usuário.
- * 
- * Regras simplificadas:
- * - FREE: Card resumido + botão upgrade
- * - START / PRO / SPECIALIST: Card completo (acesso total)
+ *
+ * Regras:
+ * - START (e visitantes/anônimos): card resumido + botão upgrade
+ * - PRO / SPECIALIST / WEALTH: card completo (acesso total)
  */
 export const getAssetAccessLevelWithProfile = (
-  userPlan: PlanType | string,
+  userPlan: AnyPlanCode | string,
   _assetPerfilInvestidor?: string | undefined
 ): AccessResult => {
-  const plan = userPlan.toUpperCase();
-
-  // FREE: sempre card resumido + botão upgrade
-  if (plan === "FREE") {
-    return { 
-      cardType: "limited", 
+  if (!hasFullMarketAccess(userPlan)) {
+    return {
+      cardType: "limited",
       buttons: ["upgrade"],
-      message: "Análise completa disponível para assinantes"
+      message: "Análise completa disponível para assinantes",
     };
   }
 
-  // Qualquer plano pago: card completo
   return { cardType: "full", buttons: [] };
 };

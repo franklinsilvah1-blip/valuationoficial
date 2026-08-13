@@ -296,6 +296,13 @@ export type Database = {
             referencedRelation: "assets"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "asset_analyses_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "assets_market_view"
+            referencedColumns: ["id"]
+          },
         ]
       }
       asset_favorites: {
@@ -326,10 +333,56 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "asset_favorites_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets_market_view"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "asset_favorites_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      asset_highlights: {
+        Row: {
+          asset_id: string
+          created_by: string | null
+          id: string
+          position: number
+          updated_at: string
+        }
+        Insert: {
+          asset_id: string
+          created_by?: string | null
+          id?: string
+          position: number
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string
+          created_by?: string | null
+          id?: string
+          position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_highlights_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_highlights_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "assets_market_view"
             referencedColumns: ["id"]
           },
         ]
@@ -846,6 +899,33 @@ export type Database = {
         }
         Relationships: []
       }
+      plan_migration_v2_review: {
+        Row: {
+          created_at: string
+          id: string
+          plan_before: string
+          profile_id: string
+          reason: string
+          suggested_plan: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          plan_before: string
+          profile_id: string
+          reason: string
+          suggested_plan: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          plan_before?: string
+          profile_id?: string
+          reason?: string
+          suggested_plan?: string
+        }
+        Relationships: []
+      }
       post_categories: {
         Row: {
           category_id: string | null
@@ -1240,7 +1320,9 @@ export type Database = {
           features: Json | null
           id: string
           is_active: boolean | null
+          is_contact_only: boolean
           plan_code: string | null
+          price_monthly: number | null
           price_note: string | null
           price_quarterly: number | null
           sort_order: number | null
@@ -1254,7 +1336,9 @@ export type Database = {
           features?: Json | null
           id?: string
           is_active?: boolean | null
+          is_contact_only?: boolean
           plan_code?: string | null
+          price_monthly?: number | null
           price_note?: string | null
           price_quarterly?: number | null
           sort_order?: number | null
@@ -1268,7 +1352,9 @@ export type Database = {
           features?: Json | null
           id?: string
           is_active?: boolean | null
+          is_contact_only?: boolean
           plan_code?: string | null
+          price_monthly?: number | null
           price_note?: string | null
           price_quarterly?: number | null
           sort_order?: number | null
@@ -1512,6 +1598,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "wallet_items_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets_market_view"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "wallet_items_wallet_id_fkey"
             columns: ["wallet_id"]
             isOneToOne: false
@@ -1565,6 +1658,13 @@ export type Database = {
             referencedRelation: "assets"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "wallet_movements_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets_market_view"
+            referencedColumns: ["id"]
+          },
         ]
       }
       wallet_simulator: {
@@ -1590,10 +1690,152 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      asset_analyses_gated: {
+        Row: {
+          asset_id: string | null
+          carteira: string | null
+          dy2025: string | null
+          fator_mc: string | null
+          id: string | null
+          nota_especialista: string | null
+          perfil_investidor: string | null
+          recomendacao: string | null
+          resumo: string | null
+          roi2023a2025: string | null
+          roi2024: string | null
+          roi2025: string | null
+          roi2026: string | null
+          roitrim: string | null
+          taxa_semanal: string | null
+          tendencia: string | null
+          updated_at: string | null
+          valor: string | null
+        }
+        Insert: {
+          asset_id?: string | null
+          carteira?: never
+          dy2025?: string | null
+          fator_mc?: string | null
+          id?: string | null
+          nota_especialista?: never
+          perfil_investidor?: string | null
+          recomendacao?: never
+          resumo?: string | null
+          roi2023a2025?: string | null
+          roi2024?: string | null
+          roi2025?: string | null
+          roi2026?: string | null
+          roitrim?: string | null
+          taxa_semanal?: string | null
+          tendencia?: never
+          updated_at?: string | null
+          valor?: string | null
+        }
+        Update: {
+          asset_id?: string | null
+          carteira?: never
+          dy2025?: string | null
+          fator_mc?: string | null
+          id?: string | null
+          nota_especialista?: never
+          perfil_investidor?: string | null
+          recomendacao?: never
+          resumo?: string | null
+          roi2023a2025?: string | null
+          roi2024?: string | null
+          roi2025?: string | null
+          roi2026?: string | null
+          roitrim?: string | null
+          taxa_semanal?: string | null
+          tendencia?: never
+          updated_at?: string | null
+          valor?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_analyses_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_analyses_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: true
+            referencedRelation: "assets_market_view"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assets_market_view: {
+        Row: {
+          analysis_taxa_semanal: string | null
+          asset_type: string | null
+          carteira: string | null
+          codigo_b3: string | null
+          created_at: string | null
+          created_by: string | null
+          dy2025: string | null
+          fator_mc: string | null
+          id: string | null
+          is_active: boolean | null
+          logo_url: string | null
+          name: string | null
+          nome: string | null
+          nota_especialista: string | null
+          observacoes: string | null
+          perfil_investidor: string | null
+          preco_atual: number | null
+          price: number | null
+          ranking_setor: number | null
+          recomendacao: string | null
+          resumo: string | null
+          roi2023a2025: string | null
+          roi2024: string | null
+          roi2025: string | null
+          roi2026: string | null
+          roitrim: string | null
+          sector: string | null
+          segmento: string | null
+          setor: string | null
+          setor_atuacao: string | null
+          site_id: string | null
+          subsetor: string | null
+          subsetor_atuacao: string | null
+          tag: string | null
+          tendencia: string | null
+          ticker: string | null
+          tipo: string | null
+          tipo_ativo: string | null
+          updated_at: string | null
+          valor: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      current_user_has_full_market_access: { Args: never; Returns: boolean }
+      get_public_assets: {
+        Args: { p_search?: string }
+        Returns: {
+          codigo_b3: string
+          dy2025: string
+          fator_mc: string
+          id: string
+          nome: string
+          perfil_investidor: string
+          roi2023a2025: string
+          roi2025: string
+          roi2026: string
+          roitrim: string
+          setor: string
+          tipo: string
+          valor: string
+        }[]
+      }
+      get_sales_whatsapp_number: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1601,11 +1843,19 @@ export type Database = {
         }
         Returns: boolean
       }
+      normalize_plan_code: { Args: { p_plan: string }; Returns: string }
       request_affiliate_activation: { Args: never; Returns: string }
+      safe_parse_timestamptz: { Args: { p_value: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "editor" | "moderator"
-      plan_type: "FREE" | "START" | "PRO" | "SPECIALIST" | "FALE_C_ESPECIALISTA"
+      plan_type:
+        | "FREE"
+        | "START"
+        | "PRO"
+        | "SPECIALIST"
+        | "FALE_C_ESPECIALISTA"
+        | "WEALTH"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1734,7 +1984,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "moderator"],
-      plan_type: ["FREE", "START", "PRO", "SPECIALIST", "FALE_C_ESPECIALISTA"],
+      plan_type: [
+        "FREE",
+        "START",
+        "PRO",
+        "SPECIALIST",
+        "FALE_C_ESPECIALISTA",
+        "WEALTH",
+      ],
     },
   },
 } as const

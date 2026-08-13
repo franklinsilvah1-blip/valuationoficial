@@ -1,20 +1,36 @@
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
+import { resolvePlanFromStripe, estimatePeriodEndFallback } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[STRIPE-WEBHOOK] ${step}${detailsStr}`);
 };
 
-// Mapeamento dos product IDs para planos
-const PRODUCT_TO_PLAN: Record<string, string> = {
-  prod_TMWTUVuAcCM1Qg: "START",
-  prod_TMWWN3NKrAoZYe: "PRO",
-  prod_TdJ7Clh2GRzchP: "SPECIALIST",
-  prod_TnV2XDNVvq4DPq: "TESTE", // Plano de teste antigo R$ 2/dia
-  prod_TpKS0xmSbMgIq6: "TESTE", // Plano de teste novo R$ 2/semana
-};
+/**
+ * Resolve o plano a partir de uma subscription do Stripe (price ID novo ou
+ * product ID legado — ver supabase/functions/_shared/planResolution.ts).
+ * Se não conseguir resolver, retorna `fallbackPlan` em vez de rebaixar
+ * silenciosamente o usuário — eventos do Stripe não reconhecidos (ex.:
+ * atrasados, de um price ainda não configurado) nunca devem piorar o plano
+ * de um usuário existente.
+ */
+function resolveSubscriptionPlan(subscription: Stripe.Subscription, fallbackPlan: string): string {
+  const item = subscription.items.data[0];
+  const priceId = item?.price?.id;
+  const productId = item?.price?.product as string | undefined;
+  const resolved = resolvePlanFromStripe({ priceId, productId });
+  if (!resolved) {
+    logStep("WARNING: Could not resolve plan from Stripe price/product, keeping fallback", {
+      priceId,
+      productId,
+      fallbackPlan,
+    });
+    return fallbackPlan;
+  }
+  return resolved;
+}
 
 // Helper function to send admin notifications
 async function notifyAdmin(notificationData: any) {
@@ -145,6 +161,24 @@ async function processAffiliateCommission(
       return;
     }
 
+    // Idempotência: Stripe pode reentregar o mesmo webhook mais de uma vez
+    // (entrega "at least once" — documentado pela própria Stripe). Sem esta
+    // checagem, um evento duplicado criaria uma segunda linha em
+    // `commissions` para o mesmo pagamento, duplicando o valor creditado ao
+    // afiliado e disparando um segundo e-mail de comissão. `stripe_payment_id`
+    // não tem constraint UNIQUE no banco, então a proteção precisa ser feita
+    // aqui antes do INSERT.
+    const { data: existingCommission } = await supabaseClient
+      .from("commissions")
+      .select("id")
+      .eq("stripe_payment_id", stripePaymentId)
+      .maybeSingle();
+
+    if (existingCommission) {
+      logStep("WARNING: Commission for this stripe_payment_id already exists, skipping duplicate", { stripePaymentId });
+      return;
+    }
+
     // Find or create referral record
     const { data: existingReferral } = await supabaseClient
       .from("referrals")
@@ -208,6 +242,20 @@ async function processAffiliateCommission(
       });
 
     if (commissionError) {
+      // 23505 = unique_violation no índice parcial
+      // commissions_stripe_payment_id_unique (migration
+      // 20260415120000_plan_model_v2.sql). Segunda camada de defesa contra
+      // reentrega concorrente do mesmo webhook: o SELECT acima (linha ~171)
+      // já cobre o caso sequencial, mas dois webhooks quase simultâneos
+      // podem ambos passar pelo SELECT antes de qualquer um commitar o
+      // INSERT — só o índice único do banco resolve essa corrida de fato.
+      // Tratado como "já processado" (informativo, não erro): não lança,
+      // não reenvia e-mail, não altera saldo/comissão já gravados pela
+      // outra execução concorrente.
+      if (commissionError.code === "23505") {
+        logStep("INFO: Duplicate commission insert blocked by unique index (concurrent webhook delivery) — already processed", { stripePaymentId });
+        return;
+      }
       logStep("ERROR: Failed to create commission record", { error: commissionError });
       return;
     }
@@ -324,10 +372,8 @@ Deno.serve(async (req) => {
         // Get subscription details
         const subscriptionId = session.subscription as string;
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-        
         const productId = subscription.items.data[0].price.product as string;
-        const plan = PRODUCT_TO_PLAN[productId] || "FREE";
-        
+
         // Validate timestamps before converting to ISO string
         const periodEnd = subscription.current_period_end;
         const periodStart = subscription.current_period_start;
@@ -338,8 +384,8 @@ Deno.serve(async (req) => {
         if (periodEnd && typeof periodEnd === 'number' && periodEnd > 0) {
           subscriptionEnd = new Date(periodEnd * 1000).toISOString();
         } else {
-          logStep("WARNING: Invalid period_end, using fallback +90 days (quarterly)", { periodEnd });
-          subscriptionEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+          logStep("WARNING: Invalid period_end, deriving fallback from price.recurring", { periodEnd });
+          subscriptionEnd = estimatePeriodEndFallback(subscription.items.data[0]);
         }
         
         if (periodStart && typeof periodStart === 'number' && periodStart > 0) {
@@ -349,7 +395,7 @@ Deno.serve(async (req) => {
           subscriptionStart = new Date().toISOString();
         }
 
-        logStep("Subscription details retrieved", { plan, subscriptionId, productId, subscriptionEnd, subscriptionStart });
+        logStep("Subscription details retrieved", { subscriptionId, productId, subscriptionEnd, subscriptionStart });
 
         // Find user by email
         const { data: profiles } = await supabaseClient
@@ -363,7 +409,10 @@ Deno.serve(async (req) => {
           break;
         }
 
-        const wasFreeBefore = profiles.plan === "FREE";
+        // Nunca rebaixa: se o price/product não for reconhecido, mantém o
+        // plano atual do usuário em vez de cair para um plano pior.
+        const plan = resolveSubscriptionPlan(subscription, profiles.plan);
+        const wasFreeBefore = profiles.plan === "FREE" || profiles.plan === "START";
 
         // Update profile
         const { error: updateError } = await supabaseClient
@@ -384,7 +433,7 @@ Deno.serve(async (req) => {
         logStep("Profile updated successfully", { userId: profiles.id, plan });
 
         // Send welcome email for new paid subscriptions
-        if (wasFreeBefore && plan !== "FREE") {
+        if (wasFreeBefore && plan !== "FREE" && plan !== "START") {
           logStep("Sending welcome email");
           
           try {
@@ -448,9 +497,8 @@ Deno.serve(async (req) => {
         }
 
         const productId = subscription.items.data[0].price.product as string;
-        const plan = PRODUCT_TO_PLAN[productId] || "FREE";
         const status = subscription.status;
-        
+
         // Validate timestamps before converting
         const periodEnd = subscription.current_period_end;
         const periodStart = subscription.current_period_start;
@@ -461,8 +509,8 @@ Deno.serve(async (req) => {
         if (periodEnd && typeof periodEnd === 'number' && periodEnd > 0) {
           subscriptionEnd = new Date(periodEnd * 1000).toISOString();
         } else {
-          logStep("WARNING: Invalid period_end in subscription.updated, using +90 days", { periodEnd });
-          subscriptionEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+          logStep("WARNING: Invalid period_end in subscription.updated, deriving fallback from price.recurring", { periodEnd });
+          subscriptionEnd = estimatePeriodEndFallback(subscription.items.data[0]);
         }
         
         if (periodStart && typeof periodStart === 'number' && periodStart > 0) {
@@ -470,8 +518,6 @@ Deno.serve(async (req) => {
         } else {
           subscriptionStart = new Date().toISOString();
         }
-
-        logStep("Subscription updated", { email: customerEmail, plan, status, subscriptionEnd });
 
         // Find user
         const { data: profiles } = await supabaseClient
@@ -486,6 +532,9 @@ Deno.serve(async (req) => {
         }
 
         const oldPlan = profiles.plan;
+        // Nunca rebaixa: price/product não reconhecido mantém o plano atual.
+        const plan = resolveSubscriptionPlan(subscription, oldPlan);
+        logStep("Subscription updated", { email: customerEmail, plan, status, subscriptionEnd });
 
         // Update profile based on subscription status
         if (status === "active") {
@@ -520,22 +569,23 @@ Deno.serve(async (req) => {
             });
           }
         } else if (status === "canceled" || status === "incomplete_expired") {
-          // Set to FREE if subscription is canceled or expired
+          // Assinatura cancelada/expirada volta para START (nível gratuito de
+          // entrada) — nunca para o valor legado "FREE".
           const { error: updateError } = await supabaseClient
             .from("profiles")
             .update({
-              plan: "FREE",
+              plan: "START",
               plan_start_at: null,
               plan_end_at: null,
             })
             .eq("id", profiles.id);
 
           if (updateError) {
-            logStep("ERROR: Failed to update profile to FREE", { error: updateError });
+            logStep("ERROR: Failed to update profile to START", { error: updateError });
             throw updateError;
           }
 
-          logStep("Profile updated to FREE (subscription canceled/expired)");
+          logStep("Profile updated to START (subscription canceled/expired)");
 
           // Notify user about cancellation
           await notifyUserSubscriptionChange({
@@ -543,7 +593,7 @@ Deno.serve(async (req) => {
             userName: profiles.name || undefined,
             notificationType: 'canceled',
             oldPlan,
-            newPlan: 'FREE',
+            newPlan: 'START',
           });
         }
 
@@ -583,24 +633,27 @@ Deno.serve(async (req) => {
         }
 
         const oldPlan = profiles.plan;
-        const productId = subscription.items.data[0].price.product as string;
-        const deletedPlan = PRODUCT_TO_PLAN[productId] || oldPlan;
+        const deletedPlan = resolveSubscriptionPlan(subscription, oldPlan);
 
+        // Assinatura cancelada/expirada volta para START (nível gratuito de
+        // entrada), nunca para o valor legado "FREE" — START é o único
+        // código gratuito válido para novos e ex-assinantes a partir desta
+        // migração.
         const { error: updateError } = await supabaseClient
           .from("profiles")
           .update({
-            plan: "FREE",
+            plan: "START",
             plan_start_at: null,
             plan_end_at: null,
           })
           .eq("id", profiles.id);
 
         if (updateError) {
-          logStep("ERROR: Failed to update profile to FREE", { error: updateError });
+          logStep("ERROR: Failed to update profile to START", { error: updateError });
           throw updateError;
         }
 
-        logStep("Profile updated to FREE (subscription deleted)");
+        logStep("Profile updated to START (subscription deleted)");
 
         // Notify user about subscription deletion
         await notifyUserSubscriptionChange({
@@ -608,7 +661,7 @@ Deno.serve(async (req) => {
           userName: profiles.name || undefined,
           notificationType: 'canceled',
           oldPlan: deletedPlan,
-          newPlan: 'FREE',
+          newPlan: 'START',
         });
 
         break;
@@ -642,9 +695,7 @@ Deno.serve(async (req) => {
 
         // Get subscription to update end date
         const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
-        const productId = subscription.items.data[0].price.product as string;
-        const plan = PRODUCT_TO_PLAN[productId] || "FREE";
-        
+
         // Validate timestamps before converting
         const periodEnd = subscription.current_period_end;
         const periodStart = subscription.current_period_start;
@@ -655,8 +706,8 @@ Deno.serve(async (req) => {
         if (periodEnd && typeof periodEnd === 'number' && periodEnd > 0) {
           subscriptionEnd = new Date(periodEnd * 1000).toISOString();
         } else {
-          logStep("WARNING: Invalid period_end in invoice.payment_succeeded, using +90 days", { periodEnd });
-          subscriptionEnd = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+          logStep("WARNING: Invalid period_end in invoice.payment_succeeded, deriving fallback from price.recurring", { periodEnd });
+          subscriptionEnd = estimatePeriodEndFallback(subscription.items.data[0]);
         }
         
         if (periodStart && typeof periodStart === 'number' && periodStart > 0) {
@@ -668,7 +719,7 @@ Deno.serve(async (req) => {
         // Find and update user
         const { data: profiles } = await supabaseClient
           .from("profiles")
-          .select("id")
+          .select("id, plan")
           .eq("email", customerEmail)
           .maybeSingle();
 
@@ -676,6 +727,9 @@ Deno.serve(async (req) => {
           logStep("ERROR: No profile found for email", { email: customerEmail });
           break;
         }
+
+        // Nunca rebaixa: price/product não reconhecido mantém o plano atual.
+        const plan = resolveSubscriptionPlan(subscription, profiles.plan);
 
         const { error: updateError } = await supabaseClient
           .from("profiles")
@@ -716,10 +770,10 @@ Deno.serve(async (req) => {
         const customerEmail = customer.email;
         logStep("Payment failed", { email: customerEmail });
         
-        // Get subscription and plan details
+        // Get subscription and plan details (apenas informativo para o e-mail
+        // de admin — não escreve em profiles.plan)
         const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
-        const productId = subscription.items.data[0].price.product as string;
-        const plan = PRODUCT_TO_PLAN[productId] || "UNKNOWN";
+        const plan = resolveSubscriptionPlan(subscription, "UNKNOWN");
         
         // Send notification to admin about payment failure
         const failureMessage = invoice.last_finalization_error?.message || 

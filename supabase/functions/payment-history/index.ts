@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { checkRateLimit } from "../_shared/rate-limit.ts";
 import { mapErrorToUserMessage } from "../_shared/errors.ts";
+import { resolvePlanFromStripe } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
@@ -84,15 +85,6 @@ Deno.serve(async (req) => {
       subscriptions: subscriptions.data.length,
     });
 
-      // Map product IDs to plan names
-      const PRODUCT_TO_PLAN: Record<string, string> = {
-        prod_TMWTUVuAcCM1Qg: "START",
-        prod_TMWWN3NKrAoZYe: "PRO",
-        prod_TdJ7Clh2GRzchP: "SPECIALIST",
-        prod_TnV2XDNVvq4DPq: "TESTE", // Plano de teste antigo R$ 2/dia
-        prod_TpKS0xmSbMgIq6: "TESTE", // Plano de teste novo R$ 2/semana
-      };
-
     // Process payment intents
     const payments = paymentIntents.data.map((payment: any) => {
       let created = null;
@@ -118,8 +110,9 @@ Deno.serve(async (req) => {
 
     // Process invoices (subscription payments)
     const invoicePayments = invoices.data.map((invoice: any) => {
-      const productId = invoice.lines.data[0]?.price?.product as string;
-      const plan = PRODUCT_TO_PLAN[productId] || "Unknown";
+      const priceId = invoice.lines.data[0]?.price?.id as string | undefined;
+      const productId = invoice.lines.data[0]?.price?.product as string | undefined;
+      const plan = resolvePlanFromStripe({ priceId, productId }) || "Unknown";
       
       // Safely parse all dates
       let created = null;
@@ -198,8 +191,9 @@ Deno.serve(async (req) => {
 
     // Process subscriptions
     const subscriptionData = subscriptions.data.map((sub: any) => {
-      const productId = sub.items.data[0]?.price?.product as string;
-      const plan = PRODUCT_TO_PLAN[productId] || "Unknown";
+      const priceId = sub.items.data[0]?.price?.id as string | undefined;
+      const productId = sub.items.data[0]?.price?.product as string | undefined;
+      const plan = resolvePlanFromStripe({ priceId, productId }) || "Unknown";
       
       return {
         id: sub.id,

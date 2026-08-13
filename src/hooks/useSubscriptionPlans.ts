@@ -7,11 +7,13 @@ export interface SubscriptionPlan {
   plan_code: string;
   display_name: string;
   description: string | null;
-  price_quarterly: number;
+  price_monthly: number | null;
+  price_quarterly: number | null;
   price_note: string | null;
   stripe_price_id: string | null;
   features: string[];
   is_active: boolean;
+  is_contact_only: boolean;
   sort_order: number;
   created_at: string;
   updated_at: string;

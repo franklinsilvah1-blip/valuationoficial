@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.0";
 import { corsHeaders } from "../_shared/cors.ts";
 import { checkRateLimit } from "../_shared/rate-limit.ts";
 import { mapErrorToUserMessage } from "../_shared/errors.ts";
+import { resolvePlanFromStripe } from "../_shared/planResolution.ts";
 
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
@@ -88,13 +89,6 @@ Deno.serve(async (req) => {
     // Process daily revenue data (for charts)
     const dailyData: Record<string, { revenue: number; date: string }> = {};
 
-    // Map product IDs to plans
-    const PRODUCT_TO_PLAN: Record<string, string> = {
-      prod_TMWTUVuAcCM1Qg: "START",
-      prod_TMWWN3NKrAoZYe: "PRO",
-      prod_TdJ7Clh2GRzchP: "SPECIALIST",
-    };
-
     // Process PAID invoices (actual revenue received - single source of truth)
     invoices.data.forEach((invoice: any) => {
       const date = new Date(invoice.created * 1000);
@@ -111,9 +105,11 @@ Deno.serve(async (req) => {
         dailyData[dayKey] = { revenue: 0, date: dayKey };
       }
 
-      // Get plan from product ID
-      const productId = invoice.lines.data[0]?.price?.product as string;
-      const plan = PRODUCT_TO_PLAN[productId] || "FREE";
+      // Resolve plan via a única fonte central (novo price ID ou product ID
+      // legado, com grandfathering já aplicado — nunca dicionário próprio).
+      const priceId = invoice.lines.data[0]?.price?.id as string | undefined;
+      const productId = invoice.lines.data[0]?.price?.product as string | undefined;
+      const plan = resolvePlanFromStripe({ priceId, productId }) || "START";
 
       // Add actual paid amount (convert from cents to reais)
       const amount = invoice.amount_paid || 0;
@@ -158,29 +154,48 @@ Deno.serve(async (req) => {
       limit: 100,
     });
 
+    // "start" aqui é mantido só por compatibilidade de forma do payload
+    // (campo já consumido pelo frontend) — hoje sempre fica 0, porque
+    // nenhuma assinatura Stripe ativa resolve para o plano START (START é
+    // gratuito, sem checkout). Assinaturas Stripe legadas do antigo START
+    // (grandfathered) resolvem para "PRO" via resolvePlanFromStripe.
     const planCounts = {
       start: 0,
       pro: 0,
       specialist: 0,
       free: 0,
+      wealth: 0,
     };
 
     activeSubscriptions.data.forEach((sub: any) => {
-      const productId = sub.items.data[0]?.price?.product as string;
-      const plan = PRODUCT_TO_PLAN[productId];
-      
+      const priceId = sub.items.data[0]?.price?.id as string | undefined;
+      const productId = sub.items.data[0]?.price?.product as string | undefined;
+      const plan = resolvePlanFromStripe({ priceId, productId });
+
       if (plan === "START") planCounts.start++;
       else if (plan === "PRO") planCounts.pro++;
       else if (plan === "SPECIALIST") planCounts.specialist++;
+      // WEALTH nunca tem assinatura Stripe recorrente (sem checkout) — por
+      // isso não é contado aqui a partir de dados do Stripe.
     });
 
-    // Count FREE users from database
+    // Usuários sem assinatura Stripe paga (nível gratuito de entrada). Conta
+    // tanto o valor legado "FREE" quanto o atual "START" — são o mesmo nível.
     const { count: freeCount } = await supabaseClient
       .from("profiles")
       .select("*", { count: "exact", head: true })
-      .eq("plan", "FREE");
+      .in("plan", ["FREE", "START"]);
 
     planCounts.free = freeCount || 0;
+
+    // WEALTH é concedido manualmente pelo admin (sem checkout) — contado a
+    // partir do banco, não do Stripe.
+    const { count: wealthCount } = await supabaseClient
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("plan", "WEALTH");
+
+    planCounts.wealth = wealthCount || 0;
 
     // Get audit log data for upgrades/downgrades/cancellations (last 30 days)
     const thirtyDaysAgo = new Date();
@@ -196,22 +211,24 @@ Deno.serve(async (req) => {
     let downgrades = 0;
     let cancellations = 0;
 
+    // FREE (legado) e START ficam no mesmo nível — START é o nível gratuito atual.
     const planHierarchy: Record<string, number> = {
       FREE: 0,
-      START: 1,
-      PRO: 2,
-      SPECIALIST: 3,
+      START: 0,
+      PRO: 1,
+      SPECIALIST: 2,
+      WEALTH: 3,
     };
 
     auditLogs?.forEach((log: any) => {
       if (log.old_plan && log.new_plan) {
-        const oldLevel = planHierarchy[log.old_plan] || 0;
-        const newLevel = planHierarchy[log.new_plan] || 0;
+        const oldLevel = planHierarchy[log.old_plan] ?? 0;
+        const newLevel = planHierarchy[log.new_plan] ?? 0;
 
         if (newLevel > oldLevel) {
           upgrades++;
         } else if (newLevel < oldLevel) {
-          if (log.new_plan === "FREE") {
+          if (log.new_plan === "FREE" || log.new_plan === "START") {
             cancellations++;
           } else {
             downgrades++;
