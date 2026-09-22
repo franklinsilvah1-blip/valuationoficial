@@ -235,7 +235,7 @@ const LandingPage = () => {
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 max-w-md mx-auto text-center">
               <div>
-                <p className="text-2xl font-bold text-accent">5.000+</p>
+                <p className="text-2xl font-bold text-accent">500+</p>
                 <p className="text-xs text-muted-foreground">Investidores</p>
               </div>
               <div>

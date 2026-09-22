@@ -13,6 +13,13 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useViewLimit } from "@/hooks/useViewLimit";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAssetAccessLevelWithProfile, AccessResult } from "@/utils/assetAccessHelper";
+import { getMarketLevel, hasFullMarketLevel } from "@/utils/marketAccess";
+import {
+  getPerfilBadgeColor,
+  getRecomendacaoBadgeColor,
+  getTendenciaBadgeColor,
+  getNotaEspecialistaBadgeColor,
+} from "@/utils/assetBadgeColors";
 import { normalizePerfilInvestidor, normalizeNotaEspecialista, getRecomendacaoDetailLabel } from "@/utils/filterMappings";
 import { cn } from "@/lib/utils";
 
@@ -86,7 +93,8 @@ const AssetCard = ({
   // Lógica simplificada: apenas PLANO + PERFIL DO ATIVO
   const accessResult: AccessResult = getAssetAccessLevelWithProfile(
     userPlan,
-    perfilInvestidor
+    perfilInvestidor,
+    !!user
   );
 
   // Log de segurança para auditoria
@@ -210,62 +218,6 @@ const AssetCard = ({
     return <Minus className="h-4 w-4" />;
   };
 
-  // Cores das pílulas para PERFIL INVESTIDOR
-  const getPerfilBadgeColor = (perfil?: string) => {
-    if (!perfil) return "bg-gray-100 text-gray-700 border-gray-300";
-    const upper = perfil.toUpperCase();
-    
-    if (upper === "START") return "bg-green-500 text-white border-green-600";
-    if (upper === "PRO") return "bg-amber-500 text-white border-amber-600";
-    if (upper.includes("SPECIALIST")) return "bg-gray-900 text-white border-gray-800";
-    
-    return "bg-gray-100 text-gray-700 border-gray-300";
-  };
-
-  // Cores das pílulas para RECOMENDAÇÃO TRIM
-  const getRecomendacaoBadgeColor = (rec?: string) => {
-    if (!rec) return "bg-gray-100 text-gray-700 border-gray-300";
-    const label = getRecomendacaoDetailLabel(rec);
-    
-    switch (label) {
-      case "COMPRA": return "bg-green-500 text-white border-green-600";
-      case "GANHOS": return "bg-yellow-400 text-yellow-900 border-yellow-500";
-      case "MANTÉM": return "bg-gray-900 text-white border-gray-800";
-      case "NEUTRA": return "bg-gray-400 text-gray-900 border-gray-500";
-      case "VENDA": return "bg-red-500 text-white border-red-600";
-      default: return "bg-gray-100 text-gray-700 border-gray-300";
-    }
-  };
-
-  // Cores das pílulas para TENDÊNCIA TRIM
-  const getTendenciaBadgeColor = (tend?: string) => {
-    if (!tend) return "bg-gray-100 text-gray-700 border-gray-300";
-    const upper = tend.toUpperCase();
-    
-    if (upper.includes("ALTA")) return "bg-yellow-400 text-yellow-900 border-yellow-500";
-    if (upper.includes("BAIXA")) return "bg-red-500 text-white border-red-600";
-    return "bg-gray-400 text-gray-900 border-gray-500"; // NEUTRA
-  };
-
-  // Cores das pílulas para NOTA DO ESPECIALISTA
-  const getNotaEspecialistaBadgeColor = (nota?: string) => {
-    if (!nota) return "bg-gray-100 text-gray-700 border-gray-300";
-    
-    // Estilo preto (escuro): TOP ANO, TOP TRIM, TOP PDY, Recomendado (RA)
-    if (nota.includes("TOP ANO") || nota.includes("TOP TRIM") || nota.includes("TOP GANHOS") || nota.includes("(RA)")) {
-      return "bg-gray-900 text-white border-gray-800";
-    }
-    // Estilo amarelo: Recomendado (DY), (RB), (RM)
-    if (nota.includes("(DY)") || nota.includes("(RB)") || nota.includes("(RM)")) {
-      return "bg-yellow-400 text-yellow-900 border-yellow-500";
-    }
-    // Estilo vermelho: Não Recomendado (AF), (TF), (IM)
-    if (nota.includes("(AF)") || nota.includes("(TF)") || nota.includes("(IM)")) {
-      return "bg-red-500 text-white border-red-600";
-    }
-    
-    return "bg-gray-100 text-gray-700 border-gray-300";
-  };
 
   // Determinar label da tendência - retorna valor original da planilha
   const getTendenciaLabel = (tend?: string) => {
@@ -291,6 +243,12 @@ const AssetCard = ({
 
   // Determinar se deve mostrar card completo ou limitado
   const showFullCard = accessResult.cardType === "full";
+
+  // TENDÊNCIA TRIM fica FORA da matriz plano x PERFIL DO ATIVO: a regra antiga
+  // (PRO ou superior vê em qualquer ativo) é preservada. Sem esta separação,
+  // um assinante PRO perderia a tendência nos ativos de perfil SPECIALIST —
+  // benefício que ele já tinha e que o cliente não pediu para remover.
+  const canSeeTendencia = hasFullMarketLevel(getMarketLevel(userPlan, !!user));
   const showUpgradeButton = accessResult.buttons.includes("upgrade");
 
   return (
@@ -358,8 +316,11 @@ const AssetCard = ({
               </div>
             )}
 
-            {/* TENDÊNCIA TRIM - Destaque Padrão com pílula colorida */}
-            {tendencia && (
+            {/* TENDÊNCIA TRIM — ver canSeeTendencia acima. Renderizado dentro
+                do card completo, mas o dado em si não depende do perfil do
+                ativo; para PRO em ativo SPECIALIST ele aparece no bloco
+                dedicado logo abaixo do card resumido. */}
+            {tendencia && canSeeTendencia && (
               <div className={highlightContainerClasses}>
                 <div className={highlightFlexClasses}>
                   <span className={highlightLabelClasses}>TENDÊNCIA TRIM:</span>
@@ -482,6 +443,21 @@ const AssetCard = ({
           <>
             {/* ========== CARD LIMITADO (FREE ou Upgrade necessário) ========== */}
             <div className="space-y-3 pt-2">
+
+              {/* TENDÊNCIA TRIM continua visível para PRO ou superior mesmo
+                  quando o restante do card está limitado — é o caso do PRO em
+                  ativo de perfil SPECIALIST. Preserva exatamente o acesso que
+                  o assinante PRO já tinha antes desta rodada. */}
+              {tendencia && canSeeTendencia && (
+                <div className={highlightContainerClasses}>
+                  <div className={highlightFlexClasses}>
+                    <span className={highlightLabelClasses}>TENDÊNCIA TRIM:</span>
+                    <Badge variant="outline" className={cn(highlightBadgeBaseClasses, getTendenciaBadgeColor(tendencia))}>
+                      {getTendenciaLabel(tendencia)}
+                    </Badge>
+                  </div>
+                </div>
+              )}
 
 
               {/* Seção secundária - dados numéricos */}

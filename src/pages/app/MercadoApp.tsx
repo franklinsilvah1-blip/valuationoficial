@@ -9,9 +9,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useViewLimit } from "@/hooks/useViewLimit";
 import { useAuth } from "@/contexts/AuthContext";
 import { hasFullMarketAccess } from "@/utils/planHelpers";
+import { getMarketLevel, canViewAssetPremium } from "@/utils/marketAccess";
+import { useCarteiraTrim } from "@/hooks/useCarteiraTrim";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { X, Check, Plus, Lock, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -32,27 +34,37 @@ const parseNumericText = (val: any): number => {
   return isNaN(n) ? -Infinity : n;
 };
 
-// Colunas exibidas em /app/mercado. Os 4 campos premium (tendencia, carteira,
-// recomendacao, nota_especialista) vêm da view `assets_market_view`, que já
-// retorna null para eles quando o usuário não tem plano PRO+ — o AssetsTable
-// mostra o indicador de bloqueio automaticamente para esses campos.
+// Colunas exibidas em /app/mercado.
+//
+// Os 6 campos sujeitos à matriz de acesso — ROI TRIM (R) = analysis_taxa_semanal,
+// ROI TRIM (T) = roitrim, Tendência TRIM, Carteira TRIM, Recomendação TRIM e
+// Nota Especialista — vêm da view `assets_market_view`, que já os retorna NULL
+// quando o usuário não tem direito ÀQUELE ativo (a regra considera o PERFIL do
+// próprio ativo, não só o plano). O AssetsTable mostra o indicador de bloqueio
+// automaticamente nesses casos.
+//
+// Correção de rótulo: a coluna antes rotulada "ROI Trim (R)" apontava para
+// `roitrim`, que na planilha é ROI TRIM (T) — ROI TRIM (R) é `taxa_semanal`
+// (exposta como `analysis_taxa_semanal` na view). Ver o mapeamento em
+// supabase/functions/sync-google-sheets/index.ts.
 const MERCADO_COLUMNS: AssetsTableColumn[] = [
   { key: "codigo_b3", label: "Código B3", sticky: true },
   { key: "nome", label: "Nome" },
-  { key: "tipo", label: "Tipo" },
+  { key: "tipo", label: "Tipo de Ativo" },
   { key: "setor", label: "Setor" },
-  { key: "perfil_investidor", label: "Perfil do ativo" },
+  { key: "perfil_investidor", label: "Perfil do ativo", tone: "perfil" },
   { key: "valor", label: "Valor", align: "right" },
-  { key: "roi2026", label: "ROI 2026", align: "right" },
+  { key: "roi2026", label: "ROI 2026", align: "right", tone: "roi" },
   { key: "dy2025", label: "DY 2025", align: "right" },
-  { key: "roitrim", label: "ROI Trim (R)", align: "right" },
-  { key: "roi2025", label: "ROI 2025", align: "right" },
+  { key: "analysis_taxa_semanal", label: "ROI TRIM (R)", align: "right", tone: "roi" },
+  { key: "roitrim", label: "ROI TRIM (T)", align: "right", tone: "roi" },
+  { key: "roi2025", label: "ROI 2025", align: "right", tone: "roi" },
   { key: "fator_mc", label: "Mult. Capital", align: "right" },
-  { key: "roi2023a2025", label: "ROI 2023 a 2025", align: "right" },
-  { key: "tendencia", label: "Tendência Trim", align: "right" },
-  { key: "carteira", label: "Carteira Trim", align: "right" },
-  { key: "recomendacao", label: "Recomendação Trim", align: "right" },
-  { key: "nota_especialista", label: "Nota Especialista", align: "right" },
+  { key: "roi2023a2025", label: "ROI 2023 a 2025", align: "right", tone: "roi" },
+  { key: "tendencia", label: "Tendência TRIM", align: "right", tone: "tendencia" },
+  { key: "carteira", label: "Carteira TRIM", align: "right", tone: "carteira" },
+  { key: "recomendacao", label: "Recomendação TRIM", align: "right", tone: "recomendacao" },
+  { key: "nota_especialista", label: "Nota Especialista", align: "right", tone: "nota" },
 ];
 
 const sortResultsClientSide = (items: any[], sortKey: string): any[] => {
@@ -75,9 +87,15 @@ const sortResultsClientSide = (items: any[], sortKey: string): any[] => {
 const MercadoApp = () => {
   const navigate = useNavigate();
   const {
+    user,
     userPlan
   } = useAuth();
   const hasFullAccess = hasFullMarketAccess(userPlan);
+  // Nível de acesso do usuário (espelho de current_user_market_level()).
+  // Para PRO, a liberação dos campos premium ainda depende do PERFIL de cada
+  // ativo — quem decide isso linha a linha é o banco; aqui só apresentamos.
+  const marketLevel = getMarketLevel(userPlan, !!user);
+  const carteiraTrim = useCarteiraTrim(!!user);
   const {
     limitReached,
     recordView,
@@ -292,8 +310,10 @@ const MercadoApp = () => {
   return <AppLayout title="Mercado">
       <div className="space-y-6">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Mercado Avançado</h1>
-          <p className="text-muted-foreground">Explore ativos globais do mercado. Busca gratuita com análises básicas.</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Mercado</h1>
+          <p className="text-muted-foreground max-w-3xl">
+            Encontre e compare os melhores ativos globais recomendados pelos nossos especialistas de investimentos
+          </p>
         </div>
 
         {/* Busca por código - disponível para plano FREE */}
@@ -646,13 +666,90 @@ const MercadoApp = () => {
             </Card>
           </div>}
 
+        {/* Carteira TRIM: montagem automática da carteira (plano PRO+).
+            Aparece quando o usuário filtrou por um valor de CARTEIRA TRIM —
+            ele seleciona a carteira desejada e adiciona todos os ativos
+            correspondentes de uma vez, sem precisar de um especialista. */}
+        {hasFullAccess && filters.carteira !== "all" && (assetsWithAnalyses?.length ?? 0) > 0 && (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-lg border border-primary/30 bg-primary/5">
+            <div className="flex items-start gap-3">
+              <Briefcase className="h-5 w-5 text-primary mt-0.5 shrink-0" aria-hidden="true" />
+              <div>
+                <p className="font-semibold text-sm">
+                  Montar carteira automaticamente — CARTEIRA TRIM {getFilterLabel("carteira", filters.carteira)}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Adiciona à sua carteira os ativos desta página que você tem permissão de acessar.
+                </p>
+              </div>
+            </div>
+            <Button
+              onClick={() => {
+                const ids = (assetsWithAnalyses ?? [])
+                  .filter((a: { perfil_investidor?: string }) =>
+                    canViewAssetPremium(marketLevel, a.perfil_investidor)
+                  )
+                  .map((a: { id: string }) => a.id);
+                carteiraTrim.addMany.mutate(ids);
+              }}
+              disabled={carteiraTrim.addMany.isPending}
+              className="shrink-0"
+            >
+              {carteiraTrim.addMany.isPending ? "Adicionando..." : "Adicionar à minha carteira"}
+            </Button>
+          </div>
+        )}
+
         {/* Results */}
         <div id="assets-list">
           <AssetsTable
             columns={MERCADO_COLUMNS}
             rows={assetsWithAnalyses ?? []}
             isLoading={isLoading || isFetching}
-            hasFullMarketAccess={hasFullAccess}
+            marketLevel={marketLevel}
+            rowActionsLabel="Carteira TRIM"
+            renderRowActions={(row) => {
+              // A ação só existe para quem realmente tem acesso ao dado de
+              // CARTEIRA TRIM daquele ativo — mesma matriz aplicada no banco.
+              const allowed = canViewAssetPremium(marketLevel, row.perfil_investidor as string | undefined);
+              if (!allowed) {
+                return (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground/70"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate("/assinatura");
+                    }}
+                    aria-label="Fazer upgrade para montar a carteira com este ativo"
+                  >
+                    <Lock className="h-4 w-4" aria-hidden="true" />
+                  </Button>
+                );
+              }
+
+              const selected = carteiraTrim.isSelected(row.id);
+              return (
+                <Button
+                  variant={selected ? "secondary" : "ghost"}
+                  size="sm"
+                  disabled={carteiraTrim.toggle.isPending}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    carteiraTrim.toggle.mutate({ assetId: row.id, codigo: row.codigo_b3 as string });
+                  }}
+                  aria-label={
+                    selected
+                      ? `Remover ${row.codigo_b3} da minha carteira`
+                      : `Adicionar ${row.codigo_b3} à minha carteira`
+                  }
+                  aria-pressed={selected}
+                >
+                  {selected ? <Check className="h-4 w-4" aria-hidden="true" /> : <Plus className="h-4 w-4" aria-hidden="true" />}
+                </Button>
+              );
+            }}
           />
 
           {/* Pagination */}

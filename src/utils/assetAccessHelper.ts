@@ -1,4 +1,5 @@
-import { hasFullMarketAccess, type AnyPlanCode } from "@/utils/planHelpers";
+import type { AnyPlanCode } from "@/utils/planHelpers";
+import { canViewAssetPremium, getMarketLevel } from "@/utils/marketAccess";
 
 // Tipo de resultado da verificação de acesso
 export type AccessResult = {
@@ -8,17 +9,25 @@ export type AccessResult = {
 };
 
 /**
- * Determina o nível de acesso ao ativo baseado no PLANO do usuário.
+ * Determina o nível de acesso ao ativo pela matriz PLANO × PERFIL DO ATIVO
+ * (ver src/utils/marketAccess.ts e `can_view_asset_premium()` no banco).
  *
- * Regras:
  * - START (e visitantes/anônimos): card resumido + botão upgrade
- * - PRO / SPECIALIST / WEALTH: card completo (acesso total)
+ * - PRO: card completo para ativos de perfil START/PRO; resumido para
+ *   ativos de perfil SPECIALIST
+ * - SPECIALIST / WEALTH: card completo em qualquer ativo
+ *
+ * Continua sendo só APRESENTAÇÃO: os valores premium já chegam mascarados do
+ * servidor para quem não tem direito.
  */
 export const getAssetAccessLevelWithProfile = (
   userPlan: AnyPlanCode | string,
-  _assetPerfilInvestidor?: string | undefined
+  assetPerfilInvestidor?: string | undefined,
+  isAuthenticated: boolean = true
 ): AccessResult => {
-  if (!hasFullMarketAccess(userPlan)) {
+  const level = getMarketLevel(userPlan, isAuthenticated);
+
+  if (!canViewAssetPremium(level, assetPerfilInvestidor)) {
     return {
       cardType: "limited",
       buttons: ["upgrade"],

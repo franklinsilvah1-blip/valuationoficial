@@ -1,5 +1,4 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchFilters from "@/components/SearchFilters";
@@ -7,7 +6,9 @@ import Testimonials from "@/components/Testimonials";
 import HomeBlogSection from "@/components/HomeBlogSection";
 import { AssetsTable } from "@/components/AssetsTable";
 import { PUBLIC_ASSET_COLUMNS } from "@/utils/assetsTableColumns";
-import { supabase } from "@/integrations/supabase/client";
+import { useTopAssetsOfYear } from "@/hooks/usePublicMarketAssets";
+import { useAuth } from "@/contexts/AuthContext";
+import { getMarketLevel } from "@/utils/marketAccess";
 import SEOHead, {
   createOrganizationSchema,
   createWebSiteSchema,
@@ -22,6 +23,7 @@ import heroBackground from "@/assets/hero-background.webp";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user, userPlan } = useAuth();
 
   const handleSearch = (filters: { codigo?: string }) => {
     const term = filters?.codigo?.trim();
@@ -30,53 +32,18 @@ const Index = () => {
     }
   };
 
-  // Ativos em destaque da home: usa a curadoria manual de asset_highlights
-  // (ver supabase/migrations e o painel Admin → Debug de Importação → "Top
-  // 20 (Home)") quando existir. Não há critério financeiro automático de
-  // "melhores ativos" (auditoria confirmou: sem coluna de ranking/posição
-  // curada pré-existente) — por isso, quando NÃO há curadoria, a seção usa
-  // rótulo neutro ("Ativos em Destaque", nunca "Top 20"/"melhores") com
-  // ordem alfabética apenas como fallback de exibição, não como afirmação de
-  // desempenho. Quando há curadoria parcial (menos de 20 itens), mostra
-  // somente os itens curados — nunca completa o restante com ativos
-  // alfabéticos sob esse rótulo. Reflete automaticamente qualquer
-  // atualização feita pela sincronização da planilha, pois consulta a mesma
-  // RPC/view usadas em /mercado.
-  const { data: topAssetsResult, isLoading: isLoadingTop } = useQuery({
-    queryKey: ["home-top-assets"],
-    queryFn: async (): Promise<{ items: any[]; isCurated: boolean }> => {
-      const { data: highlights, error: highlightsError } = await supabase
-        .from("asset_highlights")
-        .select("asset_id, position")
-        .order("position", { ascending: true })
-        .limit(20);
-      if (highlightsError) throw highlightsError;
+  // "Melhores ativos do ano": os 20 ativos com maior ROI 2026 até o momento,
+  // calculados a partir da base REAL, não de uma lista escrita à mão. A regra
+  // vive em get_top_assets_year() no Postgres e é a MESMA consumida por
+  // /mercado para visitante (ver src/hooks/usePublicMarketAssets.ts), então
+  // home e mercado não têm como divergir. Reflete automaticamente cada
+  // sincronização da planilha.
+  const { data: topAssets = [], isLoading: isLoadingTop, error: topAssetsError } = useTopAssetsOfYear();
 
-      if (highlights && highlights.length > 0) {
-        const assetIds = highlights.map((h) => h.asset_id);
-        // Curadoria pode referenciar ativos fora do "top 20 alfabético" da
-        // RPC pública — busca direta na view garante que a ordem curada seja
-        // respeitada mesmo assim, sem preencher vagas com outros ativos.
-        const { data: curated, error: curatedError } = await supabase
-          .from("assets_market_view")
-          .select("id, codigo_b3, nome, tipo, setor, perfil_investidor, valor, roi2026, dy2025, roitrim, roi2025, fator_mc, roi2023a2025")
-          .in("id", assetIds);
-        if (curatedError) throw curatedError;
-        const curatedById = new Map((curated ?? []).map((a: any) => [a.id, a]));
-        const orderedIds = highlights.map((h) => h.asset_id);
-        return {
-          items: orderedIds.map((id) => curatedById.get(id)).filter(Boolean),
-          isCurated: true,
-        };
-      }
-
-      const { data, error } = await supabase.rpc("get_public_assets", { p_search: null });
-      if (error) throw error;
-      return { items: data ?? [], isCurated: false };
-    },
-  });
-  const topAssets = topAssetsResult?.items ?? [];
-  const isTopCurated = topAssetsResult?.isCurated ?? false;
+  // O nível de acesso muda apenas a APRESENTAÇÃO da célula bloqueada (CTA de
+  // cadastro para visitante, de upgrade para quem já tem conta). O valor de
+  // Recomendação TRIM já chega mascarado do servidor em qualquer caso.
+  const marketLevel = getMarketLevel(userPlan, !!user);
 
   const benefits = [{
     icon: <BarChart3 className="h-8 w-8 text-primary" />,
@@ -101,7 +68,7 @@ const Index = () => {
     createOrganizationSchema(),
     createWebSiteSchema(),
     createLocalBusinessSchema(),
-    createAggregateRatingSchema(4.9, 5000, 5),
+    createAggregateRatingSchema(4.9, 500, 5),
     createSoftwareApplicationSchema(),
     createSpeakableSchema("https://valuationit.com.br/", [
       "[data-speakable='hero-title']",
@@ -149,16 +116,27 @@ const Index = () => {
         
         <div className="container relative z-10">
           <div className="max-w-[800px] mx-auto text-center animate-fade-in">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6" data-speakable="hero-title">
-              Compare e encontre os melhores investimentos!
+            {/*
+              Frase principal deliberadamente mais discreta que o destaque
+              anterior: `text-xl` no mobile até `text-3xl` no desktop (antes ia
+              até text-6xl). `text-balance` distribui as linhas de forma
+              elegante quando precisa quebrar, e `whitespace-nowrap` a partir de
+              `lg` garante linha única no desktop — nunca no mobile, onde
+              forçar linha única causaria overflow horizontal.
+            */}
+            <h1
+              className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-primary-foreground text-balance lg:whitespace-nowrap mb-4"
+              data-speakable="hero-title"
+            >
+              Os melhores ativos globais estão aqui!
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/90 mb-8" data-speakable="hero-description">
+            <p className="text-base md:text-lg text-primary-foreground/80 mb-8" data-speakable="hero-description">
               Aprenda a investir como Especialistas!
             </p>
 
-            {/* Free Search */}
+            {/* Busca pública */}
             <div className="bg-background/95 backdrop-blur p-4 sm:p-6 rounded-2xl shadow-elevated animate-slide-up">
-              <h2 className="text-xl font-semibold mb-4 text-foreground">Busca Gratuita</h2>
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Encontre e compare ativos</h2>
               <SearchFilters onSearch={handleSearch} />
               <p className="text-xs text-muted-foreground mt-3">
                 Busque informações básicas gratuitamente. Assine para análises completas.
@@ -168,21 +146,22 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Ativos em destaque */}
+      {/* Melhores ativos do ano */}
       <section className="py-12 md:py-16 bg-background">
         <div className="container">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">Ativos em Destaque</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">Melhores ativos do ano</h2>
             <p className="text-muted-foreground">
-              {isTopCurated
-                ? "Seleção de ativos do nosso catálogo. Cadastre-se grátis para ver a lista completa e indicadores básicos."
-                : "Ativos do nosso catálogo em ordem alfabética. Cadastre-se grátis para ver a lista completa e indicadores básicos."}
+              Os 20 ativos com maior retorno em 2026 até o momento, segundo a nossa base.
+              Cadastre-se grátis para ver a lista completa e os indicadores.
             </p>
           </div>
           <AssetsTable
             columns={PUBLIC_ASSET_COLUMNS}
             rows={topAssets}
             isLoading={isLoadingTop}
+            error={topAssetsError}
+            marketLevel={marketLevel}
             emptyMessage="Nenhum ativo disponível no momento."
           />
         </div>

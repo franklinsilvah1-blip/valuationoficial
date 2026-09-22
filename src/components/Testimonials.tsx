@@ -61,7 +61,7 @@ const reviewSchemaData = createReviewSchema(
     rating: t.rating,
   })),
   4.9,
-  5000
+  500
 );
 
 const Testimonials = () => {
@@ -136,7 +136,7 @@ const Testimonials = () => {
           <div className="mt-10 md:mt-16 text-center">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
               <div>
-                <p className="text-4xl font-bold text-accent mb-2">5.000+</p>
+                <p className="text-4xl font-bold text-accent mb-2">500+</p>
                 <p className="text-muted-foreground">Investidores Ativos</p>
               </div>
               <div>

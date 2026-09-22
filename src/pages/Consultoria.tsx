@@ -206,8 +206,21 @@ const Consultoria = () => {
       <section className="gradient-hero py-20">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6" data-speakable="consultoria-title">Consultoria de Investimentos</h1>
-            <p className="text-lg text-primary-foreground/90 mb-8" data-speakable="consultoria-description">A 1ª consultoria Invest Tech que transforma você em um especialista no mercado financeiro!</p>
+            {/*
+              Título reduzido (era text-4xl/text-5xl) e com `whitespace-nowrap`
+              a partir de `sm`, para caber em UMA linha em praticamente todo
+              celular moderno (>= 640px de largura CSS) sem estourar a lateral.
+              Abaixo de `sm` a quebra volta a ser permitida e `text-balance`
+              distribui as duas linhas de forma equilibrada — preferir a quebra
+              elegante a gerar overflow horizontal em telas muito estreitas.
+            */}
+            <h1
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground text-balance sm:whitespace-nowrap mb-6"
+              data-speakable="consultoria-title"
+            >
+              Consultoria de Investimentos
+            </h1>
+            <p className="text-base md:text-lg text-primary-foreground/90 mb-8" data-speakable="consultoria-description">Aprenda a investir como um especialista ou contrate a Valuation para gerir seus investimentos</p>
           </div>
         </div>
       </section>

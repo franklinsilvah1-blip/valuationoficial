@@ -1,20 +1,21 @@
 import type { AssetsTableColumn } from "@/components/AssetsTable";
 
 /**
- * Colunas básicas (nunca incluem os 4 campos premium) usadas em qualquer
- * tabela de ativos visível para visitantes/anônimos — home e /mercado.
+ * Tabela pública (HOME e /mercado para visitante não autenticado).
+ *
+ * São exatamente 4 colunas — as únicas que a RPC pública
+ * `get_public_market_assets` / `get_top_assets_year` devolve. "Recomendação
+ * TRIM" aparece como coluna, mas seu VALOR não é enviado ao navegador de quem
+ * não tem direito: o Postgres o entrega como NULL e o AssetsTable renderiza o
+ * indicador de bloqueio. Nenhuma outra coluna premium é sequer selecionada no
+ * servidor.
+ *
+ * Quatro colunas cabem confortavelmente na largura de um celular, sem precisar
+ * de rolagem horizontal.
  */
 export const PUBLIC_ASSET_COLUMNS: AssetsTableColumn[] = [
   { key: "codigo_b3", label: "Código B3", sticky: true },
-  { key: "nome", label: "Nome do ativo" },
-  { key: "tipo", label: "Tipo" },
-  { key: "setor", label: "Setor" },
-  { key: "perfil_investidor", label: "Perfil do ativo" },
-  { key: "valor", label: "Valor", align: "right" },
-  { key: "roi2026", label: "ROI 2026", align: "right" },
-  { key: "dy2025", label: "DY 2025", align: "right" },
-  { key: "roitrim", label: "ROI Trim", align: "right" },
-  { key: "roi2025", label: "ROI 2025", align: "right" },
-  { key: "fator_mc", label: "Mult. Capital", align: "right" },
-  { key: "roi2023a2025", label: "ROI 2023 a 2025", align: "right" },
+  { key: "tipo", label: "Tipo de Ativo" },
+  { key: "roi2026", label: "ROI 2026", align: "right", tone: "roi" },
+  { key: "recomendacao", label: "Recomendação TRIM", align: "right", tone: "recomendacao" },
 ];

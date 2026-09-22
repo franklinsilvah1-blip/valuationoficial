@@ -1835,6 +1835,16 @@ export type Database = {
           valor: string
         }[]
       }
+      get_public_market_assets: {
+        Args: { p_search?: string }
+        Returns: {
+          codigo_b3: string
+          id: string
+          recomendacao: string
+          roi2026: string
+          tipo: string
+        }[]
+      }
       get_sales_whatsapp_number: { Args: never; Returns: string }
       has_role: {
         Args: {

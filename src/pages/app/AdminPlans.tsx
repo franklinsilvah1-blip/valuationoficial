@@ -67,6 +67,7 @@ const AdminPlans = () => {
       id: plan.id,
       display_name: plan.display_name,
       description: plan.description || "",
+      price_monthly: plan.price_monthly,
       price_quarterly: plan.price_quarterly,
       price_note: plan.price_note || "",
       stripe_price_id: plan.stripe_price_id || "",
@@ -92,6 +93,7 @@ const AdminPlans = () => {
       id: formData.id,
       display_name: formData.display_name,
       description: formData.description,
+      price_monthly: formData.price_monthly,
       price_quarterly: formData.price_quarterly,
       price_note: formData.price_note,
       stripe_price_id: formData.stripe_price_id || null,
@@ -271,7 +273,20 @@ const AdminPlans = () => {
             </div>
 
             {/* Pricing */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="price_monthly">Preço Mensal (R$)</Label>
+                <Input
+                  id="price_monthly"
+                  type="number"
+                  step="0.01"
+                  value={formData.price_monthly ?? 0}
+                  onChange={(e) => setFormData({ ...formData, price_monthly: parseFloat(e.target.value) })}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Exibido na página Assinatura quando o visitante escolhe o ciclo mensal.
+                </p>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="price_quarterly">Preço Trimestral (R$)</Label>
                 <Input

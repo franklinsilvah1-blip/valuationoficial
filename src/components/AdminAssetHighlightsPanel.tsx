@@ -29,11 +29,16 @@ interface HighlightRow {
 }
 
 /**
- * Curadoria manual do "Top 20" exibido na home. Não existe hoje nenhum
- * critério de ranking financeiro no sistema (ROI/DY/nota não representam uma
- * curadoria oficial) — este painel é a única forma de definir quais 20
- * ativos aparecem na home e em que ordem. Enquanto nada for curado aqui, a
- * home usa ordem alfabética por código B3 (ver src/pages/Index.tsx).
+ * Curadoria manual de ativos em destaque.
+ *
+ * DESATIVADO NA HOME desde a rodada de 2026-09: a seção da home passou a ser
+ * "Melhores ativos do ano", calculada automaticamente a partir da base real
+ * (os 20 maiores ROI 2026, via get_top_assets_year() no Postgres — ver
+ * src/hooks/usePublicMarketAssets.ts). A home NÃO lê mais asset_highlights.
+ *
+ * O painel e a tabela foram mantidos intactos, sem apagar nenhuma curadoria
+ * já cadastrada, para o caso de o cliente querer reativar a seção curada no
+ * futuro. Hoje, porém, nada do que for salvo aqui aparece no site.
  */
 export const AdminAssetHighlightsPanel = () => {
   const { toast } = useToast();
@@ -128,18 +133,18 @@ export const AdminAssetHighlightsPanel = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ativos em Destaque da Home (curadoria manual)</CardTitle>
+        <CardTitle>Ativos em Destaque (curadoria manual — inativa)</CardTitle>
         <CardDescription>
-          Não existe um critério financeiro automático de "melhores ativos". Defina aqui manualmente
-          quais ativos aparecem em destaque na home e em que posição. Sem curadoria, a home usa ordem
-          alfabética por código B3 com o rótulo neutro "Ativos em Destaque" — nunca "melhores".
+          A home agora exibe "Melhores ativos do ano", calculada automaticamente pelos 20 maiores
+          ROI 2026 da base. Esta curadoria manual não é mais usada por nenhuma página do site; ela
+          segue disponível apenas caso você queira voltar a usar uma seleção manual no futuro.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Alert>
           <AlertDescription>
-            Máximo de 20 ativos e uma posição por ativo (aplicado pelo banco). Reenviar o mesmo código
-            B3 atualiza a posição existente.
+            <strong>Esta lista não aparece mais no site.</strong> Máximo de 20 ativos e uma posição por
+            ativo (aplicado pelo banco). Reenviar o mesmo código B3 atualiza a posição existente.
           </AlertDescription>
         </Alert>
 
@@ -168,7 +173,7 @@ export const AdminAssetHighlightsPanel = () => {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">Nenhuma curadoria definida ainda — a home está em ordem alfabética.</p>
+          <p className="text-sm text-muted-foreground">Nenhuma curadoria definida.</p>
         )}
       </CardContent>
     </Card>

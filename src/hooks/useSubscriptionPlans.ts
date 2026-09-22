@@ -52,6 +52,12 @@ export const useUpdateSubscriptionPlan = () => {
         .update({
           display_name: plan.display_name,
           description: plan.description,
+          // price_monthly é lido por /assinatura no ciclo mensal e também
+          // decide se o plano é exibido como gratuito. Sem ele neste update,
+          // o admin alterava o preço trimestral e o mensal continuava com o
+          // valor antigo — os dois ciclos passavam a mostrar preços
+          // inconsistentes. Agora ambos são administráveis pelo painel.
+          price_monthly: plan.price_monthly,
           price_quarterly: plan.price_quarterly,
           price_note: plan.price_note,
           stripe_price_id: plan.stripe_price_id,

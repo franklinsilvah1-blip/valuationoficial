@@ -377,7 +377,7 @@ export const createLocalBusinessSchema = () => ({
 // Helper function to create AggregateRating schema
 export const createAggregateRatingSchema = (
   ratingValue: number = 4.9,
-  reviewCount: number = 5000,
+  reviewCount: number = 500,
   bestRating: number = 5
 ) => ({
   "@context": "https://schema.org",
@@ -459,7 +459,7 @@ export const createSoftwareApplicationSchema = () => ({
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: 4.9,
-    ratingCount: 5000,
+    ratingCount: 500,
     bestRating: 5,
     worstRating: 1,
   },
@@ -476,7 +476,7 @@ export const createSoftwareApplicationSchema = () => ({
 export const createReviewSchema = (
   reviews: { author: string; reviewBody: string; rating: number }[],
   ratingValue: number = 4.9,
-  reviewCount: number = 5000
+  reviewCount: number = 500
 ) => ({
   "@context": "https://schema.org",
   "@type": "Organization",
