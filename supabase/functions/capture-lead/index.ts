@@ -136,7 +136,7 @@ Deno.serve(async (req) => {
         <li>💼 Criar sua conta e acessar a <strong>Plataforma Completa</strong></li>
       </ul>
       <div style="text-align:center;margin:32px 0;">
-        <a href="https://valuationit.lovable.app/auth" style="display:inline-block;background:linear-gradient(135deg,#DAA520,#B8860B);color:#000;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;">
+        <a href="https://valuationit.com.br/auth" style="display:inline-block;background:linear-gradient(135deg,#DAA520,#B8860B);color:#000;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:16px;">
           Acessar a Plataforma Grátis
         </a>
       </div>

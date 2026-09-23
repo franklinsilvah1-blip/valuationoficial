@@ -137,7 +137,7 @@ const AdminBackups = () => {
 
       toast({
         title: "Código restaurado",
-        description: `Site restaurado para a versão ${version.sha.substring(0, 7)}. O Lovable sincronizará automaticamente.`,
+        description: `Código restaurado para a versão ${version.sha.substring(0, 7)} no repositório. O site só muda após um novo deploy no Cloudflare Pages.`,
       });
       refetchVersions();
     } catch (error: any) {

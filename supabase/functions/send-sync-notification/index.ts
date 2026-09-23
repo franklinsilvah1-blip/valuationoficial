@@ -210,10 +210,11 @@ Deno.serve(async (req) => {
 
     logStep("Admin emails found", { count: adminEmails.length });
 
-    // Get app URL from environment or construct it
-    const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
-    const projectRef = supabaseUrl.replace('https://', '').split('.')[0];
-    const dashboardUrl = `https://${projectRef}.lovable.app/app/admin/sync`;
+    // URL pública do painel administrativo. O domínio é fixo (Cloudflare Pages
+    // → valuationit.com.br); antes era montado a partir do project ref do
+    // Supabase apontando para *.lovable.app, host que não existe mais e
+    // deixava o link quebrado no e-mail de notificação.
+    const dashboardUrl = 'https://valuationit.com.br/app/admin/sync';
 
     // Create email HTML
     const html = createEmailHTML(
